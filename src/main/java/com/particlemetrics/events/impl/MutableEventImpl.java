@@ -4,13 +4,11 @@ import com.particlemetrics.events.Event;
 import com.particlemetrics.events.MutableEvent;
 import com.particlemetrics.events.ValidationException;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class MutableEventImpl implements MutableEvent {
     private static final String SPEC_VERSION = "1.0";
@@ -72,7 +70,7 @@ public class MutableEventImpl implements MutableEvent {
     }
 
     @Override
-    public void fromEvent(final Event event) {
+    public void fromEvent(final @NotNull Event event) {
         reset();
         this.attributes.putAll(event.asMap());
         this._hasBinaryData = event.hasBinaryData();
@@ -151,6 +149,28 @@ public class MutableEventImpl implements MutableEvent {
         return this;
     }
 
+    /**
+     * Sets the data attribute of the event.
+     * Creates a copy.
+     *
+     * @param data Non-null data. The data is copied.
+     * @return a mutable event
+     */
+    @Override
+    public MutableEvent setData(@NotNull byte[] data) {
+        Objects.requireNonNull(data, "Data cannot be null");
+        attributes.put(ATTRIBUTE_DATA, Arrays.copyOf(data, data.length));
+        _hasBinaryData = true;
+        return this;
+    }
+
+    /**
+     * Sets the data attribute of the event.
+     * DOES NOT create a copy. Do not change the data after.
+     *
+     * @param data Non-null data.
+     * @return a mutable event
+     */
     @Override
     public MutableEvent setData(@NotNull String data) {
         Objects.requireNonNull(data, "Data cannot be null");
@@ -160,7 +180,7 @@ public class MutableEventImpl implements MutableEvent {
     }
 
     @Override
-    public MutableEvent setData(@NotNull byte[] data) {
+    public MutableEvent setDataUnsafe(@NotNull byte[] data) {
         Objects.requireNonNull(data, "Data cannot be null");
         attributes.put(ATTRIBUTE_DATA, data);
         _hasBinaryData = true;
@@ -168,95 +188,89 @@ public class MutableEventImpl implements MutableEvent {
     }
 
     @Override
-    public String getSpecVersion() {
+    public @Nullable String getSpecVersion() {
         Object specVersion = attributes.get(ATTRIBUTE_SPEC_VERSION);
-        if (specVersion == null) {
-            return null;
-        }
-        return (String) specVersion;
+        return (specVersion == null) ? null : (String) specVersion;
     }
 
     @Override
-    public String getType() {
+    public @Nullable String getType() {
         Object type = attributes.get(ATTRIBUTE_TYPE);
-        if (type == null) {
-            return null;
-        }
-        return (String) type;
+        return (type == null) ? null : (String) type;
     }
 
     @Override
-    public String getSource() {
+    public @Nullable String getSource() {
         Object source = attributes.get(ATTRIBUTE_SOURCE);
-        if (source == null) {
-            return null;
-        }
-        return (String) source;
+        return (source == null) ? null : (String) source;
     }
 
     @Override
-    public String getId() {
+    public @Nullable String getId() {
         Object id = attributes.get(ATTRIBUTE_ID);
-        if (id == null) {
-            return null;
-        }
-        return (String) id;
+        return (id == null) ? null : (String) id;
     }
 
     @Override
-    public String getTime() {
+    public @Nullable String getTime() {
         Object time = attributes.get(ATTRIBUTE_TIME);
-        if (time == null) {
-            return null;
-        }
-        return (String) time;
+        return (time == null) ? null : (String) time;
     }
 
     @Override
-    public long getTimeLong() {
-        return 0;
+    public @Nullable Object getAttribute(String name) {
+        return attributes.get(name);
     }
 
     @Override
-    public String getDataContentType() {
+    public @Nullable String getStringAttribute(String name) {
+        // TODO: Decide whether to throw an exception on class cast error.
+        Object obj = attributes.get(name);
+        return (obj instanceof String) ? (String) obj : null;
+    }
+
+    @Override
+    public @Nullable Integer getIntAttribute(String name) {
+        // TODO: Decide whether to throw an exception on class cast error.
+        Object obj = attributes.get(name);
+        return (obj instanceof Integer) ? (Integer) obj : null;
+    }
+
+    @Override
+    public @Nullable Boolean getBoolAttribute(String name) {
+        // TODO: Decide whether to throw an exception on class cast error.
+        Object obj = attributes.get(name);
+        return (obj instanceof Boolean) ? (Boolean) obj : null;
+    }
+
+    @Override
+    public @Nullable String getDataContentType() {
         Object contentType = attributes.get(ATTRIBUTE_DATA_CONTENT_TYPE);
-        if (contentType == null) {
-            return null;
-        }
-        return (String) contentType;
+        return (contentType == null) ? null : (String) contentType;
     }
 
     @Override
-    public String getDataSchema() {
+    public @Nullable String getDataSchema() {
         Object schema = attributes.get(ATTRIBUTE_DATA_SCHEMA);
-        if (schema == null) {
-            return null;
-        }
-        return (String) schema;
+        return (schema == null) ? null : (String) schema;
     }
 
     @Override
-    public String getSubject() {
+    public @Nullable String getSubject() {
         Object subject = attributes.get(ATTRIBUTE_SUBJECT);
         return (subject == null) ? null : (String) subject;
     }
 
     @Override
-    public byte[] getData() {
+    public @Nullable byte[] getData() {
         Object data = attributes.get(ATTRIBUTE_DATA);
-        if (data == null) {
-            return null;
-        }
-        return (byte[]) data;
+        return (data == null) ? null : (byte[]) data;
     }
 
     @Override
-    public String getDataString() {
+    public @Nullable String getDataString() {
         Object data = attributes.get(ATTRIBUTE_DATA);
-        if (data == null) {
-            return null;
-        }
-        return new String((byte[]) data, StandardCharsets.UTF_8);
+        return (data == null) ? null : new String((byte[]) data, StandardCharsets.UTF_8);
     }
 
     @Override

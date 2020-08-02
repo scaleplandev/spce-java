@@ -12,14 +12,14 @@ public class JsonCodecTest {
         JsonDecoder decoder = JsonDecoder.create();
         Event event = decoder.decode(text);
         TestUtils.checkEvent(event,
-                "id", "567",
+                "id", "1",
                 "specversion", "1.0",
-                "source", "/user/123#",
-                "type", "OximeterMeasured",
+                "source", "/oid/A129F28C#",
+                "type", "com.particlemetrics.OximeterMeasured.v1",
                 "time", "2020-07-13T09:15:12Z",
                 "datacontenttype", "application/json",
                 "data", TestUtils.sampleData(),
-                "dataschema", "http://json-schema.org/draft-07/schema#",
+                "dataschema", "https://particlemetrics.com/schemas/event-v1.json",
                 "subject", "Oximeter123"
         );
     }

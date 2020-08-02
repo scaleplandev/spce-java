@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestUtils {
@@ -35,7 +36,12 @@ public class TestUtils {
         Map<String, Object> eventMap = event.asMap();
         assertEquals(targetMap.keySet(), eventMap.keySet());
         for (Map.Entry<String, Object> kv : targetMap.entrySet()) {
-            assertEquals(kv.getValue(), targetMap.get(kv.getKey()));
+            Object value = kv.getValue();
+            if (value instanceof byte[]) {
+                assertArrayEquals((byte[]) value, (byte[]) eventMap.get(kv.getKey()));
+            } else {
+                assertEquals(kv.getValue(), eventMap.get(kv.getKey()));
+            }
         }
     }
 
@@ -57,7 +63,7 @@ public class TestUtils {
         event
                 .setTime("2020-07-13T09:15:12Z")
                 .setDataContentType("application/json")
-                .setData(TestUtils.sampleData())
+                .setDataUnsafe(TestUtils.sampleData())
                 .setDataSchema("http://json-schema.org/draft-07/schema#")
                 .setSubject("SampleSubject");
         return event;

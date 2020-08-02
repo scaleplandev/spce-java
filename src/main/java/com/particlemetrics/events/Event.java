@@ -1,5 +1,7 @@
 package com.particlemetrics.events;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.Map;
 
 public interface Event {
@@ -21,26 +23,36 @@ public interface Event {
     boolean hasBinaryData();
 
     // Required attributes
-    String getId();
 
-    String getSpecVersion();
+    @Nullable String getId();
 
-    String getSource();
+    @Nullable String getSpecVersion();
 
-    String getType();
+    @Nullable String getSource();
+
+    @Nullable String getType();
 
     // Optional attributes
-    byte[] getData();
 
-    String getDataString();
+    @Nullable byte[] getData();
 
-    String getDataContentType();
+    @Nullable String getDataString();
 
-    String getDataSchema();
+    @Nullable String getDataContentType();
 
-    String getSubject();
+    @Nullable String getDataSchema();
 
-    String getTime();
+    @Nullable String getSubject();
 
-    long getTimeLong();
+    @Nullable String getTime();
+
+    // Extended attributes
+
+    @Nullable Object getAttribute(String name);
+
+    @Nullable String getStringAttribute(String name);
+
+    @Nullable Integer getIntAttribute(String name);
+
+    @Nullable Boolean getBoolAttribute(String name);
 }

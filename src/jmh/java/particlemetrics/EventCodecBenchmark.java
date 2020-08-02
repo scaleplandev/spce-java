@@ -59,7 +59,7 @@ public class EventCodecBenchmark {
         event
                 .setTime("2020-07-13T09:15:12Z")
                 .setDataContentType("application/json")
-                .setData(sampleData())
+                .setDataUnsafe(sampleData())
                 .setDataSchema("http://json-schema.org/draft-07/schema#")
                 .setSubject("SampleSubject");
         return event;

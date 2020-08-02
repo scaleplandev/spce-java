@@ -3,7 +3,12 @@ package com.particlemetrics.events;
 import org.jetbrains.annotations.NotNull;
 
 public interface MutableEvent extends Event {
+    MutableEvent reset();
+
+    void fromEvent(@NotNull Event event);
+
     // Required attributes
+
     MutableEvent setSpecVersion(@NotNull String specVersion);
 
     MutableEvent setId(@NotNull String id);
@@ -13,9 +18,12 @@ public interface MutableEvent extends Event {
     MutableEvent setType(@NotNull String type);
 
     // Optional attributes
+
     MutableEvent setData(@NotNull String data);
 
     MutableEvent setData(@NotNull byte[] data);
+
+    MutableEvent setDataUnsafe(@NotNull byte[] data);
 
     MutableEvent setDataContentType(@NotNull String contentType);
 
@@ -30,9 +38,6 @@ public interface MutableEvent extends Event {
     MutableEvent setTimeNow();
 
     // Extended attributes
+
     <T> MutableEvent setAttribute(String key, @NotNull T value);
-
-    MutableEvent reset();
-
-    void fromEvent(@NotNull Event event);
 }

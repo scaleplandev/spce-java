@@ -107,7 +107,7 @@ public class JsonDecoder implements Decoder {
                 event.setData(fieldValue);
                 break;
             case Event.ATTRIBUTE_DATA_BASE64:
-                event.setData(base64Decoder.decode(fieldValue));
+                event.setDataUnsafe(base64Decoder.decode(fieldValue));
                 break;
             case Event.ATTRIBUTE_DATA_CONTENT_TYPE:
                 event.setDataContentType(fieldValue);
