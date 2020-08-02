@@ -268,12 +268,6 @@ public class MutableEventImpl implements MutableEvent {
     }
 
     @Override
-    public @Nullable String getDataString() {
-        Object data = attributes.get(ATTRIBUTE_DATA);
-        return (data == null) ? null : new String((byte[]) data, StandardCharsets.UTF_8);
-    }
-
-    @Override
     public String toString() {
         return attributes.toString();
     }

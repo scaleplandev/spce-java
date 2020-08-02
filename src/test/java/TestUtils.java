@@ -8,9 +8,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -69,5 +67,23 @@ public class TestUtils {
         return event;
     }
 
+    public static Event sampleEventWithOptionalAndExtendedAttributes() {
+        MutableEvent event = (MutableEvent) sampleEventWithOptionalAttributes();
+        event
+                .setAttribute("compmstring", "string-value")
+                .setAttribute("compmint", 42)
+                .setAttribute("compmbool", true);
+        return event;
+    }
+
+    public static Object[] stringToSortedChars(String s) {
+        List<Character> characterList = new ArrayList<>();
+        for (char c : s.toCharArray()) {
+            characterList.add(c);
+        }
+        Object[] arr = characterList.toArray();
+        Arrays.sort(arr);
+        return arr;
+    }
 
 }

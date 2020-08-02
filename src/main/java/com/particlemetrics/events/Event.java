@@ -36,8 +36,6 @@ public interface Event {
 
     @Nullable byte[] getData();
 
-    @Nullable String getDataString();
-
     @Nullable String getDataContentType();
 
     @Nullable String getDataSchema();

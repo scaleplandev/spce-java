@@ -1,9 +1,9 @@
 import com.particlemetrics.events.Event;
 import com.particlemetrics.events.MutableEvent;
+import com.particlemetrics.events.impl.MutableEventImpl;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class EventTest {
     @Test
@@ -23,7 +23,7 @@ public class EventTest {
 
     @Test
     public void testOptionalAttributes() {
-        final Event baseEvent = TestUtils.sampleEventWithRequiredAttributes();
+        Event baseEvent = TestUtils.sampleEventWithRequiredAttributes();
         // MutableEventImpl do
         Event event = ((MutableEvent) baseEvent)
                 .setTime("2020-07-13T09:15:12Z")
@@ -51,5 +51,37 @@ public class EventTest {
         assertArrayEquals(TestUtils.sampleData(), event.getData());
         assertEquals("https://particlemetrics.com/oximeter-schema#", event.getDataSchema());
         assertEquals("SampleSubject", event.getSubject());
+    }
+
+    @Test
+    public void testExtendedAttributes() {
+        Event baseEvent = TestUtils.sampleEventWithRequiredAttributes();
+        // MutableEventImpl do
+        Event event = ((MutableEvent) baseEvent)
+                .setAttribute("compmstring", "string-value")
+                .setAttribute("compmint", 42)
+                .setAttribute("compmbool", true);
+        assertEquals("1.0", event.getSpecVersion());
+        assertEquals("OximeterMeasured", event.getType());
+        assertEquals("/user/123#", event.getSource());
+        assertEquals("567", event.getId());
+        assertEquals("string-value", event.getAttribute("compmstring"));
+        assertEquals("string-value", event.getStringAttribute("compmstring"));
+        assertEquals(42, event.getIntAttribute("compmint"));
+        assertEquals(true, event.getBoolAttribute("compmbool"));
+    }
+
+    @Test
+    public void testBinaryData() {
+        Event event = MutableEventImpl.create()
+                .setData("foobar");
+        assertFalse(event.hasBinaryData());
+    }
+
+    @Test
+    public void testStringData() {
+        Event event = MutableEventImpl.create()
+                .setData("foobar".getBytes());
+        assertTrue(event.hasBinaryData());
     }
 }

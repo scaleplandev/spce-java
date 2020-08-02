@@ -3,12 +3,12 @@ import com.particlemetrics.events.codecs.impl.JsonDecoder;
 import com.particlemetrics.events.codecs.impl.JsonEncoder;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 public class JsonCodecTest {
     @Test
     public void testJsonDecode() {
-        byte[] text = TestUtils.loadFromResource("fixtures/sample_event.json");
+        byte[] text = TestUtils.loadFromResource("fixtures/sample_event_extended.json");
         JsonDecoder decoder = JsonDecoder.create();
         Event event = decoder.decode(text);
         TestUtils.checkEvent(event,
@@ -20,17 +20,20 @@ public class JsonCodecTest {
                 "datacontenttype", "application/json",
                 "data", TestUtils.sampleData(),
                 "dataschema", "https://particlemetrics.com/schemas/event-v1.json",
-                "subject", "Oximeter123"
+                "subject", "Oximeter123",
+                "compmstring", "string-value",
+                "compmint", 42,
+                "compmbool", true
         );
     }
 
     @Test
     public void testJsonEncode() {
         JsonEncoder encoder = JsonEncoder.create();
-        Event event = TestUtils.sampleEventWithOptionalAttributes();
+        Event event = TestUtils.sampleEventWithOptionalAndExtendedAttributes();
         byte[] encodedEvent = encoder.encode(event);
         String encodedString = new String(encodedEvent);
-        String targetString = "{\"specversion\":\"1.0\",\"type\":\"OximeterMeasured\",\"source\":\"/user/123#\",\"id\":\"567\",\"time\":\"2020-07-13T09:15:12Z\",\"subject\":\"SampleSubject\",\"datacontenttype\":\"application/json\",\"dataschema\":\"http://json-schema.org/draft-07/schema#\",\"data_base64\":\"eyJ1c2VyX2lkIjogImJjMTQ1OWM1LTM3OGQtNDgzNS1iNGI2LWEyYzdkOWNhNzVlMyIsICJzcG8yIjogOTYsICJldmVudCI6ICJPeGltaXRlck1lYXN1cmVkIn0=\"}";
-        assertEquals(targetString, encodedString);
+        String targetString = "{\"specversion\":\"1.0\",\"type\":\"OximeterMeasured\",\"source\":\"/user/123#\",\"id\":\"567\",\"time\":\"2020-07-13T09:15:12Z\",\"subject\":\"SampleSubject\",\"datacontenttype\":\"application/json\",\"dataschema\":\"http://json-schema.org/draft-07/schema#\",\"data_base64\":\"eyJ1c2VyX2lkIjogImJjMTQ1OWM1LTM3OGQtNDgzNS1iNGI2LWEyYzdkOWNhNzVlMyIsICJzcG8yIjogOTYsICJldmVudCI6ICJPeGltaXRlck1lYXN1cmVkIn0=\",\"compmstring\":\"string-value\",\"compmint\":42,\"compmbool\":true}";
+        assertArrayEquals(TestUtils.stringToSortedChars(targetString), TestUtils.stringToSortedChars(encodedString));
     }
 }
