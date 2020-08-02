@@ -70,9 +70,9 @@ public class TestUtils {
     public static Event sampleEventWithOptionalAndExtendedAttributes() {
         MutableEvent event = (MutableEvent) sampleEventWithOptionalAttributes();
         event
-                .setAttribute("compmstring", "string-value")
-                .setAttribute("compmint", 42)
-                .setAttribute("compmbool", true);
+                .put("compmstring", "string-value")
+                .put("compmint", 42)
+                .put("compmbool", true);
         return event;
     }
 

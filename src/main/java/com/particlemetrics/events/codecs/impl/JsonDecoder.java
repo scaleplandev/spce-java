@@ -123,7 +123,7 @@ public class JsonDecoder implements Decoder {
                 event.setDataSchema(fieldValue);
                 break;
             default:
-                event.setAttribute(fieldName, fieldValue);
+                event.put(fieldName, fieldValue);
         }
     }
 
@@ -152,7 +152,7 @@ public class JsonDecoder implements Decoder {
             case Event.ATTRIBUTE_DATA_SCHEMA:
                 throw new DecodeException(String.format("%s must be a string", Event.ATTRIBUTE_DATA_SCHEMA));
             default:
-                event.setAttribute(fieldName, fieldValue);
+                event.put(fieldName, fieldValue);
         }
     }
 }

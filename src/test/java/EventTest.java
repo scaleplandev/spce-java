@@ -3,6 +3,9 @@ import com.particlemetrics.events.MutableEvent;
 import com.particlemetrics.events.impl.MutableEventImpl;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class EventTest {
@@ -58,9 +61,9 @@ public class EventTest {
         Event baseEvent = TestUtils.sampleEventWithRequiredAttributes();
         // MutableEventImpl do
         Event event = ((MutableEvent) baseEvent)
-                .setAttribute("compmstring", "string-value")
-                .setAttribute("compmint", 42)
-                .setAttribute("compmbool", true);
+                .put("compmstring", "string-value")
+                .put("compmint", 42)
+                .put("compmbool", true);
         assertEquals("1.0", event.getSpecVersion());
         assertEquals("OximeterMeasured", event.getType());
         assertEquals("/user/123#", event.getSource());
@@ -88,17 +91,27 @@ public class EventTest {
     @Test
     public void testDeleteAttribute() {
         MutableEvent event = MutableEventImpl.create()
-                .setAttribute("foobar", "zoo");
+                .put("foobar", "zoo");
         assertEquals("zoo", event.getAttribute("foobar"));
-        event.removeAttribute("foobar");
+        event.remove("foobar");
         assertNull(event.getAttribute("foobar"));
     }
 
     @Test
     public void testCannotDeleteRequiredAttribute() {
-        MutableEvent event = MutableEventImpl.create()
-                .setType("MyEvent");
+        MutableEvent event = MutableEventImpl.create().setType("MyEvent");
         assertEquals("MyEvent", event.getType());
-        assertThrows(IllegalArgumentException.class, () -> event.removeAttribute("type"));
+        assertThrows(IllegalArgumentException.class,
+                () -> event.remove("type"));
+    }
+
+    @Test
+    public void testWrapUnsafe() {
+        Map<String, Object> attrs = new HashMap<>();
+        attrs.put("specversion", "1.0");
+        attrs.put("data_base64", "not-actually-b64ed");
+        Event event = MutableEventImpl.wrapUnsafe(attrs);
+        assertTrue(event.hasBinaryData());
+        assertEquals(attrs, event.asMap());
     }
 }

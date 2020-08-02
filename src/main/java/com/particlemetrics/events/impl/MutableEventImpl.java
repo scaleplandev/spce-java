@@ -13,8 +13,8 @@ import java.util.*;
 public class MutableEventImpl implements MutableEvent {
     private static final String SPEC_VERSION = "1.0";
 
-    private final Map<String, Object> attributes = new HashMap<>(10);
-    private boolean _hasBinaryData = false;
+    private final Map<String, Object> attributes;
+    private boolean _hasBinaryData;
 
     public static MutableEvent create(@NotNull String type, @NotNull String source, @NotNull String id) {
         return new MutableEventImpl()
@@ -34,7 +34,19 @@ public class MutableEventImpl implements MutableEvent {
         return new MutableEventImpl();
     }
 
+    public static MutableEvent wrapUnsafe(@NotNull final Map<String, Object> attributes) {
+        Objects.requireNonNull(attributes, "attributes cannot be null");
+        boolean hasBinaryData = attributes.containsKey(Event.ATTRIBUTE_DATA_BASE64);
+        return new MutableEventImpl(attributes, hasBinaryData);
+    }
+
     MutableEventImpl() {
+        this(new HashMap<>(4), false);
+    }
+
+    MutableEventImpl(Map<String, Object> attributes, boolean hasBinaryData) {
+        this.attributes = attributes;
+        this._hasBinaryData = hasBinaryData;
     }
 
     public void validate() {
@@ -60,7 +72,6 @@ public class MutableEventImpl implements MutableEvent {
     @Override
     public MutableEvent reset() {
         attributes.clear();
-//        attributes.put(ATTRIBUTE_SPEC_VERSION, SPEC_VERSION);
         return this;
     }
 
@@ -70,14 +81,8 @@ public class MutableEventImpl implements MutableEvent {
     }
 
     @Override
-    public void fromEvent(final @NotNull Event event) {
-        reset();
-        this.attributes.putAll(event.asMap());
-        this._hasBinaryData = event.hasBinaryData();
-    }
-
-    @Override
-    public MutableEvent removeAttribute(@NotNull String name) {
+    public MutableEvent remove(@NotNull String name) {
+        Objects.requireNonNull(name, "name cannot be null");
         // Do not allow removing required attributes
         switch (name) {
             case Event.ATTRIBUTE_SPEC_VERSION:
@@ -90,6 +95,36 @@ public class MutableEventImpl implements MutableEvent {
             default:
                 this.attributes.remove(name);
         }
+        return this;
+    }
+
+    @Override
+    public <T> MutableEvent put(@NotNull String name, @NotNull T value) {
+        Objects.requireNonNull(name, "name cannot be null");
+        Objects.requireNonNull(value, "value cannot be null");
+        // Do not allow putting required or optional attributes
+        switch (name) {
+            case Event.ATTRIBUTE_SPEC_VERSION:
+            case Event.ATTRIBUTE_TYPE:
+            case Event.ATTRIBUTE_SOURCE:
+            case Event.ATTRIBUTE_ID:
+            case Event.ATTRIBUTE_TIME:
+            case Event.ATTRIBUTE_SUBJECT:
+            case Event.ATTRIBUTE_DATA_CONTENT_TYPE:
+            case Event.ATTRIBUTE_DATA_SCHEMA:
+            case Event.ATTRIBUTE_DATA:
+                throw new IllegalArgumentException(
+                        String.format("%s is a required attribute. It can't be removed.", name)
+                );
+            default:
+                attributes.put(name, value);
+        }
+        return this;
+    }
+
+    @Override
+    public <T> MutableEvent putUnsafe(@NotNull String key, @NotNull T value) {
+        attributes.put(key, value);
         return this;
     }
 
@@ -135,13 +170,6 @@ public class MutableEventImpl implements MutableEvent {
     @Override
     public MutableEvent setTimeNow() {
         setTime(System.currentTimeMillis());
-        return this;
-    }
-
-    @Override
-    public <T> MutableEvent setAttribute(String key, @NotNull T value) {
-        Objects.requireNonNull(value, "Attribute cannot be null");
-        attributes.put(key, value);
         return this;
     }
 
