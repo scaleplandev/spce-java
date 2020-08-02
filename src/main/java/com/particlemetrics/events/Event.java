@@ -16,8 +16,6 @@ public interface Event {
     String ATTRIBUTE_SPEC_VERSION = "specversion";
     String ATTRIBUTE_SOURCE = "source";
 
-    String MIME_JSON = "application/json";
-
     Map<String, Object> asMap();
 
     boolean hasBinaryData();
