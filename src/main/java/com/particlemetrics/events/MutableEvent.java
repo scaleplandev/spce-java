@@ -7,6 +7,8 @@ public interface MutableEvent extends Event {
 
     void fromEvent(@NotNull Event event);
 
+    MutableEvent removeAttribute(@NotNull String name);
+
     // Required attributes
 
     MutableEvent setSpecVersion(@NotNull String specVersion);

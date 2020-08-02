@@ -77,6 +77,23 @@ public class MutableEventImpl implements MutableEvent {
     }
 
     @Override
+    public MutableEvent removeAttribute(@NotNull String name) {
+        // Do not allow removing required attributes
+        switch (name) {
+            case Event.ATTRIBUTE_SPEC_VERSION:
+            case Event.ATTRIBUTE_TYPE:
+            case Event.ATTRIBUTE_SOURCE:
+            case Event.ATTRIBUTE_ID:
+                throw new IllegalArgumentException(
+                        String.format("%s is a required attribute. It can't be removed.", name)
+                );
+            default:
+                this.attributes.remove(name);
+        }
+        return this;
+    }
+
+    @Override
     public MutableEvent setSpecVersion(@NotNull String specVersion) {
         attributes.put(ATTRIBUTE_SPEC_VERSION, Objects.requireNonNull(specVersion));
         return this;

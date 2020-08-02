@@ -84,4 +84,21 @@ public class EventTest {
                 .setData("foobar".getBytes());
         assertTrue(event.hasBinaryData());
     }
+
+    @Test
+    public void testDeleteAttribute() {
+        MutableEvent event = MutableEventImpl.create()
+                .setAttribute("foobar", "zoo");
+        assertEquals("zoo", event.getAttribute("foobar"));
+        event.removeAttribute("foobar");
+        assertNull(event.getAttribute("foobar"));
+    }
+
+    @Test
+    public void testCannotDeleteRequiredAttribute() {
+        MutableEvent event = MutableEventImpl.create()
+                .setType("MyEvent");
+        assertEquals("MyEvent", event.getType());
+        assertThrows(IllegalArgumentException.class, () -> event.removeAttribute("type"));
+    }
 }

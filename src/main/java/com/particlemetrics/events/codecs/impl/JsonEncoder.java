@@ -28,7 +28,7 @@ public class JsonEncoder implements Encoder {
     }
 
     @Override
-    public byte[] encode(final @NotNull Event event) {
+    public @NotNull byte[] encode(final @NotNull Event event) {
         try (ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
             encode(event, bos);
             return bos.toByteArray();

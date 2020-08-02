@@ -8,6 +8,7 @@ import com.particlemetrics.events.MutableEvent;
 import com.particlemetrics.events.codecs.DecodeException;
 import com.particlemetrics.events.codecs.Decoder;
 import com.particlemetrics.events.impl.MutableEventImpl;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.Base64;
@@ -24,7 +25,11 @@ public class JsonDecoder implements Decoder {
     }
 
     @Override
-    public Event decode(byte[] data) {
+    public @NotNull Event decode(@NotNull byte[] data) {
+        return decode(data, true);
+    }
+
+    public @NotNull Event decode(@NotNull byte[] data, boolean validate) {
         MutableEvent event = MutableEventImpl.create();
         try (final JsonParser parser = jsonFactory.createParser(data)) {
             boolean started = false;
@@ -75,7 +80,9 @@ public class JsonDecoder implements Decoder {
         } catch (IOException e) {
             throw new DecodeException("Error decoding JSON", e);
         }
-        ((MutableEventImpl) event).validate();
+        if (validate) {
+            ((MutableEventImpl) event).validate();
+        }
         return event;
     }
 

@@ -1,7 +1,8 @@
 package com.particlemetrics.events.codecs;
 
 import com.particlemetrics.events.Event;
+import org.jetbrains.annotations.NotNull;
 
 public interface Decoder {
-    Event decode(byte[] data);
+    @NotNull Event decode(@NotNull byte[] data);
 }
