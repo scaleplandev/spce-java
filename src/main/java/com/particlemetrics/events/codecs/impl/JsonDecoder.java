@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import com.particlemetrics.events.Event;
 import com.particlemetrics.events.MutableEvent;
+import com.particlemetrics.events.ValidationException;
 import com.particlemetrics.events.codecs.DecodeException;
 import com.particlemetrics.events.codecs.DecodeIterator;
 import com.particlemetrics.events.codecs.Decoder;
@@ -52,6 +53,8 @@ public class JsonDecoder implements Decoder {
             while (iterator.hasNext()) {
                 handler.accept(iterator.next());
             }
+        } catch (ValidationException | DecodeException e) {
+            throw e;
         } catch (Exception e) {
             throw new DecodeException("Error decoding JSON", e);
         }

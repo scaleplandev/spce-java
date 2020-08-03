@@ -1,5 +1,6 @@
 import com.particlemetrics.events.Event;
 import com.particlemetrics.events.MutableEvent;
+import com.particlemetrics.events.ValidationException;
 import com.particlemetrics.events.codecs.DecodeException;
 import com.particlemetrics.events.codecs.Json;
 import com.particlemetrics.events.codecs.impl.JsonDecoder;
@@ -72,6 +73,11 @@ public class JsonCodecTest {
     @Test
     public void testInvalidJsonArrayDecode2() {
         assertThrows(DecodeException.class, () -> decoder.decodeArray("{\"foo\":\"bar\"}".getBytes()));
+    }
+
+    @Test
+    public void testInvalidJsonArrayDecode3() {
+        assertThrows(ValidationException.class, () -> decoder.decodeArray("[{}]".getBytes()));
     }
 
     @Test
