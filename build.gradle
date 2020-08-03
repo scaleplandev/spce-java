@@ -15,7 +15,7 @@ ext {
 }
 
 group 'net.scaleplan'
-version '0.2.6'
+version '0.2.7'
 
 sourceCompatibility = 1.8
 
