@@ -1,0 +1,102 @@
+[
+  {
+    "specversion": "1.0",
+    "type": "com.particlemetrics.OximeterMeasured.v1",
+    "source": "/oid/A129F28C#",
+    "id": "1",
+    "time": "2020-07-13T09:15:12Z",
+    "datacontenttype": "application/json",
+    "dataschema": "https://particlemetrics.com/schemas/event-v1.json",
+    "data": "{\"user_id\": \"bc1459c5-378d-4835-b4b6-a2c7d9ca75e3\", \"spo2\": 96, \"event\": \"OximiterMeasured\"}"
+  },
+  {
+    "specversion": "1.0",
+    "type": "com.particlemetrics.OximeterMeasured.v1",
+    "source": "/oid/A129F28C#",
+    "id": "1",
+    "time": "2020-07-13T09:15:12Z",
+    "datacontenttype": "application/json",
+    "dataschema": "https://particlemetrics.com/schemas/event-v1.json",
+    "data": "{\"user_id\": \"bc1459c5-378d-4835-b4b6-a2c7d9ca75e3\", \"spo2\": 96, \"event\": \"OximiterMeasured\"}"
+  },
+  {
+    "specversion": "1.0",
+    "type": "com.particlemetrics.OximeterMeasured.v1",
+    "source": "/oid/A129F28C#",
+    "id": "1",
+    "time": "2020-07-13T09:15:12Z",
+    "datacontenttype": "application/json",
+    "dataschema": "https://particlemetrics.com/schemas/event-v1.json",
+    "data": "{\"user_id\": \"bc1459c5-378d-4835-b4b6-a2c7d9ca75e3\", \"spo2\": 96, \"event\": \"OximiterMeasured\"}"
+  },
+  {
+    "specversion": "1.0",
+    "type": "com.particlemetrics.OximeterMeasured.v1",
+    "source": "/oid/A129F28C#",
+    "id": "1",
+    "time": "2020-07-13T09:15:12Z",
+    "datacontenttype": "application/json",
+    "dataschema": "https://particlemetrics.com/schemas/event-v1.json",
+    "data": "{\"user_id\": \"bc1459c5-378d-4835-b4b6-a2c7d9ca75e3\", \"spo2\": 96, \"event\": \"OximiterMeasured\"}"
+  },
+  {
+    "specversion": "1.0",
+    "type": "com.particlemetrics.OximeterMeasured.v1",
+    "source": "/oid/A129F28C#",
+    "id": "1",
+    "time": "2020-07-13T09:15:12Z",
+    "datacontenttype": "application/json",
+    "dataschema": "https://particlemetrics.com/schemas/event-v1.json",
+    "data": "{\"user_id\": \"bc1459c5-378d-4835-b4b6-a2c7d9ca75e3\", \"spo2\": 96, \"event\": \"OximiterMeasured\"}"
+  },
+  {
+    "specversion": "1.0",
+    "type": "com.particlemetrics.OximeterMeasured.v1",
+    "source": "/oid/A129F28C#",
+    "id": "1",
+    "time": "2020-07-13T09:15:12Z",
+    "datacontenttype": "application/json",
+    "dataschema": "https://particlemetrics.com/schemas/event-v1.json",
+    "data": "{\"user_id\": \"bc1459c5-378d-4835-b4b6-a2c7d9ca75e3\", \"spo2\": 96, \"event\": \"OximiterMeasured\"}"
+  },
+  {
+    "specversion": "1.0",
+    "type": "com.particlemetrics.OximeterMeasured.v1",
+    "source": "/oid/A129F28C#",
+    "id": "1",
+    "time": "2020-07-13T09:15:12Z",
+    "datacontenttype": "application/json",
+    "dataschema": "https://particlemetrics.com/schemas/event-v1.json",
+    "data": "{\"user_id\": \"bc1459c5-378d-4835-b4b6-a2c7d9ca75e3\", \"spo2\": 96, \"event\": \"OximiterMeasured\"}"
+  },
+  {
+    "specversion": "1.0",
+    "type": "com.particlemetrics.OximeterMeasured.v1",
+    "source": "/oid/A129F28C#",
+    "id": "1",
+    "time": "2020-07-13T09:15:12Z",
+    "datacontenttype": "application/json",
+    "dataschema": "https://particlemetrics.com/schemas/event-v1.json",
+    "data": "{\"user_id\": \"bc1459c5-378d-4835-b4b6-a2c7d9ca75e3\", \"spo2\": 96, \"event\": \"OximiterMeasured\"}"
+  },
+  {
+    "specversion": "1.0",
+    "type": "com.particlemetrics.OximeterMeasured.v1",
+    "source": "/oid/A129F28C#",
+    "id": "1",
+    "time": "2020-07-13T09:15:12Z",
+    "datacontenttype": "application/json",
+    "dataschema": "https://particlemetrics.com/schemas/event-v1.json",
+    "data": "{\"user_id\": \"bc1459c5-378d-4835-b4b6-a2c7d9ca75e3\", \"spo2\": 96, \"event\": \"OximiterMeasured\"}"
+  },
+  {
+    "specversion": "1.0",
+    "type": "com.particlemetrics.OximeterMeasured.v1",
+    "source": "/oid/A129F28C#",
+    "id": "1",
+    "time": "2020-07-13T09:15:12Z",
+    "datacontenttype": "application/json",
+    "dataschema": "https://particlemetrics.com/schemas/event-v1.json",
+    "data": "{\"user_id\": \"bc1459c5-378d-4835-b4b6-a2c7d9ca75e3\", \"spo2\": 96, \"event\": \"OximiterMeasured\"}"
+  }
+]

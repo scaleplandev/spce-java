@@ -18,12 +18,18 @@ import java.util.concurrent.TimeUnit;
 public class EventCodecBenchmark {
     private static final byte[] text = sampleEventText();
     private static final Event sampleEvent = sampleEventWithOptionalAttributes();
+    private static final byte[] bundleText = sampleEventBundle10();
     private static final JsonDecoder decoder = JsonDecoder.create();
     private static final JsonEncoder encoder = JsonEncoder.create();
 
     @Benchmark
     public void benchmarkDecodeEvent(Blackhole blackhole) {
         blackhole.consume(decoder.decode(text));
+    }
+
+    @Benchmark
+    public void benchmarkDecodeEventBundle(Blackhole blackhole) {
+        blackhole.consume(decoder.decodeArray(bundleText));
     }
 
     @Benchmark
@@ -68,6 +74,112 @@ public class EventCodecBenchmark {
     private static byte[] sampleData() {
         String text = "{\"user_id\": \"bc1459c5-378d-4835-b4b6-a2c7d9ca75e3\", \"spo2\": 96, \"event\": \"OximiterMeasured\"}";
         return text.getBytes(StandardCharsets.UTF_8);
+    }
+
+    private static byte[] sampleEventBundle10() {
+        String text = "[\n" +
+                "  {\n" +
+                "    \"specversion\" : \"1.0\",\n" +
+                "    \"type\" : \"com.particlemetrics.OximeterMeasured.v1\",\n" +
+                "    \"source\" : \"/oid/A129F28C#\",\n" +
+                "    \"id\" : \"1\",\n" +
+                "    \"time\" : \"2020-07-13T09:15:12Z\",\n" +
+                "    \"datacontenttype\" : \"application/json\",\n" +
+                "    \"dataschema\": \"https://particlemetrics.com/schemas/event-v1.json\",\n" +
+                "    \"data\" : \"{\\\"user_id\\\": \\\"bc1459c5-378d-4835-b4b6-a2c7d9ca75e3\\\", \\\"spo2\\\": 96, \\\"event\\\": \\\"OximiterMeasured\\\"}\"\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"specversion\" : \"1.0\",\n" +
+                "    \"type\" : \"com.particlemetrics.OximeterMeasured.v1\",\n" +
+                "    \"source\" : \"/oid/A129F28C#\",\n" +
+                "    \"id\" : \"1\",\n" +
+                "    \"time\" : \"2020-07-13T09:15:12Z\",\n" +
+                "    \"datacontenttype\" : \"application/json\",\n" +
+                "    \"dataschema\": \"https://particlemetrics.com/schemas/event-v1.json\",\n" +
+                "    \"data\" : \"{\\\"user_id\\\": \\\"bc1459c5-378d-4835-b4b6-a2c7d9ca75e3\\\", \\\"spo2\\\": 96, \\\"event\\\": \\\"OximiterMeasured\\\"}\"\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"specversion\" : \"1.0\",\n" +
+                "    \"type\" : \"com.particlemetrics.OximeterMeasured.v1\",\n" +
+                "    \"source\" : \"/oid/A129F28C#\",\n" +
+                "    \"id\" : \"1\",\n" +
+                "    \"time\" : \"2020-07-13T09:15:12Z\",\n" +
+                "    \"datacontenttype\" : \"application/json\",\n" +
+                "    \"dataschema\": \"https://particlemetrics.com/schemas/event-v1.json\",\n" +
+                "    \"data\" : \"{\\\"user_id\\\": \\\"bc1459c5-378d-4835-b4b6-a2c7d9ca75e3\\\", \\\"spo2\\\": 96, \\\"event\\\": \\\"OximiterMeasured\\\"}\"\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"specversion\" : \"1.0\",\n" +
+                "    \"type\" : \"com.particlemetrics.OximeterMeasured.v1\",\n" +
+                "    \"source\" : \"/oid/A129F28C#\",\n" +
+                "    \"id\" : \"1\",\n" +
+                "    \"time\" : \"2020-07-13T09:15:12Z\",\n" +
+                "    \"datacontenttype\" : \"application/json\",\n" +
+                "    \"dataschema\": \"https://particlemetrics.com/schemas/event-v1.json\",\n" +
+                "    \"data\" : \"{\\\"user_id\\\": \\\"bc1459c5-378d-4835-b4b6-a2c7d9ca75e3\\\", \\\"spo2\\\": 96, \\\"event\\\": \\\"OximiterMeasured\\\"}\"\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"specversion\" : \"1.0\",\n" +
+                "    \"type\" : \"com.particlemetrics.OximeterMeasured.v1\",\n" +
+                "    \"source\" : \"/oid/A129F28C#\",\n" +
+                "    \"id\" : \"1\",\n" +
+                "    \"time\" : \"2020-07-13T09:15:12Z\",\n" +
+                "    \"datacontenttype\" : \"application/json\",\n" +
+                "    \"dataschema\": \"https://particlemetrics.com/schemas/event-v1.json\",\n" +
+                "    \"data\" : \"{\\\"user_id\\\": \\\"bc1459c5-378d-4835-b4b6-a2c7d9ca75e3\\\", \\\"spo2\\\": 96, \\\"event\\\": \\\"OximiterMeasured\\\"}\"\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"specversion\" : \"1.0\",\n" +
+                "    \"type\" : \"com.particlemetrics.OximeterMeasured.v1\",\n" +
+                "    \"source\" : \"/oid/A129F28C#\",\n" +
+                "    \"id\" : \"1\",\n" +
+                "    \"time\" : \"2020-07-13T09:15:12Z\",\n" +
+                "    \"datacontenttype\" : \"application/json\",\n" +
+                "    \"dataschema\": \"https://particlemetrics.com/schemas/event-v1.json\",\n" +
+                "    \"data\" : \"{\\\"user_id\\\": \\\"bc1459c5-378d-4835-b4b6-a2c7d9ca75e3\\\", \\\"spo2\\\": 96, \\\"event\\\": \\\"OximiterMeasured\\\"}\"\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"specversion\" : \"1.0\",\n" +
+                "    \"type\" : \"com.particlemetrics.OximeterMeasured.v1\",\n" +
+                "    \"source\" : \"/oid/A129F28C#\",\n" +
+                "    \"id\" : \"1\",\n" +
+                "    \"time\" : \"2020-07-13T09:15:12Z\",\n" +
+                "    \"datacontenttype\" : \"application/json\",\n" +
+                "    \"dataschema\": \"https://particlemetrics.com/schemas/event-v1.json\",\n" +
+                "    \"data\" : \"{\\\"user_id\\\": \\\"bc1459c5-378d-4835-b4b6-a2c7d9ca75e3\\\", \\\"spo2\\\": 96, \\\"event\\\": \\\"OximiterMeasured\\\"}\"\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"specversion\" : \"1.0\",\n" +
+                "    \"type\" : \"com.particlemetrics.OximeterMeasured.v1\",\n" +
+                "    \"source\" : \"/oid/A129F28C#\",\n" +
+                "    \"id\" : \"1\",\n" +
+                "    \"time\" : \"2020-07-13T09:15:12Z\",\n" +
+                "    \"datacontenttype\" : \"application/json\",\n" +
+                "    \"dataschema\": \"https://particlemetrics.com/schemas/event-v1.json\",\n" +
+                "    \"data\" : \"{\\\"user_id\\\": \\\"bc1459c5-378d-4835-b4b6-a2c7d9ca75e3\\\", \\\"spo2\\\": 96, \\\"event\\\": \\\"OximiterMeasured\\\"}\"\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"specversion\" : \"1.0\",\n" +
+                "    \"type\" : \"com.particlemetrics.OximeterMeasured.v1\",\n" +
+                "    \"source\" : \"/oid/A129F28C#\",\n" +
+                "    \"id\" : \"1\",\n" +
+                "    \"time\" : \"2020-07-13T09:15:12Z\",\n" +
+                "    \"datacontenttype\" : \"application/json\",\n" +
+                "    \"dataschema\": \"https://particlemetrics.com/schemas/event-v1.json\",\n" +
+                "    \"data\" : \"{\\\"user_id\\\": \\\"bc1459c5-378d-4835-b4b6-a2c7d9ca75e3\\\", \\\"spo2\\\": 96, \\\"event\\\": \\\"OximiterMeasured\\\"}\"\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"specversion\" : \"1.0\",\n" +
+                "    \"type\" : \"com.particlemetrics.OximeterMeasured.v1\",\n" +
+                "    \"source\" : \"/oid/A129F28C#\",\n" +
+                "    \"id\" : \"1\",\n" +
+                "    \"time\" : \"2020-07-13T09:15:12Z\",\n" +
+                "    \"datacontenttype\" : \"application/json\",\n" +
+                "    \"dataschema\": \"https://particlemetrics.com/schemas/event-v1.json\",\n" +
+                "    \"data\" : \"{\\\"user_id\\\": \\\"bc1459c5-378d-4835-b4b6-a2c7d9ca75e3\\\", \\\"spo2\\\": 96, \\\"event\\\": \\\"OximiterMeasured\\\"}\"\n" +
+                "  }\n" +
+                "]\n";
+        return text.getBytes();
     }
 
 

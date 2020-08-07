@@ -73,7 +73,8 @@ public class JsonDecoder implements Decoder {
     protected @NotNull Event decode(@NotNull byte[] data, int offset, int len, boolean validate) {
         Objects.requireNonNull(data, "data cannot be null");
         try (final JsonParser parser = jsonFactory.createParser(data, offset, len)) {
-            Event event = decode(parser);
+            Event event = decode(parser, false);
+            assert event != null;
             if (validate) {
                 ((MutableEventImpl) event).validate();
             }
@@ -123,15 +124,17 @@ public class JsonDecoder implements Decoder {
                 return null;
             }
             try {
-                Event event = decode(parser);
+                Event event = decode(parser, true);
+                if (event == null) {
+                    // No exception was thrown and event was not decoded. Just return.
+                    return null;
+                }
                 if (validate) {
                     ((MutableEventImpl) event).validate();
                 }
                 return event;
             } catch (IOException e) {
                 throw new DecodeException("Error decoding JSON", e);
-            } catch (EndOfArray e) {
-                return null;
             }
         }
 
@@ -161,7 +164,7 @@ public class JsonDecoder implements Decoder {
         }
     }
 
-    protected static @NotNull Event decode(@NotNull final JsonParser parser) throws IOException {
+    private static Event decode(@NotNull final JsonParser parser, boolean isDecodingArray) throws IOException {
         MutableEvent event = MutableEventImpl.create();
         boolean started = false;
         String fieldName = "";
@@ -203,7 +206,9 @@ public class JsonDecoder implements Decoder {
                 case START_ARRAY:
                     throw new DecodeException("Unexpected START_ARRAY");
                 case END_ARRAY:
-                    throw new EndOfArray("Unexpected END_ARRAY");
+//                    throw new EndOfArray("Unexpected END_ARRAY");
+                    if (isDecodingArray) return null;
+                    throw new DecodeException("Unexpected END_ARRAY");
                 case VALUE_EMBEDDED_OBJECT:
                     throw new DecodeException("Unexpected VALUE_EMBEDDED_OBJECT");
                 case VALUE_NUMBER_FLOAT:
