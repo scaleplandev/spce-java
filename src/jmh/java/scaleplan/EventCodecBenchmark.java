@@ -1,4 +1,4 @@
-package particlemetrics;
+package scaleplan;
 
 import io.scaleplan.cloudevents.CloudEvent;
 import io.scaleplan.cloudevents.MutableCloudEvent;

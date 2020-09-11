@@ -35,8 +35,15 @@ public class ValidatorsTest {
 
     @Test
     public void testValidTimestamp() {
-        String timestamp1 = "2020-09-10T12:33:46Z";
-        assertTrue(Validators.isValidTimestamp(timestamp1));
+        String timestamp = "2020-09-10T12:33:46Z";
+        assertTrue(Validators.isValidTimestamp(timestamp));
+    }
+
+    @Test
+    public void testRequireValidTimestamp() {
+        String timestamp = "2020-09-10T12:33:46Z";
+        String returnedTimestamp = Validators.requireValidTimestamp(timestamp);
+        assertEquals(timestamp, returnedTimestamp);
     }
 
     @Test

@@ -15,7 +15,7 @@ ext {
 }
 
 group 'io.scaleplan'
-version '0.2.10'
+version '0.2.11'
 
 sourceCompatibility = 1.8
 

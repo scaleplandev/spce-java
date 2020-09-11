@@ -3,6 +3,7 @@ package io.scaleplan.cloudevents.impl;
 import io.scaleplan.cloudevents.CloudEvent;
 import io.scaleplan.cloudevents.MutableCloudEvent;
 import io.scaleplan.cloudevents.ValidationException;
+import io.scaleplan.cloudevents.validators.Validators;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -20,7 +21,7 @@ public class MutableCloudEventImpl implements MutableCloudEvent {
         return new MutableCloudEventImpl()
                 .setSpecVersion(SPEC_VERSION)
                 .setType(Objects.requireNonNull(type, "type is cannot be null"))
-                .setSource(Objects.requireNonNull(source, "source cannot be null"))
+                .setSource(Validators.requireValidURIRef(source, "source must be a valid URI reference"))
                 .setId(Objects.requireNonNull(id, "id cannot be null"));
     }
 
@@ -114,7 +115,7 @@ public class MutableCloudEventImpl implements MutableCloudEvent {
             case CloudEvent.ATTRIBUTE_DATA_SCHEMA:
             case CloudEvent.ATTRIBUTE_DATA:
                 throw new IllegalArgumentException(
-                        String.format("%s is a required attribute. It can't be removed.", name)
+                        String.format("%s is a required or optional attribute. It can't be replaced.", name)
                 );
             default:
                 attributes.put(name, value);
@@ -142,7 +143,7 @@ public class MutableCloudEventImpl implements MutableCloudEvent {
 
     @Override
     public MutableCloudEvent setSource(@NotNull String source) {
-        attributes.put(ATTRIBUTE_SOURCE, Objects.requireNonNull(source));
+        attributes.put(ATTRIBUTE_SOURCE, Validators.requireValidURIRef(source));
         return this;
     }
 
@@ -154,8 +155,7 @@ public class MutableCloudEventImpl implements MutableCloudEvent {
 
     @Override
     public MutableCloudEvent setTime(@NotNull String time) {
-        // TODO: validate time
-        attributes.put(CloudEvent.ATTRIBUTE_TIME, time);
+        attributes.put(CloudEvent.ATTRIBUTE_TIME, Validators.requireValidTimestamp(time));
         return this;
     }
 
@@ -182,7 +182,7 @@ public class MutableCloudEventImpl implements MutableCloudEvent {
 
     @Override
     public MutableCloudEvent setDataSchema(@NotNull String dataSchema) {
-        Objects.requireNonNull(dataSchema, "DataSchema cannot be null");
+        Validators.requireValidURI(dataSchema, "DataSchema must be valid");
         attributes.put(ATTRIBUTE_DATA_SCHEMA, dataSchema);
         return this;
     }

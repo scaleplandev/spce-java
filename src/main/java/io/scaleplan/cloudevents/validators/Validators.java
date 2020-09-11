@@ -43,4 +43,15 @@ public class Validators {
         }
         return uriRef;
     }
+
+    public static String requireValidTimestamp(@NotNull final String timestamp) {
+        return requireValidTimestamp(timestamp, null);
+    }
+
+    public static String requireValidTimestamp(@NotNull final String timestamp, final String exceptionMessage) {
+        if (!isValidTimestamp(timestamp)) {
+            throw new ValidationException(exceptionMessage);
+        }
+        return timestamp;
+    }
 }
