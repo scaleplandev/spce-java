@@ -1,7 +1,7 @@
-package com.particlemetrics.events.codecs;
+package io.scaleplan.cloudevents.codecs;
 
-import com.particlemetrics.events.codecs.impl.JsonDecoder;
-import com.particlemetrics.events.codecs.impl.JsonEncoder;
+import io.scaleplan.cloudevents.codecs.impl.JsonDecoder;
+import io.scaleplan.cloudevents.codecs.impl.JsonEncoder;
 
 public class Json {
     public static JsonDecoder getDecoder() {

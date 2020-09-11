@@ -1,4 +1,4 @@
-package com.particlemetrics.events;
+package io.scaleplan.cloudevents;
 
 public class ValidationException extends RuntimeException {
     public ValidationException() {

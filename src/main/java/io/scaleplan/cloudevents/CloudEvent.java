@@ -1,10 +1,10 @@
-package com.particlemetrics.events;
+package io.scaleplan.cloudevents;
 
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
 
-public interface Event {
+public interface CloudEvent {
     String ATTRIBUTE_DATA = "data";
     String ATTRIBUTE_DATA_BASE64 = "data_base64";
     String ATTRIBUTE_DATA_CONTENT_TYPE = "datacontenttype";

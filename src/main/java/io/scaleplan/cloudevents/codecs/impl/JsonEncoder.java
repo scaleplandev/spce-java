@@ -1,11 +1,11 @@
-package com.particlemetrics.events.codecs.impl;
+package io.scaleplan.cloudevents.codecs.impl;
 
 import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
-import com.particlemetrics.events.Event;
-import com.particlemetrics.events.codecs.EncodeException;
-import com.particlemetrics.events.codecs.Encoder;
+import io.scaleplan.cloudevents.CloudEvent;
+import io.scaleplan.cloudevents.codecs.EncodeException;
+import io.scaleplan.cloudevents.codecs.Encoder;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.ByteArrayOutputStream;
@@ -30,7 +30,7 @@ public class JsonEncoder implements Encoder {
     }
 
     @Override
-    public @NotNull byte[] encode(@NotNull final Event event) {
+    public @NotNull byte[] encode(@NotNull final CloudEvent event) {
         try (ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
             encode(event, bos);
             return bos.toByteArray();
@@ -40,7 +40,7 @@ public class JsonEncoder implements Encoder {
     }
 
     @Override
-    public void encode(@NotNull final Event event, @NotNull final OutputStream outputStream) {
+    public void encode(@NotNull final CloudEvent event, @NotNull final OutputStream outputStream) {
         Objects.requireNonNull(outputStream);
         try (final JsonGenerator generator = jsonFactory.createGenerator(outputStream, JsonEncoding.UTF8)) {
             encode(event, generator);
@@ -50,7 +50,7 @@ public class JsonEncoder implements Encoder {
     }
 
     @Override
-    public byte[] encode(@NotNull final Collection<Event> events) {
+    public byte[] encode(@NotNull final Collection<CloudEvent> events) {
         try (ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
             encode(events, bos);
             return bos.toByteArray();
@@ -61,12 +61,12 @@ public class JsonEncoder implements Encoder {
     }
 
     @Override
-    public void encode(@NotNull final Collection<Event> events, @NotNull final OutputStream outputStream) {
+    public void encode(@NotNull final Collection<CloudEvent> events, @NotNull final OutputStream outputStream) {
         Objects.requireNonNull(events);
         Objects.requireNonNull(outputStream);
         try (final JsonGenerator generator = jsonFactory.createGenerator(outputStream, JsonEncoding.UTF8)) {
             generator.writeStartArray(events.size());
-            for (Event event : events) {
+            for (CloudEvent event : events) {
                 encode(event, generator);
             }
             generator.writeEndArray();
@@ -76,7 +76,7 @@ public class JsonEncoder implements Encoder {
     }
 
     protected void encode(
-            @NotNull final Event event,
+            @NotNull final CloudEvent event,
             @NotNull final JsonGenerator generator
     ) throws IOException {
         Objects.requireNonNull(event);
@@ -89,18 +89,18 @@ public class JsonEncoder implements Encoder {
 
             switch (key) {
                 // Write required attributes
-                case Event.ATTRIBUTE_SPEC_VERSION:
-                case Event.ATTRIBUTE_TYPE:
-                case Event.ATTRIBUTE_SOURCE:
-                case Event.ATTRIBUTE_ID:
+                case CloudEvent.ATTRIBUTE_SPEC_VERSION:
+                case CloudEvent.ATTRIBUTE_TYPE:
+                case CloudEvent.ATTRIBUTE_SOURCE:
+                case CloudEvent.ATTRIBUTE_ID:
                     // Write optional attributes
-                case Event.ATTRIBUTE_TIME:
-                case Event.ATTRIBUTE_SUBJECT:
-                case Event.ATTRIBUTE_DATA_CONTENT_TYPE:
-                case Event.ATTRIBUTE_DATA_SCHEMA:
+                case CloudEvent.ATTRIBUTE_TIME:
+                case CloudEvent.ATTRIBUTE_SUBJECT:
+                case CloudEvent.ATTRIBUTE_DATA_CONTENT_TYPE:
+                case CloudEvent.ATTRIBUTE_DATA_SCHEMA:
                     generator.writeStringField(key, (String) value);
                     break;
-                case Event.ATTRIBUTE_DATA:
+                case CloudEvent.ATTRIBUTE_DATA:
                     writeData(generator, event);
                     break;
                 default:
@@ -115,17 +115,17 @@ public class JsonEncoder implements Encoder {
         generator.writeEndObject();
     }
 
-    private void writeData(final JsonGenerator generator, final Event event) throws IOException {
+    private void writeData(final JsonGenerator generator, final CloudEvent event) throws IOException {
         byte[] data = event.getData();
         if (data != null) {
             if (event.hasBinaryData()) {
                 generator.writeStringField(
-                        Event.ATTRIBUTE_DATA_BASE64,
+                        CloudEvent.ATTRIBUTE_DATA_BASE64,
                         base64Encoder.encodeToString(data)
                 );
             } else {
                 generator.writeStringField(
-                        Event.ATTRIBUTE_DATA,
+                        CloudEvent.ATTRIBUTE_DATA,
                         new String(data, StandardCharsets.UTF_8)
                 );
             }

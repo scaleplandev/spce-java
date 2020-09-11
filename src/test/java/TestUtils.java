@@ -1,6 +1,6 @@
-import com.particlemetrics.events.Event;
-import com.particlemetrics.events.MutableEvent;
-import com.particlemetrics.events.impl.MutableEventImpl;
+import io.scaleplan.cloudevents.CloudEvent;
+import io.scaleplan.cloudevents.MutableCloudEvent;
+import io.scaleplan.cloudevents.impl.MutableCloudEventImpl;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -23,7 +23,7 @@ public class TestUtils {
         }
     }
 
-    public static void checkEvent(Event event, Object... targetNameValues) {
+    public static void checkEvent(CloudEvent event, Object... targetNameValues) {
         assert targetNameValues.length % 2 == 0;
         Map<String, Object> targetMap = new HashMap<>(targetNameValues.length / 2);
         String name = "";
@@ -48,16 +48,16 @@ public class TestUtils {
         return text.getBytes(StandardCharsets.UTF_8);
     }
 
-    public static Event sampleEventWithRequiredAttributes() {
-        return MutableEventImpl.create(
+    public static CloudEvent sampleEventWithRequiredAttributes() {
+        return MutableCloudEventImpl.create(
                 "OximeterMeasured",
                 "/user/123#",
                 "567"
         );
     }
 
-    public static Event sampleEventWithOptionalAttributes() {
-        MutableEvent event = (MutableEvent) sampleEventWithRequiredAttributes();
+    public static CloudEvent sampleEventWithOptionalAttributes() {
+        MutableCloudEvent event = (MutableCloudEvent) sampleEventWithRequiredAttributes();
         event
                 .setTime("2020-07-13T09:15:12Z")
                 .setDataContentType("application/json")
@@ -67,8 +67,8 @@ public class TestUtils {
         return event;
     }
 
-    public static Event sampleEventWithOptionalAndExtendedAttributes() {
-        MutableEvent event = (MutableEvent) sampleEventWithOptionalAttributes();
+    public static CloudEvent sampleEventWithOptionalAndExtendedAttributes() {
+        MutableCloudEvent event = (MutableCloudEvent) sampleEventWithOptionalAttributes();
         event
                 .put("compmstring", "string-value")
                 .put("compmint", 42)

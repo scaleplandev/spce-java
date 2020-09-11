@@ -1,10 +1,10 @@
 package particlemetrics;
 
-import com.particlemetrics.events.Event;
-import com.particlemetrics.events.MutableEvent;
-import com.particlemetrics.events.codecs.impl.JsonDecoder;
-import com.particlemetrics.events.codecs.impl.JsonEncoder;
-import com.particlemetrics.events.impl.MutableEventImpl;
+import io.scaleplan.cloudevents.CloudEvent;
+import io.scaleplan.cloudevents.MutableCloudEvent;
+import io.scaleplan.cloudevents.codecs.impl.JsonDecoder;
+import io.scaleplan.cloudevents.codecs.impl.JsonEncoder;
+import io.scaleplan.cloudevents.impl.MutableCloudEventImpl;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.infra.Blackhole;
 
@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 @Warmup(iterations = 2)
 public class EventCodecBenchmark {
     private static final byte[] text = sampleEventText();
-    private static final Event sampleEvent = sampleEventWithOptionalAttributes();
+    private static final CloudEvent sampleEvent = sampleEventWithOptionalAttributes();
     private static final byte[] bundleText = sampleEventBundle10();
     private static final JsonDecoder decoder = JsonDecoder.create();
     private static final JsonEncoder encoder = JsonEncoder.create();
@@ -52,16 +52,16 @@ public class EventCodecBenchmark {
         return text.getBytes();
     }
 
-    private static Event sampleEventWithRequiredAttributes() {
-        return MutableEventImpl.create(
+    private static CloudEvent sampleEventWithRequiredAttributes() {
+        return MutableCloudEventImpl.create(
                 "OximeterMeasured",
                 "/user/123#",
                 "567"
         );
     }
 
-    private static Event sampleEventWithOptionalAttributes() {
-        MutableEvent event = (MutableEvent) sampleEventWithRequiredAttributes();
+    private static CloudEvent sampleEventWithOptionalAttributes() {
+        MutableCloudEvent event = (MutableCloudEvent) sampleEventWithRequiredAttributes();
         event
                 .setTime("2020-07-13T09:15:12Z")
                 .setDataContentType("application/json")

@@ -1,15 +1,15 @@
-package com.particlemetrics.events.codecs.impl;
+package io.scaleplan.cloudevents.codecs.impl;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
-import com.particlemetrics.events.Event;
-import com.particlemetrics.events.MutableEvent;
-import com.particlemetrics.events.ValidationException;
-import com.particlemetrics.events.codecs.DecodeException;
-import com.particlemetrics.events.codecs.DecodeIterator;
-import com.particlemetrics.events.codecs.Decoder;
-import com.particlemetrics.events.impl.MutableEventImpl;
+import io.scaleplan.cloudevents.CloudEvent;
+import io.scaleplan.cloudevents.MutableCloudEvent;
+import io.scaleplan.cloudevents.ValidationException;
+import io.scaleplan.cloudevents.codecs.DecodeException;
+import io.scaleplan.cloudevents.codecs.DecodeIterator;
+import io.scaleplan.cloudevents.codecs.Decoder;
+import io.scaleplan.cloudevents.impl.MutableCloudEventImpl;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -28,26 +28,26 @@ public class JsonDecoder implements Decoder {
     }
 
     @Override
-    public @NotNull Event decode(@NotNull byte[] data) {
+    public @NotNull CloudEvent decode(@NotNull byte[] data) {
         return decode(data, true);
     }
 
-    public @NotNull Event decode(@NotNull byte[] data, boolean validate) {
+    public @NotNull CloudEvent decode(@NotNull byte[] data, boolean validate) {
         return decode(data, 0, data.length, validate);
     }
 
     @Override
-    public @NotNull List<Event> decodeArray(@NotNull byte[] data) {
+    public @NotNull List<CloudEvent> decodeArray(@NotNull byte[] data) {
         return decodeArray(data, true);
     }
 
-    public @NotNull List<Event> decodeArray(@NotNull byte[] data, boolean validate) {
-        final List<Event> events = new ArrayList<>();
+    public @NotNull List<CloudEvent> decodeArray(@NotNull byte[] data, boolean validate) {
+        final List<CloudEvent> events = new ArrayList<>();
         decodeArray(data, validate, events::add);
         return events;
     }
 
-    public void decodeArray(@NotNull byte[] data, boolean validate, @NotNull Consumer<Event> handler) {
+    public void decodeArray(@NotNull byte[] data, boolean validate, @NotNull Consumer<CloudEvent> handler) {
         Objects.requireNonNull(handler, "handler cannot be null");
         try (final DecodeIterator iterator = arrayDecoder(data, validate)) {
             while (iterator.hasNext()) {
@@ -70,13 +70,13 @@ public class JsonDecoder implements Decoder {
         return JsonArrayIterator.create(jsonFactory, data, validate);
     }
 
-    protected @NotNull Event decode(@NotNull byte[] data, int offset, int len, boolean validate) {
+    protected @NotNull CloudEvent decode(@NotNull byte[] data, int offset, int len, boolean validate) {
         Objects.requireNonNull(data, "data cannot be null");
         try (final JsonParser parser = jsonFactory.createParser(data, offset, len)) {
-            Event event = decode(parser, false);
+            CloudEvent event = decode(parser, false);
             assert event != null;
             if (validate) {
-                ((MutableEventImpl) event).validate();
+                ((MutableCloudEventImpl) event).validate();
             }
             return event;
         } catch (IOException e) {
@@ -87,7 +87,7 @@ public class JsonDecoder implements Decoder {
     private static class JsonArrayIterator implements DecodeIterator {
         final JsonParser parser;
         final boolean validate;
-        Event nextEvent = null;
+        CloudEvent nextEvent = null;
 
         static JsonArrayIterator create(JsonFactory jsonFactory, byte[] data, boolean validate) {
             try {
@@ -110,27 +110,27 @@ public class JsonDecoder implements Decoder {
         }
 
         @Override
-        public Event next() {
+        public CloudEvent next() {
             if (nextEvent == null) {
                 throw new NoSuchElementException();
             }
-            Event result = nextEvent;
+            CloudEvent result = nextEvent;
             nextEvent = decodeNextEvent();
             return result;
         }
 
-        private Event decodeNextEvent() {
+        private CloudEvent decodeNextEvent() {
             if (parser.isClosed()) {
                 return null;
             }
             try {
-                Event event = decode(parser, true);
+                CloudEvent event = decode(parser, true);
                 if (event == null) {
                     // No exception was thrown and event was not decoded. Just return.
                     return null;
                 }
                 if (validate) {
-                    ((MutableEventImpl) event).validate();
+                    ((MutableCloudEventImpl) event).validate();
                 }
                 return event;
             } catch (IOException e) {
@@ -158,14 +158,8 @@ public class JsonDecoder implements Decoder {
         }
     }
 
-    private static class EndOfArray extends DecodeException {
-        EndOfArray(String msg) {
-            super(msg);
-        }
-    }
-
-    private static Event decode(@NotNull final JsonParser parser, boolean isDecodingArray) throws IOException {
-        MutableEvent event = MutableEventImpl.create();
+    private static CloudEvent decode(@NotNull final JsonParser parser, boolean isDecodingArray) throws IOException {
+        MutableCloudEvent event = MutableCloudEventImpl.create();
         boolean started = false;
         String fieldName = "";
         boolean finished = false;
@@ -194,7 +188,9 @@ public class JsonDecoder implements Decoder {
                     updateEventAttribute(event, fieldName, false);
                     break;
                 case START_OBJECT:
-                    if (started) throw new DecodeException("Unexpected START_OBJECT");
+                    if (started) {
+                        throw new DecodeException("Unexpected START_OBJECT");
+                    }
                     started = true;
                     break;
                 case NOT_AVAILABLE:
@@ -206,8 +202,9 @@ public class JsonDecoder implements Decoder {
                 case START_ARRAY:
                     throw new DecodeException("Unexpected START_ARRAY");
                 case END_ARRAY:
-//                    throw new EndOfArray("Unexpected END_ARRAY");
-                    if (isDecodingArray) return null;
+                    if (isDecodingArray) {
+                        return null;
+                    }
                     throw new DecodeException("Unexpected END_ARRAY");
                 case VALUE_EMBEDDED_OBJECT:
                     throw new DecodeException("Unexpected VALUE_EMBEDDED_OBJECT");
@@ -220,40 +217,41 @@ public class JsonDecoder implements Decoder {
         return event;
     }
 
-    private static void updateEventStringAttribute(MutableEvent event, String fieldName, String fieldValue) {
+    private static void updateEventStringAttribute(MutableCloudEvent event, String fieldName, String fieldValue) {
         switch (fieldName) {
             // Required attributes
-            case Event.ATTRIBUTE_SPEC_VERSION:
+            case CloudEvent.ATTRIBUTE_SPEC_VERSION:
                 event.setSpecVersion(fieldValue);
                 break;
-            case Event.ATTRIBUTE_ID:
+            case CloudEvent.ATTRIBUTE_ID:
                 event.setId(fieldValue);
                 break;
             // TODO: check URI-ref
-            case Event.ATTRIBUTE_SOURCE:
+            case CloudEvent.ATTRIBUTE_SOURCE:
                 event.setSource(fieldValue);
                 break;
-            case Event.ATTRIBUTE_TYPE:
+            case CloudEvent.ATTRIBUTE_TYPE:
                 event.setType(fieldValue);
                 break;
             // Optional attributes
             // TODO: check timestamp
-            case Event.ATTRIBUTE_TIME:
+            case CloudEvent.ATTRIBUTE_TIME:
                 event.setTime(fieldValue);
                 break;
-            case Event.ATTRIBUTE_SUBJECT:
+            case CloudEvent.ATTRIBUTE_SUBJECT:
                 event.setSubject(fieldValue);
                 break;
-            case Event.ATTRIBUTE_DATA:
+            case CloudEvent.ATTRIBUTE_DATA:
                 event.setData(fieldValue);
                 break;
-            case Event.ATTRIBUTE_DATA_BASE64:
+            case CloudEvent.ATTRIBUTE_DATA_BASE64:
                 event.setDataUnsafe(base64Decoder.decode(fieldValue));
                 break;
-            case Event.ATTRIBUTE_DATA_CONTENT_TYPE:
+            case CloudEvent.ATTRIBUTE_DATA_CONTENT_TYPE:
                 event.setDataContentType(fieldValue);
                 break;
-            case Event.ATTRIBUTE_DATA_SCHEMA:
+            // TODO: check URI-ref
+            case CloudEvent.ATTRIBUTE_DATA_SCHEMA:
                 event.setDataSchema(fieldValue);
                 break;
             default:
@@ -261,30 +259,30 @@ public class JsonDecoder implements Decoder {
         }
     }
 
-    private static <T> void updateEventAttribute(MutableEvent event, String fieldName, T fieldValue) {
+    private static <T> void updateEventAttribute(MutableCloudEvent event, String fieldName, T fieldValue) {
         switch (fieldName) {
             // Required attributes
-            case Event.ATTRIBUTE_SPEC_VERSION:
-                throw new DecodeException(String.format("%s must be a string", Event.ATTRIBUTE_SPEC_VERSION));
-            case Event.ATTRIBUTE_ID:
-                throw new DecodeException(String.format("%s must be a string", Event.ATTRIBUTE_ID));
-            case Event.ATTRIBUTE_SOURCE:
-                throw new DecodeException(String.format("%s must be a string", Event.ATTRIBUTE_SOURCE));
-            case Event.ATTRIBUTE_TYPE:
-                throw new DecodeException(String.format("%s must be a string", Event.ATTRIBUTE_TYPE));
+            case CloudEvent.ATTRIBUTE_SPEC_VERSION:
+                throw new DecodeException(String.format("%s must be a string", CloudEvent.ATTRIBUTE_SPEC_VERSION));
+            case CloudEvent.ATTRIBUTE_ID:
+                throw new DecodeException(String.format("%s must be a string", CloudEvent.ATTRIBUTE_ID));
+            case CloudEvent.ATTRIBUTE_SOURCE:
+                throw new DecodeException(String.format("%s must be a string", CloudEvent.ATTRIBUTE_SOURCE));
+            case CloudEvent.ATTRIBUTE_TYPE:
+                throw new DecodeException(String.format("%s must be a string", CloudEvent.ATTRIBUTE_TYPE));
                 // Optional attributes
-            case Event.ATTRIBUTE_TIME:
-                throw new DecodeException(String.format("%s must be a string", Event.ATTRIBUTE_TIME));
-            case Event.ATTRIBUTE_SUBJECT:
-                throw new DecodeException(String.format("%s must be a string", Event.ATTRIBUTE_SUBJECT));
-            case Event.ATTRIBUTE_DATA:
-                throw new DecodeException(String.format("%s must be a string", Event.ATTRIBUTE_DATA));
-            case Event.ATTRIBUTE_DATA_BASE64:
-                throw new DecodeException(String.format("%s must be a string", Event.ATTRIBUTE_DATA_BASE64));
-            case Event.ATTRIBUTE_DATA_CONTENT_TYPE:
-                throw new DecodeException(String.format("%s must be a string", Event.ATTRIBUTE_DATA_CONTENT_TYPE));
-            case Event.ATTRIBUTE_DATA_SCHEMA:
-                throw new DecodeException(String.format("%s must be a string", Event.ATTRIBUTE_DATA_SCHEMA));
+            case CloudEvent.ATTRIBUTE_TIME:
+                throw new DecodeException(String.format("%s must be a string", CloudEvent.ATTRIBUTE_TIME));
+            case CloudEvent.ATTRIBUTE_SUBJECT:
+                throw new DecodeException(String.format("%s must be a string", CloudEvent.ATTRIBUTE_SUBJECT));
+            case CloudEvent.ATTRIBUTE_DATA:
+                throw new DecodeException(String.format("%s must be a string", CloudEvent.ATTRIBUTE_DATA));
+            case CloudEvent.ATTRIBUTE_DATA_BASE64:
+                throw new DecodeException(String.format("%s must be a string", CloudEvent.ATTRIBUTE_DATA_BASE64));
+            case CloudEvent.ATTRIBUTE_DATA_CONTENT_TYPE:
+                throw new DecodeException(String.format("%s must be a string", CloudEvent.ATTRIBUTE_DATA_CONTENT_TYPE));
+            case CloudEvent.ATTRIBUTE_DATA_SCHEMA:
+                throw new DecodeException(String.format("%s must be a string", CloudEvent.ATTRIBUTE_DATA_SCHEMA));
             default:
                 event.put(fieldName, fieldValue);
         }

@@ -1,6 +1,6 @@
-import com.particlemetrics.events.Event;
-import com.particlemetrics.events.MutableEvent;
-import com.particlemetrics.events.impl.MutableEventImpl;
+import io.scaleplan.cloudevents.CloudEvent;
+import io.scaleplan.cloudevents.MutableCloudEvent;
+import io.scaleplan.cloudevents.impl.MutableCloudEventImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
@@ -8,10 +8,10 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class EventTest {
+public class CloudEventTest {
     @Test
     public void testRequiredAttributes() {
-        Event event = TestUtils.sampleEventWithRequiredAttributes();
+        CloudEvent event = TestUtils.sampleEventWithRequiredAttributes();
         TestUtils.checkEvent(event,
                 "id", "567",
                 "specversion", "1.0",
@@ -26,9 +26,9 @@ public class EventTest {
 
     @Test
     public void testOptionalAttributes() {
-        Event baseEvent = TestUtils.sampleEventWithRequiredAttributes();
+        CloudEvent baseEvent = TestUtils.sampleEventWithRequiredAttributes();
         // MutableEventImpl do
-        Event event = ((MutableEvent) baseEvent)
+        CloudEvent event = ((MutableCloudEvent) baseEvent)
                 .setTime("2020-07-13T09:15:12Z")
                 .setDataContentType("application/json")
                 .setData(TestUtils.sampleData())
@@ -58,9 +58,9 @@ public class EventTest {
 
     @Test
     public void testExtendedAttributes() {
-        Event baseEvent = TestUtils.sampleEventWithRequiredAttributes();
+        CloudEvent baseEvent = TestUtils.sampleEventWithRequiredAttributes();
         // MutableEventImpl do
-        Event event = ((MutableEvent) baseEvent)
+        CloudEvent event = ((MutableCloudEvent) baseEvent)
                 .put("compmstring", "string-value")
                 .put("compmint", 42)
                 .put("compmbool", true);
@@ -76,21 +76,21 @@ public class EventTest {
 
     @Test
     public void testBinaryData() {
-        Event event = MutableEventImpl.create()
+        CloudEvent event = MutableCloudEventImpl.create()
                 .setData("foobar");
         assertFalse(event.hasBinaryData());
     }
 
     @Test
     public void testStringData() {
-        Event event = MutableEventImpl.create()
+        CloudEvent event = MutableCloudEventImpl.create()
                 .setData("foobar".getBytes());
         assertTrue(event.hasBinaryData());
     }
 
     @Test
     public void testDeleteAttribute() {
-        MutableEvent event = MutableEventImpl.create()
+        MutableCloudEvent event = MutableCloudEventImpl.create()
                 .put("foobar", "zoo");
         assertEquals("zoo", event.getAttribute("foobar"));
         event.remove("foobar");
@@ -99,7 +99,7 @@ public class EventTest {
 
     @Test
     public void testCannotDeleteRequiredAttribute() {
-        MutableEvent event = MutableEventImpl.create().setType("MyEvent");
+        MutableCloudEvent event = MutableCloudEventImpl.create().setType("MyEvent");
         assertEquals("MyEvent", event.getType());
         assertThrows(IllegalArgumentException.class,
                 () -> event.remove("type"));
@@ -110,7 +110,7 @@ public class EventTest {
         Map<String, Object> attrs = new HashMap<>();
         attrs.put("specversion", "1.0");
         attrs.put("data_base64", "not-actually-b64ed");
-        Event event = MutableEventImpl.wrapUnsafe(attrs);
+        CloudEvent event = MutableCloudEventImpl.wrapUnsafe(attrs);
         assertTrue(event.hasBinaryData());
         assertEquals(attrs, event.asMap());
     }

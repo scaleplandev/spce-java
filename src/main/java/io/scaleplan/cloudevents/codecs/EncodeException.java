@@ -1,4 +1,4 @@
-package com.particlemetrics.events.codecs;
+package io.scaleplan.cloudevents.codecs;
 
 public class EncodeException extends RuntimeException {
     public EncodeException() {

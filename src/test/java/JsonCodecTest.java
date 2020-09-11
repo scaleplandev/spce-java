@@ -1,10 +1,10 @@
-import com.particlemetrics.events.Event;
-import com.particlemetrics.events.MutableEvent;
-import com.particlemetrics.events.ValidationException;
-import com.particlemetrics.events.codecs.DecodeException;
-import com.particlemetrics.events.codecs.Json;
-import com.particlemetrics.events.codecs.impl.JsonDecoder;
-import com.particlemetrics.events.codecs.impl.JsonEncoder;
+import io.scaleplan.cloudevents.CloudEvent;
+import io.scaleplan.cloudevents.MutableCloudEvent;
+import io.scaleplan.cloudevents.ValidationException;
+import io.scaleplan.cloudevents.codecs.DecodeException;
+import io.scaleplan.cloudevents.codecs.Json;
+import io.scaleplan.cloudevents.codecs.impl.JsonDecoder;
+import io.scaleplan.cloudevents.codecs.impl.JsonEncoder;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ public class JsonCodecTest {
     @Test
     public void testJsonDecode() {
         byte[] text = TestUtils.loadFromResource("fixtures/sample_event_extended.json");
-        Event event = decoder.decode(text);
+        CloudEvent event = decoder.decode(text);
         TestUtils.checkEvent(event,
                 "id", "1",
                 "specversion", "1.0",
@@ -39,7 +39,7 @@ public class JsonCodecTest {
 
     @Test
     public void testJsonEncode() {
-        Event event = TestUtils.sampleEventWithOptionalAndExtendedAttributes();
+        CloudEvent event = TestUtils.sampleEventWithOptionalAndExtendedAttributes();
         byte[] encodedEvent = encoder.encode(event);
         String encodedString = new String(encodedEvent);
         String targetString = "{\"specversion\":\"1.0\",\"type\":\"OximeterMeasured\",\"source\":\"/user/123#\",\"id\":\"567\",\"time\":\"2020-07-13T09:15:12Z\",\"subject\":\"SampleSubject\",\"datacontenttype\":\"application/json\",\"dataschema\":\"http://json-schema.org/draft-07/schema#\",\"data_base64\":\"eyJ1c2VyX2lkIjogImJjMTQ1OWM1LTM3OGQtNDgzNS1iNGI2LWEyYzdkOWNhNzVlMyIsICJzcG8yIjogOTYsICJldmVudCI6ICJPeGltaXRlck1lYXN1cmVkIn0=\",\"compmstring\":\"string-value\",\"compmint\":42,\"compmbool\":true}";
@@ -49,7 +49,7 @@ public class JsonCodecTest {
     @Test
     public void testJsonArrayDecode() {
         byte[] text = TestUtils.loadFromResource("fixtures/sample_event_array.json");
-        List<Event> events = decoder.decodeArray(text);
+        List<CloudEvent> events = decoder.decodeArray(text);
 
         assertEquals(2, events.size());
         // TODO: check all attributes the events
@@ -61,7 +61,7 @@ public class JsonCodecTest {
 
     @Test
     public void testEmptyJsonArrayDecode() {
-        List<Event> events = decoder.decodeArray("[]".getBytes());
+        List<CloudEvent> events = decoder.decodeArray("[]".getBytes());
         assertEquals(0, events.size());
     }
 
@@ -82,9 +82,9 @@ public class JsonCodecTest {
 
     @Test
     public void testJsonArrayEncode() {
-        MutableEvent event1 = (MutableEvent) TestUtils.sampleEventWithOptionalAttributes();
+        MutableCloudEvent event1 = (MutableCloudEvent) TestUtils.sampleEventWithOptionalAttributes();
         event1.setId("10");
-        MutableEvent event2 = (MutableEvent) TestUtils.sampleEventWithOptionalAttributes();
+        MutableCloudEvent event2 = (MutableCloudEvent) TestUtils.sampleEventWithOptionalAttributes();
         event2.setId("20");
 
         byte[] encodedEvents = encoder.encode(Arrays.asList(event1, event2));

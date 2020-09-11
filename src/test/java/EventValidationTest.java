@@ -1,6 +1,6 @@
-import com.particlemetrics.events.MutableEvent;
-import com.particlemetrics.events.ValidationException;
-import com.particlemetrics.events.impl.MutableEventImpl;
+import io.scaleplan.cloudevents.MutableCloudEvent;
+import io.scaleplan.cloudevents.ValidationException;
+import io.scaleplan.cloudevents.impl.MutableCloudEventImpl;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -8,43 +8,43 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class EventValidationTest {
     @Test
     public void testValidEvent() {
-        MutableEventImpl event = (MutableEventImpl) MutableEventImpl.create("OximeterMeasured", "/user/123", "2");
+        MutableCloudEventImpl event = (MutableCloudEventImpl) MutableCloudEventImpl.create("OximeterMeasured", "/user/123", "2");
         event.validate();
     }
 
     @Test
     public void testInvalidEventMissingSpec() {
-        MutableEvent event = MutableEventImpl.create()
+        MutableCloudEvent event = MutableCloudEventImpl.create()
                 .setType("OximeterMeasured")
                 .setSource("/user/123")
                 .setId("10");
-        assertThrows(ValidationException.class, ((MutableEventImpl) event)::validate);
+        assertThrows(ValidationException.class, ((MutableCloudEventImpl) event)::validate);
     }
 
     @Test
     public void testInvalidEventMissingType() {
-        MutableEvent event = MutableEventImpl.create()
+        MutableCloudEvent event = MutableCloudEventImpl.create()
                 .setSpecVersion("OximeterMeasured")
                 .setSource("/user/123")
                 .setId("10");
-        assertThrows(ValidationException.class, ((MutableEventImpl) event)::validate);
+        assertThrows(ValidationException.class, ((MutableCloudEventImpl) event)::validate);
     }
 
     @Test
     public void testInvalidEventMissingSource() {
-        MutableEvent event = MutableEventImpl.create()
+        MutableCloudEvent event = MutableCloudEventImpl.create()
                 .setSpecVersion("OximeterMeasured")
                 .setType("OximeterMeasured")
                 .setId("10");
-        assertThrows(ValidationException.class, ((MutableEventImpl) event)::validate);
+        assertThrows(ValidationException.class, ((MutableCloudEventImpl) event)::validate);
     }
 
     @Test
     public void testInvalidEventMissingId() {
-        MutableEvent event = MutableEventImpl.create()
+        MutableCloudEvent event = MutableCloudEventImpl.create()
                 .setSpecVersion("OximeterMeasured")
                 .setType("OximeterMeasured")
                 .setSource("/user/123");
-        assertThrows(ValidationException.class, ((MutableEventImpl) event)::validate);
+        assertThrows(ValidationException.class, ((MutableCloudEventImpl) event)::validate);
     }
 }

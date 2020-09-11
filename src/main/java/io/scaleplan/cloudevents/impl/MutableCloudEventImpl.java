@@ -1,8 +1,8 @@
-package com.particlemetrics.events.impl;
+package io.scaleplan.cloudevents.impl;
 
-import com.particlemetrics.events.Event;
-import com.particlemetrics.events.MutableEvent;
-import com.particlemetrics.events.ValidationException;
+import io.scaleplan.cloudevents.CloudEvent;
+import io.scaleplan.cloudevents.MutableCloudEvent;
+import io.scaleplan.cloudevents.ValidationException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -10,14 +10,14 @@ import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.*;
 
-public class MutableEventImpl implements MutableEvent {
+public class MutableCloudEventImpl implements MutableCloudEvent {
     private static final String SPEC_VERSION = "1.0";
 
     private final Map<String, Object> attributes;
     private boolean _hasBinaryData;
 
-    public static MutableEvent create(@NotNull String type, @NotNull String source, @NotNull String id) {
-        return new MutableEventImpl()
+    public static MutableCloudEvent create(@NotNull String type, @NotNull String source, @NotNull String id) {
+        return new MutableCloudEventImpl()
                 .setSpecVersion(SPEC_VERSION)
                 .setType(Objects.requireNonNull(type, "type is cannot be null"))
                 .setSource(Objects.requireNonNull(source, "source cannot be null"))
@@ -30,21 +30,21 @@ public class MutableEventImpl implements MutableEvent {
      *
      * @return a new MutableEvent object
      */
-    public static MutableEvent create() {
-        return new MutableEventImpl();
+    public static MutableCloudEvent create() {
+        return new MutableCloudEventImpl();
     }
 
-    public static MutableEvent wrapUnsafe(@NotNull final Map<String, Object> attributes) {
+    public static MutableCloudEvent wrapUnsafe(@NotNull final Map<String, Object> attributes) {
         Objects.requireNonNull(attributes, "attributes cannot be null");
-        boolean hasBinaryData = attributes.containsKey(Event.ATTRIBUTE_DATA_BASE64);
-        return new MutableEventImpl(attributes, hasBinaryData);
+        boolean hasBinaryData = attributes.containsKey(CloudEvent.ATTRIBUTE_DATA_BASE64);
+        return new MutableCloudEventImpl(attributes, hasBinaryData);
     }
 
-    MutableEventImpl() {
+    MutableCloudEventImpl() {
         this(new HashMap<>(4), false);
     }
 
-    MutableEventImpl(Map<String, Object> attributes, boolean hasBinaryData) {
+    MutableCloudEventImpl(Map<String, Object> attributes, boolean hasBinaryData) {
         this.attributes = attributes;
         this._hasBinaryData = hasBinaryData;
     }
@@ -70,7 +70,7 @@ public class MutableEventImpl implements MutableEvent {
     }
 
     @Override
-    public MutableEvent reset() {
+    public MutableCloudEvent reset() {
         attributes.clear();
         return this;
     }
@@ -81,14 +81,14 @@ public class MutableEventImpl implements MutableEvent {
     }
 
     @Override
-    public MutableEvent remove(@NotNull String name) {
+    public MutableCloudEvent remove(@NotNull String name) {
         Objects.requireNonNull(name, "name cannot be null");
         // Do not allow removing required attributes
         switch (name) {
-            case Event.ATTRIBUTE_SPEC_VERSION:
-            case Event.ATTRIBUTE_TYPE:
-            case Event.ATTRIBUTE_SOURCE:
-            case Event.ATTRIBUTE_ID:
+            case CloudEvent.ATTRIBUTE_SPEC_VERSION:
+            case CloudEvent.ATTRIBUTE_TYPE:
+            case CloudEvent.ATTRIBUTE_SOURCE:
+            case CloudEvent.ATTRIBUTE_ID:
                 throw new IllegalArgumentException(
                         String.format("%s is a required attribute. It can't be removed.", name)
                 );
@@ -99,20 +99,20 @@ public class MutableEventImpl implements MutableEvent {
     }
 
     @Override
-    public <T> MutableEvent put(@NotNull String name, @NotNull T value) {
+    public <T> MutableCloudEvent put(@NotNull String name, @NotNull T value) {
         Objects.requireNonNull(name, "name cannot be null");
         Objects.requireNonNull(value, "value cannot be null");
         // Do not allow putting required or optional attributes
         switch (name) {
-            case Event.ATTRIBUTE_SPEC_VERSION:
-            case Event.ATTRIBUTE_TYPE:
-            case Event.ATTRIBUTE_SOURCE:
-            case Event.ATTRIBUTE_ID:
-            case Event.ATTRIBUTE_TIME:
-            case Event.ATTRIBUTE_SUBJECT:
-            case Event.ATTRIBUTE_DATA_CONTENT_TYPE:
-            case Event.ATTRIBUTE_DATA_SCHEMA:
-            case Event.ATTRIBUTE_DATA:
+            case CloudEvent.ATTRIBUTE_SPEC_VERSION:
+            case CloudEvent.ATTRIBUTE_TYPE:
+            case CloudEvent.ATTRIBUTE_SOURCE:
+            case CloudEvent.ATTRIBUTE_ID:
+            case CloudEvent.ATTRIBUTE_TIME:
+            case CloudEvent.ATTRIBUTE_SUBJECT:
+            case CloudEvent.ATTRIBUTE_DATA_CONTENT_TYPE:
+            case CloudEvent.ATTRIBUTE_DATA_SCHEMA:
+            case CloudEvent.ATTRIBUTE_DATA:
                 throw new IllegalArgumentException(
                         String.format("%s is a required attribute. It can't be removed.", name)
                 );
@@ -123,72 +123,72 @@ public class MutableEventImpl implements MutableEvent {
     }
 
     @Override
-    public <T> MutableEvent putUnsafe(@NotNull String key, @NotNull T value) {
+    public <T> MutableCloudEvent putUnsafe(@NotNull String key, @NotNull T value) {
         attributes.put(key, value);
         return this;
     }
 
     @Override
-    public MutableEvent setSpecVersion(@NotNull String specVersion) {
+    public MutableCloudEvent setSpecVersion(@NotNull String specVersion) {
         attributes.put(ATTRIBUTE_SPEC_VERSION, Objects.requireNonNull(specVersion));
         return this;
     }
 
     @Override
-    public MutableEvent setType(@NotNull String type) {
+    public MutableCloudEvent setType(@NotNull String type) {
         attributes.put(ATTRIBUTE_TYPE, Objects.requireNonNull(type));
         return this;
     }
 
     @Override
-    public MutableEvent setSource(@NotNull String source) {
+    public MutableCloudEvent setSource(@NotNull String source) {
         attributes.put(ATTRIBUTE_SOURCE, Objects.requireNonNull(source));
         return this;
     }
 
     @Override
-    public MutableEvent setId(@NotNull String id) {
+    public MutableCloudEvent setId(@NotNull String id) {
         attributes.put(ATTRIBUTE_ID, Objects.requireNonNull(id));
         return this;
     }
 
     @Override
-    public MutableEvent setTime(@NotNull String time) {
+    public MutableCloudEvent setTime(@NotNull String time) {
         // TODO: validate time
-        attributes.put(Event.ATTRIBUTE_TIME, time);
+        attributes.put(CloudEvent.ATTRIBUTE_TIME, time);
         return this;
     }
 
     @Override
-    public MutableEvent setTime(long milliseconds) {
+    public MutableCloudEvent setTime(long milliseconds) {
         // TODO: timezone stuff
         String timeStr = Instant.ofEpochMilli(milliseconds).toString();
-        attributes.put(Event.ATTRIBUTE_TIME, timeStr);
+        attributes.put(CloudEvent.ATTRIBUTE_TIME, timeStr);
         return this;
     }
 
     @Override
-    public MutableEvent setTimeNow() {
+    public MutableCloudEvent setTimeNow() {
         setTime(System.currentTimeMillis());
         return this;
     }
 
     @Override
-    public MutableEvent setDataContentType(@NotNull String contentType) {
+    public MutableCloudEvent setDataContentType(@NotNull String contentType) {
         Objects.requireNonNull(contentType, "DataContentType cannot be null");
         attributes.put(ATTRIBUTE_DATA_CONTENT_TYPE, contentType);
         return this;
     }
 
     @Override
-    public MutableEvent setDataSchema(@NotNull String dataSchema) {
+    public MutableCloudEvent setDataSchema(@NotNull String dataSchema) {
         Objects.requireNonNull(dataSchema, "DataSchema cannot be null");
         attributes.put(ATTRIBUTE_DATA_SCHEMA, dataSchema);
         return this;
     }
 
     @Override
-    public MutableEvent setSubject(@NotNull String subject) {
+    public MutableCloudEvent setSubject(@NotNull String subject) {
         Objects.requireNonNull(subject, "Subject cannot be null");
         attributes.put(ATTRIBUTE_SUBJECT, subject);
         return this;
@@ -202,7 +202,7 @@ public class MutableEventImpl implements MutableEvent {
      * @return a mutable event
      */
     @Override
-    public MutableEvent setData(@NotNull byte[] data) {
+    public MutableCloudEvent setData(@NotNull byte[] data) {
         Objects.requireNonNull(data, "Data cannot be null");
         attributes.put(ATTRIBUTE_DATA, Arrays.copyOf(data, data.length));
         _hasBinaryData = true;
@@ -217,7 +217,7 @@ public class MutableEventImpl implements MutableEvent {
      * @return a mutable event
      */
     @Override
-    public MutableEvent setData(@NotNull String data) {
+    public MutableCloudEvent setData(@NotNull String data) {
         Objects.requireNonNull(data, "Data cannot be null");
         attributes.put(ATTRIBUTE_DATA, data.getBytes(StandardCharsets.UTF_8));
         _hasBinaryData = false;
@@ -225,7 +225,7 @@ public class MutableEventImpl implements MutableEvent {
     }
 
     @Override
-    public MutableEvent setDataUnsafe(@NotNull byte[] data) {
+    public MutableCloudEvent setDataUnsafe(@NotNull byte[] data) {
         Objects.requireNonNull(data, "Data cannot be null");
         attributes.put(ATTRIBUTE_DATA, data);
         _hasBinaryData = true;
