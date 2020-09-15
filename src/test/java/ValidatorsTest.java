@@ -1,6 +1,8 @@
 import io.scaleplan.cloudevents.validators.Validators;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ValidatorsTest {
@@ -52,8 +54,10 @@ public class ValidatorsTest {
 
     @Test
     public void testInvalidURI() {
-        String uri = "/foo";
-        assertFalse(Validators.isValidURI(uri));
+        for (String uri : Arrays.asList("/foo", "123", "123:123", "")) {
+            System.err.println("Testing " + uri);
+            assertFalse(Validators.isValidURI(uri));
+        }
     }
 
     @Test

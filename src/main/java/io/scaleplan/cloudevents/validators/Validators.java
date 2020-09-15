@@ -4,17 +4,29 @@ import com.ethlo.time.ITU;
 import io.scaleplan.cloudevents.ValidationException;
 import org.jetbrains.annotations.NotNull;
 
+import java.net.URISyntaxException;
 import java.util.Objects;
 
 public class Validators {
     public static boolean isValidURI(@NotNull final String uri) {
         Objects.requireNonNull(uri);
-        return Rfc3986Validator.isValid(uri);
+        try {
+            new Parser(uri).parse(true);
+            return true;
+        } catch (URISyntaxException e) {
+            return false;
+        }
     }
 
     public static boolean isValidURIRef(@NotNull final String uriRef) {
         Objects.requireNonNull(uriRef);
-        return Rfc3986Validator.isValid(uriRef) || Rfc3986Validator.isValidReference(uriRef);
+//        return Rfc3986Validator.isValidReference(uriRef) || Rfc3986Validator.isValid(uriRef);
+        try {
+            new Parser(uriRef).parse(false);
+            return true;
+        } catch (URISyntaxException e) {
+            return false;
+        }
     }
 
     public static boolean isValidTimestamp(@NotNull final String timestamp) {
