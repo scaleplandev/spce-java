@@ -15,6 +15,10 @@ public class ValidatorsTest {
         String uri = "https://scaleplan.io/cloudevents";
         String returnedUri = Validators.requireValidURI(uri);
         assertEquals(uri, returnedUri);
+
+        uri = "http://localhost/cloudevents";
+        returnedUri = Validators.requireValidURI(uri);
+        assertEquals(uri, returnedUri);
     }
 
     @Test
