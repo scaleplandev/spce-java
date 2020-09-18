@@ -22,13 +22,13 @@ public interface CloudEvent {
 
     // Required attributes
 
-    @Nullable String getId();
+    String getId();
 
-    @Nullable String getSpecVersion();
+    String getSpecVersion();
 
-    @Nullable String getSource();
+    String getSource();
 
-    @Nullable String getType();
+    String getType();
 
     // Optional attributes
 

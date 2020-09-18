@@ -4,7 +4,7 @@ build:
 	./gradlew build
 
 benchmark:
-		./gradlew --no-daemon jmh
+	./gradlew --no-daemon jmh
 
 clean:
 	./gradlew clean

@@ -233,27 +233,23 @@ public class MutableCloudEventImpl implements MutableCloudEvent {
     }
 
     @Override
-    public @Nullable String getSpecVersion() {
-        Object specVersion = attributes.get(ATTRIBUTE_SPEC_VERSION);
-        return (specVersion == null) ? null : (String) specVersion;
+    public String getSpecVersion() {
+        return (String) attributes.get(ATTRIBUTE_SPEC_VERSION);
     }
 
     @Override
-    public @Nullable String getType() {
-        Object type = attributes.get(ATTRIBUTE_TYPE);
-        return (type == null) ? null : (String) type;
+    public String getType() {
+        return (String) attributes.get(ATTRIBUTE_TYPE);
     }
 
     @Override
-    public @Nullable String getSource() {
-        Object source = attributes.get(ATTRIBUTE_SOURCE);
-        return (source == null) ? null : (String) source;
+    public String getSource() {
+        return (String) attributes.get(ATTRIBUTE_SOURCE);
     }
 
     @Override
-    public @Nullable String getId() {
-        Object id = attributes.get(ATTRIBUTE_ID);
-        return (id == null) ? null : (String) id;
+    public String getId() {
+        return (String) attributes.get(ATTRIBUTE_ID);
     }
 
     @Override
