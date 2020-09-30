@@ -1,8 +1,21 @@
 package io.scaleplan.spce;
 
+import io.scaleplan.spce.impl.MutableCloudEventImpl;
 import org.jetbrains.annotations.NotNull;
 
 public interface MutableCloudEvent extends CloudEvent {
+    /**
+     * Creates a MutableEvent with the required attributes.
+     *
+     * @param type   event type
+     * @param source event source, a URI reference
+     * @param id     event id
+     * @return a MutableEvent
+     */
+    static MutableCloudEvent create(@NotNull String type, @NotNull String source, @NotNull String id) {
+        return MutableCloudEventImpl.create(type, source, id);
+    }
+
     MutableCloudEvent reset();
 
     // Required attributes

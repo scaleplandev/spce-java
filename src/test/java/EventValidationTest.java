@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class EventValidationTest {
     @Test
     public void testValidEvent() {
-        MutableCloudEventImpl event = (MutableCloudEventImpl) MutableCloudEventImpl.create("OximeterMeasured", "/user/123", "2");
+        MutableCloudEventImpl event = (MutableCloudEventImpl) MutableCloudEvent.create("OximeterMeasured", "/user/123", "2");
         event.validate();
     }
 

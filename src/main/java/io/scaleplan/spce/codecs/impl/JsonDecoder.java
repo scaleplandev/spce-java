@@ -87,7 +87,7 @@ public class JsonDecoder implements Decoder {
     private static class JsonArrayIterator implements DecodeIterator {
         final JsonParser parser;
         final boolean validate;
-        CloudEvent nextEvent = null;
+        CloudEvent nextEvent;
 
         static JsonArrayIterator create(JsonFactory jsonFactory, byte[] data, boolean validate) {
             try {
@@ -260,6 +260,8 @@ public class JsonDecoder implements Decoder {
     }
 
     private static <T> void updateEventAttribute(MutableCloudEvent event, String fieldName, T fieldValue) {
+        // This method runs when the field value is not a string.
+        // Throw an exception if the field name is a required or optional attribute.
         switch (fieldName) {
             // Required attributes
             case CloudEvent.ATTRIBUTE_SPEC_VERSION:

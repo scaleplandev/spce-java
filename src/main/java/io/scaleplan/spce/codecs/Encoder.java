@@ -11,7 +11,7 @@ public interface Encoder {
 
     void encode(@NotNull final CloudEvent event, @NotNull final OutputStream outputStream);
 
-    byte[] encode(@NotNull final Collection<CloudEvent> events);
+    @NotNull byte[] encode(@NotNull final Collection<CloudEvent> events);
 
     void encode(@NotNull final Collection<CloudEvent> events, @NotNull final OutputStream outputStream);
 }

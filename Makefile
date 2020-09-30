@@ -1,4 +1,4 @@
-.PHONY: build benchmark clean release test
+.PHONY: build benchmark clean release test doc
 
 build:
 	./gradlew build
@@ -14,3 +14,6 @@ release: clean build
 
 test:
 	./gradlew check
+
+doc:
+	./gradlew javadoc
