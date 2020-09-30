@@ -16,8 +16,25 @@ public interface CloudEvent {
     String ATTRIBUTE_SPEC_VERSION = "specversion";
     String ATTRIBUTE_SOURCE = "source";
 
-    Map<String, Object> asMap();
+//    /**
+//     * Returns an immutable map view of the event attributes.
+//     *
+//     * @return an immutable Map.
+//     */
+//    Map<String, Object> asMap();
 
+    /**
+     * Returns an immutable map view of the event attributes, except data.
+     *
+     * @return an immutable Map.
+     */
+    Map<String, Object> getAttributes();
+
+    /**
+     * Returns whether the event data is binary.
+     *
+     * @return true or false
+     */
     boolean hasBinaryData();
 
     // Required attributes

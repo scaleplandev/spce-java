@@ -11,22 +11,34 @@ import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.*;
 
+/**
+ * The implementation of {@link MutableCloudEvent}
+ */
 public class MutableCloudEventImpl implements MutableCloudEvent {
     private static final String SPEC_VERSION = "1.0";
 
     private final Map<String, Object> attributes;
+    private byte[] data = null;
     private boolean _hasBinaryData;
 
+    /**
+     * Creates a MutableEvent with the required attributes.
+     *
+     * @param type   event type
+     * @param source event source, a URI reference
+     * @param id     event id
+     * @return a MutableEvent
+     */
     public static MutableCloudEvent create(@NotNull String type, @NotNull String source, @NotNull String id) {
         return new MutableCloudEventImpl()
                 .setSpecVersion(SPEC_VERSION)
-                .setType(Objects.requireNonNull(type, "type is cannot be null"))
+                .setType(Objects.requireNonNull(type, "type cannot be null"))
                 .setSource(Validators.requireValidURIRef(source, "source must be a valid URI reference"))
                 .setId(Objects.requireNonNull(id, "id cannot be null"));
     }
 
     /**
-     * Creates a MutableEvent with no required fields set except specversion which is set to 1.0.
+     * Creates a MutableEvent with no required attributes set except specversion which is set to 1.0.
      * Warning: Required fields, type and id must always be set.
      *
      * @return a new MutableEvent object
@@ -35,17 +47,11 @@ public class MutableCloudEventImpl implements MutableCloudEvent {
         return new MutableCloudEventImpl();
     }
 
-    public static MutableCloudEvent wrapUnsafe(@NotNull final Map<String, Object> attributes) {
-        Objects.requireNonNull(attributes, "attributes cannot be null");
-        boolean hasBinaryData = attributes.containsKey(CloudEvent.ATTRIBUTE_DATA_BASE64);
-        return new MutableCloudEventImpl(attributes, hasBinaryData);
-    }
-
     MutableCloudEventImpl() {
-        this(new HashMap<>(4), false);
+        this(new HashMap<>(4), null, false);
     }
 
-    MutableCloudEventImpl(Map<String, Object> attributes, boolean hasBinaryData) {
+    MutableCloudEventImpl(Map<String, Object> attributes, @Nullable byte[] data, boolean hasBinaryData) {
         this.attributes = attributes;
         this._hasBinaryData = hasBinaryData;
     }
@@ -66,13 +72,15 @@ public class MutableCloudEventImpl implements MutableCloudEvent {
     }
 
     @Override
-    public Map<String, Object> asMap() {
+    public Map<String, Object> getAttributes() {
         return Collections.unmodifiableMap(attributes);
     }
 
     @Override
     public MutableCloudEvent reset() {
         attributes.clear();
+        data = null;
+        _hasBinaryData = false;
         return this;
     }
 
@@ -199,35 +207,47 @@ public class MutableCloudEventImpl implements MutableCloudEvent {
      * Creates a copy.
      *
      * @param data Non-null data. The data is copied.
-     * @return a mutable event
+     * @return a MutableCloudEvent
+     * @throws NullPointerException if data is null.
      */
     @Override
     public MutableCloudEvent setData(@NotNull byte[] data) {
         Objects.requireNonNull(data, "Data cannot be null");
-        attributes.put(ATTRIBUTE_DATA, Arrays.copyOf(data, data.length));
+        this.data = Arrays.copyOf(data, data.length);
         _hasBinaryData = true;
         return this;
     }
 
     /**
-     * Sets the data attribute of the event.
-     * DOES NOT create a copy. Do not change the data after.
+     * Sets String data from the given text.
+     * <p>
+     * The text is assumed to be encoded in UTF-8.
      *
-     * @param data Non-null data.
-     * @return a mutable event
+     * @param text UTF-8 encoed text
+     * @return a MutableCloudEvent
+     * @throws NullPointerException if text is null.
      */
     @Override
-    public MutableCloudEvent setData(@NotNull String data) {
-        Objects.requireNonNull(data, "Data cannot be null");
-        attributes.put(ATTRIBUTE_DATA, data.getBytes(StandardCharsets.UTF_8));
+    public MutableCloudEvent setData(@NotNull String text) {
+        Objects.requireNonNull(text, "Data cannot be null");
+        this.data = text.getBytes(StandardCharsets.UTF_8);
         _hasBinaryData = false;
         return this;
     }
 
+    /**
+     * Sets the data attribute of the event.
+     * <p>
+     * DOES NOT create a copy. Do not modify data after passing to this method.
+     *
+     * @param data Non-null data.
+     * @return a mutable event
+     * @throws NullPointerException if data is null.
+     */
     @Override
     public MutableCloudEvent setDataUnsafe(@NotNull byte[] data) {
         Objects.requireNonNull(data, "Data cannot be null");
-        attributes.put(ATTRIBUTE_DATA, data);
+        this.data = data;
         _hasBinaryData = true;
         return this;
     }
@@ -304,12 +324,11 @@ public class MutableCloudEventImpl implements MutableCloudEvent {
 
     @Override
     public @Nullable byte[] getData() {
-        Object data = attributes.get(ATTRIBUTE_DATA);
-        return (data == null) ? null : (byte[]) data;
+        return data;
     }
 
     @Override
     public String toString() {
-        return attributes.toString();
+        return String.format("MutableCloudEventImpl: attrs: %s", attributes);
     }
 }

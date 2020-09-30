@@ -1,6 +1,5 @@
 import io.scaleplan.spce.CloudEvent;
 import io.scaleplan.spce.MutableCloudEvent;
-import io.scaleplan.spce.impl.MutableCloudEventImpl;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -23,7 +22,8 @@ public class TestUtils {
         }
     }
 
-    public static void checkEvent(CloudEvent event, Object... targetNameValues) {
+    public static void checkEvent(CloudEvent event, byte[] targetData, Object... targetNameValues) {
+        assertArrayEquals(targetData, event.getData());
         assert targetNameValues.length % 2 == 0;
         Map<String, Object> targetMap = new HashMap<>(targetNameValues.length / 2);
         String name = "";
@@ -31,7 +31,7 @@ public class TestUtils {
             if (i % 2 == 0) name = (String) targetNameValues[i];
             else targetMap.put(name, targetNameValues[i]);
         }
-        Map<String, Object> eventMap = event.asMap();
+        Map<String, Object> eventMap = event.getAttributes();
         assertEquals(targetMap.keySet(), eventMap.keySet());
         for (Map.Entry<String, Object> kv : targetMap.entrySet()) {
             Object value = kv.getValue();
@@ -48,8 +48,12 @@ public class TestUtils {
         return text.getBytes(StandardCharsets.UTF_8);
     }
 
+    public static byte[] sampleBinaryData() {
+        return new byte[]{1, 2, 3, 4};
+    }
+
     public static CloudEvent sampleEventWithRequiredAttributes() {
-        return MutableCloudEventImpl.create(
+        return MutableCloudEvent.create(
                 "OximeterMeasured",
                 "/user/123#",
                 "567"

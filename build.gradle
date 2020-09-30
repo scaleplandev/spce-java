@@ -52,6 +52,12 @@ jmh {
     profilers = ['perf']
 }
 
+javadoc {
+    title = "ScalePlan CloudEvents for Java v$version"
+    source = sourceSets.main.allJava
+    options.overview = "etc/javadoc/overview.html"
+}
+
 publishing {
     publications {
         gpr(MavenPublication) {

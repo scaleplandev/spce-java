@@ -3,9 +3,6 @@ import io.scaleplan.spce.MutableCloudEvent;
 import io.scaleplan.spce.impl.MutableCloudEventImpl;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CloudEventTest {
@@ -13,6 +10,7 @@ public class CloudEventTest {
     public void testRequiredAttributes() {
         CloudEvent event = TestUtils.sampleEventWithRequiredAttributes();
         TestUtils.checkEvent(event,
+                null,
                 "id", "567",
                 "specversion", "1.0",
                 "source", "/user/123#",
@@ -35,13 +33,13 @@ public class CloudEventTest {
                 .setDataSchema("https://particlemetrics.com/oximeter-schema#")
                 .setSubject("SampleSubject");
         TestUtils.checkEvent(event,
+                TestUtils.sampleData(),
                 "id", "567",
                 "specversion", "1.0",
                 "source", "/user/123#",
                 "type", "OximeterMeasured",
                 "time", "2020-07-13T09:15:12Z",
                 "datacontenttype", "application/json",
-                "data", TestUtils.sampleData(),
                 "dataschema", "https://particlemetrics.com/oximeter-schema#",
                 "subject", "SampleSubject"
         );
@@ -105,13 +103,4 @@ public class CloudEventTest {
                 () -> event.remove("type"));
     }
 
-    @Test
-    public void testWrapUnsafe() {
-        Map<String, Object> attrs = new HashMap<>();
-        attrs.put("specversion", "1.0");
-        attrs.put("data_base64", "not-actually-b64ed");
-        CloudEvent event = MutableCloudEventImpl.wrapUnsafe(attrs);
-        assertTrue(event.hasBinaryData());
-        assertEquals(attrs, event.asMap());
-    }
 }

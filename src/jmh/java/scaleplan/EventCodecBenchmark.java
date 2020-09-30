@@ -4,7 +4,6 @@ import io.scaleplan.spce.CloudEvent;
 import io.scaleplan.spce.MutableCloudEvent;
 import io.scaleplan.spce.codecs.impl.JsonDecoder;
 import io.scaleplan.spce.codecs.impl.JsonEncoder;
-import io.scaleplan.spce.impl.MutableCloudEventImpl;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.infra.Blackhole;
 
@@ -53,7 +52,7 @@ public class EventCodecBenchmark {
     }
 
     private static CloudEvent sampleEventWithRequiredAttributes() {
-        return MutableCloudEventImpl.create(
+        return MutableCloudEvent.create(
                 "OximeterMeasured",
                 "/user/123#",
                 "567"

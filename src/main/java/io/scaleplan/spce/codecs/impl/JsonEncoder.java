@@ -83,7 +83,7 @@ public class JsonEncoder implements Encoder {
         Objects.requireNonNull(generator);
         generator.writeStartObject();
 
-        for (Map.Entry<String, Object> attr : event.asMap().entrySet()) {
+        for (Map.Entry<String, Object> attr : event.getAttributes().entrySet()) {
             String key = attr.getKey();
             Object value = attr.getValue();
 
@@ -100,9 +100,6 @@ public class JsonEncoder implements Encoder {
                 case CloudEvent.ATTRIBUTE_DATA_SCHEMA:
                     generator.writeStringField(key, (String) value);
                     break;
-                case CloudEvent.ATTRIBUTE_DATA:
-                    writeData(generator, event);
-                    break;
                 default:
                     if (value instanceof String) generator.writeStringField(key, (String) value);
                     else if (value instanceof Integer) generator.writeNumberField(key, (Integer) value);
@@ -110,6 +107,11 @@ public class JsonEncoder implements Encoder {
                     else
                         throw new EncodeException(String.format("Cannot encode fields of type: %s", value.getClass().toString()));
             }
+        }
+
+        byte[] data = event.getData();
+        if (data != null) {
+            writeData(generator, event);
         }
 
         generator.writeEndObject();

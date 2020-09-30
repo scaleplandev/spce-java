@@ -1,0 +1,13 @@
+{
+  "specversion": "1.0",
+  "type": "com.particlemetrics.OximeterMeasured.v1",
+  "source": "/oid/A129F28C#",
+  "id": "1",
+  "time": "2020-07-13T09:15:12Z",
+  "subject": "Oximeter123",
+  "datacontenttype": "application/octet-stream",
+  "data_base64": "AQIDBA==",
+  "compmstring": "string-value",
+  "compmint": 42,
+  "compmbool": true
+}
