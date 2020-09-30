@@ -44,11 +44,11 @@ public class Json {
         return DecoderHolder.instance.decode(data);
     }
 
-    public static @NotNull List<CloudEvent> decodeArray(@NotNull byte[] data) {
-        return DecoderHolder.instance.decodeArray(data);
+    public static @NotNull List<CloudEvent> decodeBatch(@NotNull byte[] data) {
+        return DecoderHolder.instance.decodeBatch(data);
     }
 
-    public static @NotNull DecodeIterator arrayDecoder(@NotNull byte[] data) {
+    public static @NotNull DecodeIterator batchDecoder(@NotNull byte[] data) {
         return DecoderHolder.instance.arrayDecoder(data);
     }
 

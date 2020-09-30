@@ -78,7 +78,7 @@ public class JsonCodecTest {
     @Test
     public void testJsonArrayDecode() {
         byte[] text = TestUtils.loadFromResource("fixtures/sample_event_array.json");
-        List<CloudEvent> events = Json.decodeArray(text);
+        List<CloudEvent> events = Json.decodeBatch(text);
 
         assertEquals(2, events.size());
         // TODO: check all attributes the events
@@ -90,23 +90,23 @@ public class JsonCodecTest {
 
     @Test
     public void testEmptyJsonArrayDecode() {
-        List<CloudEvent> events = Json.decodeArray("[]".getBytes());
+        List<CloudEvent> events = Json.decodeBatch("[]".getBytes());
         assertEquals(0, events.size());
     }
 
     @Test
     public void testInvalidJsonArrayDecode1() {
-        assertThrows(DecodeException.class, () -> Json.decodeArray("".getBytes()));
+        assertThrows(DecodeException.class, () -> Json.decodeBatch("".getBytes()));
     }
 
     @Test
     public void testInvalidJsonArrayDecode2() {
-        assertThrows(DecodeException.class, () -> Json.decodeArray("{\"foo\":\"bar\"}".getBytes()));
+        assertThrows(DecodeException.class, () -> Json.decodeBatch("{\"foo\":\"bar\"}".getBytes()));
     }
 
     @Test
     public void testInvalidJsonArrayDecode3() {
-        assertThrows(ValidationException.class, () -> Json.decodeArray("[{}]".getBytes()));
+        assertThrows(ValidationException.class, () -> Json.decodeBatch("[{}]".getBytes()));
     }
 
     @Test

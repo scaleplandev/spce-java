@@ -28,7 +28,7 @@ public class EventCodecBenchmark {
 
     @Benchmark
     public void benchmarkDecodeEventBundle(Blackhole blackhole) {
-        blackhole.consume(decoder.decodeArray(bundleText));
+        blackhole.consume(decoder.decodeBatch(bundleText));
     }
 
     @Benchmark

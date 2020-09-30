@@ -51,17 +51,17 @@ public class JsonDecoder implements Decoder {
     }
 
     @Override
-    public @NotNull List<CloudEvent> decodeArray(@NotNull byte[] data) {
-        return decodeArray(data, true);
+    public @NotNull List<CloudEvent> decodeBatch(@NotNull byte[] data) {
+        return decodeBatch(data, true);
     }
 
-    public @NotNull List<CloudEvent> decodeArray(@NotNull byte[] data, boolean validate) {
+    public @NotNull List<CloudEvent> decodeBatch(@NotNull byte[] data, boolean validate) {
         final List<CloudEvent> events = new ArrayList<>();
-        decodeArray(data, validate, events::add);
+        decodeBatch(data, validate, events::add);
         return events;
     }
 
-    public void decodeArray(@NotNull byte[] data, boolean validate, @NotNull Consumer<CloudEvent> handler) {
+    public void decodeBatch(@NotNull byte[] data, boolean validate, @NotNull Consumer<CloudEvent> handler) {
         Objects.requireNonNull(handler, "handler cannot be null");
         try (final DecodeIterator iterator = arrayDecoder(data, validate)) {
             while (iterator.hasNext()) {

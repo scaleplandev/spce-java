@@ -22,7 +22,7 @@ import java.util.List;
 public interface Decoder {
     @NotNull CloudEvent decode(@NotNull byte[] data);
 
-    @NotNull List<CloudEvent> decodeArray(@NotNull byte[] data);
+    @NotNull List<CloudEvent> decodeBatch(@NotNull byte[] data);
 
     @NotNull DecodeIterator arrayDecoder(@NotNull byte[] data);
 }
