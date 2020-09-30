@@ -51,12 +51,12 @@ public class EventCodecBenchmark {
         return text.getBytes();
     }
 
-    private static CloudEvent sampleEventWithRequiredAttributes() {
-        return MutableCloudEvent.create(
-                "OximeterMeasured",
-                "/user/123#",
-                "567"
-        );
+    public static CloudEvent sampleEventWithRequiredAttributes() {
+        return CloudEvent.builder()
+                .setType("OximeterMeasured")
+                .setSource("/user/123#")
+                .setId("567")
+                .build();
     }
 
     private static CloudEvent sampleEventWithOptionalAttributes() {

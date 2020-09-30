@@ -27,10 +27,11 @@ import io.scaleplan.spce.MutableCloudEvent;
 
 // ..
 
-String type = "OximeterMeasured";
-String source = "oximeter/123";
-String id = "1000"  
-MutableCloudEvent event = MutableCloudEvent.create(type, source, id);
+CloudEvent event = CloudEvent.builder()
+    .setType("OximeterMeasured")
+    .setSource("oximeter/123")
+    .setId("1000")
+    .build();
 ```
 
 
