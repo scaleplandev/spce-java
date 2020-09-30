@@ -1,21 +1,22 @@
+// Copyright 2020 Scale Plan Yazılım A.Ş.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 package io.scaleplan.spce;
 
-import io.scaleplan.spce.impl.MutableCloudEventImpl;
 import org.jetbrains.annotations.NotNull;
 
 public interface MutableCloudEvent extends CloudEvent {
-    /**
-     * Creates a MutableEvent with the required attributes.
-     *
-     * @param type   event type
-     * @param source event source, a URI reference
-     * @param id     event id
-     * @return a MutableEvent
-     */
-    static MutableCloudEvent create(@NotNull String type, @NotNull String source, @NotNull String id) {
-        return MutableCloudEventImpl.create(type, source, id);
-    }
-
     MutableCloudEvent reset();
 
     // Required attributes

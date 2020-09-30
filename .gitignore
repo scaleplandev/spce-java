@@ -2,6 +2,6 @@
 .gradle/
 build/
 out/
-
+.run/
 .attach*
 

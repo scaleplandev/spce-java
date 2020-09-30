@@ -1,3 +1,17 @@
+// Copyright 2020 Scale Plan Yazılım A.Ş.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 package io.scaleplan.spce.impl;
 
 import io.scaleplan.spce.CloudEvent;
@@ -15,8 +29,6 @@ import java.util.*;
  * The implementation of {@link MutableCloudEvent}
  */
 public class MutableCloudEventImpl implements MutableCloudEvent {
-    private static final String SPEC_VERSION = "1.0";
-
     private final Map<String, Object> attributes;
     private byte[] data = null;
     private boolean _hasBinaryData;
@@ -38,7 +50,7 @@ public class MutableCloudEventImpl implements MutableCloudEvent {
     }
 
     /**
-     * Creates a MutableEvent with no required attributes set except specversion which is set to 1.0.
+     * Creates a MutableEvent with no required attributes.
      * Warning: Required fields, type and id must always be set.
      *
      * @return a new MutableEvent object

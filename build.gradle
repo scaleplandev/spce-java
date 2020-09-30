@@ -49,7 +49,7 @@ test {
 jmh {
     duplicateClassesStrategy = 'warn'
     jmhVersion = '1.22'
-    profilers = ['perf']
+//    profilers = ['perf']
 }
 
 javadoc {
