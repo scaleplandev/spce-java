@@ -1,6 +1,6 @@
-import io.scaleplan.cloudevents.CloudEvent;
-import io.scaleplan.cloudevents.MutableCloudEvent;
-import io.scaleplan.cloudevents.impl.MutableCloudEventImpl;
+import io.scaleplan.spce.CloudEvent;
+import io.scaleplan.spce.MutableCloudEvent;
+import io.scaleplan.spce.impl.MutableCloudEventImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;

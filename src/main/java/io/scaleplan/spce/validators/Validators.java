@@ -1,7 +1,7 @@
-package io.scaleplan.cloudevents.validators;
+package io.scaleplan.spce.validators;
 
 import com.ethlo.time.ITU;
-import io.scaleplan.cloudevents.ValidationException;
+import io.scaleplan.spce.ValidationException;
 import org.jetbrains.annotations.NotNull;
 
 import java.net.URISyntaxException;

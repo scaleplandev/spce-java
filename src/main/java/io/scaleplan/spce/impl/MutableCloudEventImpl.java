@@ -1,9 +1,9 @@
-package io.scaleplan.cloudevents.impl;
+package io.scaleplan.spce.impl;
 
-import io.scaleplan.cloudevents.CloudEvent;
-import io.scaleplan.cloudevents.MutableCloudEvent;
-import io.scaleplan.cloudevents.ValidationException;
-import io.scaleplan.cloudevents.validators.Validators;
+import io.scaleplan.spce.CloudEvent;
+import io.scaleplan.spce.MutableCloudEvent;
+import io.scaleplan.spce.ValidationException;
+import io.scaleplan.spce.validators.Validators;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

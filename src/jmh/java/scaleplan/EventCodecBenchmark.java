@@ -1,10 +1,10 @@
 package scaleplan;
 
-import io.scaleplan.cloudevents.CloudEvent;
-import io.scaleplan.cloudevents.MutableCloudEvent;
-import io.scaleplan.cloudevents.codecs.impl.JsonDecoder;
-import io.scaleplan.cloudevents.codecs.impl.JsonEncoder;
-import io.scaleplan.cloudevents.impl.MutableCloudEventImpl;
+import io.scaleplan.spce.CloudEvent;
+import io.scaleplan.spce.MutableCloudEvent;
+import io.scaleplan.spce.codecs.impl.JsonDecoder;
+import io.scaleplan.spce.codecs.impl.JsonEncoder;
+import io.scaleplan.spce.impl.MutableCloudEventImpl;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.infra.Blackhole;
 

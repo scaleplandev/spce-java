@@ -1,11 +1,11 @@
-package io.scaleplan.cloudevents.codecs.impl;
+package io.scaleplan.spce.codecs.impl;
 
 import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
-import io.scaleplan.cloudevents.CloudEvent;
-import io.scaleplan.cloudevents.codecs.EncodeException;
-import io.scaleplan.cloudevents.codecs.Encoder;
+import io.scaleplan.spce.CloudEvent;
+import io.scaleplan.spce.codecs.EncodeException;
+import io.scaleplan.spce.codecs.Encoder;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.ByteArrayOutputStream;

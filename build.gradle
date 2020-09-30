@@ -6,7 +6,6 @@ plugins {
     id 'jacoco'
     id 'maven-publish'
     id 'me.champeau.gradle.jmh' version '0.5.0'
-    id "com.eden.orchidPlugin" version "$orchidVersion"
 }
 
 ext {
@@ -16,16 +15,13 @@ ext {
 }
 
 group 'io.scaleplan'
-version '0.2.14'
+version '0.2.15'
 
 sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
     jcenter()
-    maven {
-        url "https://kotlin.bintray.com/kotlinx"
-    }
 }
 
 dependencies {
@@ -44,8 +40,6 @@ dependencies {
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
     testImplementation "org.jetbrains:annotations:17.0.0"
 
-    orchidRuntime "io.github.javaeden.orchid:OrchidAll:$orchidVersion"
-    orchidRuntime("io.github.javaeden.orchid:OrchidEditorial:$orchidVersion")
 }
 
 test {

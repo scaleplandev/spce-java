@@ -1,4 +1,4 @@
-package io.scaleplan.cloudevents;
+package io.scaleplan.spce;
 
 import org.jetbrains.annotations.Nullable;
 

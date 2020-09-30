@@ -1,4 +1,4 @@
-package io.scaleplan.cloudevents.codecs;
+package io.scaleplan.spce.codecs;
 
 public class DecodeException extends RuntimeException {
     public DecodeException() {

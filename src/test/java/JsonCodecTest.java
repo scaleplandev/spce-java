@@ -1,10 +1,10 @@
-import io.scaleplan.cloudevents.CloudEvent;
-import io.scaleplan.cloudevents.MutableCloudEvent;
-import io.scaleplan.cloudevents.ValidationException;
-import io.scaleplan.cloudevents.codecs.DecodeException;
-import io.scaleplan.cloudevents.codecs.Json;
-import io.scaleplan.cloudevents.codecs.impl.JsonDecoder;
-import io.scaleplan.cloudevents.codecs.impl.JsonEncoder;
+import io.scaleplan.spce.CloudEvent;
+import io.scaleplan.spce.MutableCloudEvent;
+import io.scaleplan.spce.ValidationException;
+import io.scaleplan.spce.codecs.DecodeException;
+import io.scaleplan.spce.codecs.Json;
+import io.scaleplan.spce.codecs.impl.JsonDecoder;
+import io.scaleplan.spce.codecs.impl.JsonEncoder;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

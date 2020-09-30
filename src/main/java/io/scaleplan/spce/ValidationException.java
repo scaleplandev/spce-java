@@ -1,4 +1,4 @@
-package io.scaleplan.cloudevents;
+package io.scaleplan.spce;
 
 public class ValidationException extends RuntimeException {
     public ValidationException() {

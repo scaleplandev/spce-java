@@ -1,6 +1,6 @@
-package io.scaleplan.cloudevents.codecs;
+package io.scaleplan.spce.codecs;
 
-import io.scaleplan.cloudevents.CloudEvent;
+import io.scaleplan.spce.CloudEvent;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;

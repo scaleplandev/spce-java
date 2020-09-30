@@ -1,6 +1,6 @@
-import io.scaleplan.cloudevents.MutableCloudEvent;
-import io.scaleplan.cloudevents.ValidationException;
-import io.scaleplan.cloudevents.impl.MutableCloudEventImpl;
+import io.scaleplan.spce.MutableCloudEvent;
+import io.scaleplan.spce.ValidationException;
+import io.scaleplan.spce.impl.MutableCloudEventImpl;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;

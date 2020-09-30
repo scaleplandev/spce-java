@@ -1,7 +1,7 @@
-package io.scaleplan.cloudevents.codecs;
+package io.scaleplan.spce.codecs;
 
-import io.scaleplan.cloudevents.codecs.impl.JsonDecoder;
-import io.scaleplan.cloudevents.codecs.impl.JsonEncoder;
+import io.scaleplan.spce.codecs.impl.JsonDecoder;
+import io.scaleplan.spce.codecs.impl.JsonEncoder;
 
 public class Json {
     public static JsonDecoder getDecoder() {

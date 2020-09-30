@@ -1,15 +1,15 @@
-package io.scaleplan.cloudevents.codecs.impl;
+package io.scaleplan.spce.codecs.impl;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
-import io.scaleplan.cloudevents.CloudEvent;
-import io.scaleplan.cloudevents.MutableCloudEvent;
-import io.scaleplan.cloudevents.ValidationException;
-import io.scaleplan.cloudevents.codecs.DecodeException;
-import io.scaleplan.cloudevents.codecs.DecodeIterator;
-import io.scaleplan.cloudevents.codecs.Decoder;
-import io.scaleplan.cloudevents.impl.MutableCloudEventImpl;
+import io.scaleplan.spce.CloudEvent;
+import io.scaleplan.spce.MutableCloudEvent;
+import io.scaleplan.spce.ValidationException;
+import io.scaleplan.spce.codecs.DecodeException;
+import io.scaleplan.spce.codecs.DecodeIterator;
+import io.scaleplan.spce.codecs.Decoder;
+import io.scaleplan.spce.impl.MutableCloudEventImpl;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package io.scaleplan.cloudevents.validators;
+package io.scaleplan.spce.validators;
 
 import java.net.URISyntaxException;
 
