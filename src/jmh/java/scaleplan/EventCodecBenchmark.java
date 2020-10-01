@@ -2,8 +2,8 @@ package scaleplan;
 
 import io.scaleplan.spce.CloudEvent;
 import io.scaleplan.spce.MutableCloudEvent;
-import io.scaleplan.spce.codecs.impl.JsonDecoder;
-import io.scaleplan.spce.codecs.impl.JsonEncoder;
+import io.scaleplan.spce.codecs.Avro;
+import io.scaleplan.spce.codecs.Json;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.infra.Blackhole;
 
@@ -15,25 +15,34 @@ import java.util.concurrent.TimeUnit;
 @Fork(value = 2)
 @Warmup(iterations = 2)
 public class EventCodecBenchmark {
-    private static final byte[] text = sampleEventText();
+    private static final byte[] encodedJson = sampleEventText();
+    private static final byte[] encodedAvro = Avro.encode(Json.decode(encodedJson));
     private static final CloudEvent sampleEvent = sampleEventWithOptionalAttributes();
     private static final byte[] bundleText = sampleEventBundle10();
-    private static final JsonDecoder decoder = JsonDecoder.create();
-    private static final JsonEncoder encoder = JsonEncoder.create();
 
     @Benchmark
-    public void benchmarkDecodeEvent(Blackhole blackhole) {
-        blackhole.consume(decoder.decode(text));
+    public void benchmarkDecodeJsonEvent(Blackhole blackhole) {
+        blackhole.consume(Json.decode(encodedJson));
     }
 
     @Benchmark
-    public void benchmarkDecodeEventBundle(Blackhole blackhole) {
-        blackhole.consume(decoder.decodeBatch(bundleText));
+    public void benchmarkDecodeJsonEventBundle(Blackhole blackhole) {
+        blackhole.consume(Json.decodeBatch(bundleText));
     }
 
     @Benchmark
-    public void benchmarkEncodeEvent(Blackhole blackhole) {
-        blackhole.consume(encoder.encode(sampleEvent));
+    public void benchmarkDecodeAvroEvent(Blackhole blackhole) {
+        blackhole.consume(Avro.decode(encodedAvro));
+    }
+
+    @Benchmark
+    public void benchmarkEncodeJsonEvent(Blackhole blackhole) {
+        blackhole.consume(Json.encode(sampleEvent));
+    }
+
+    @Benchmark
+    public void benchmarkEncodeAvroEvent(Blackhole blackhole) {
+        blackhole.consume(Avro.encode(sampleEvent));
     }
 
     private static byte[] sampleEventText() {

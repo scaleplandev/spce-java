@@ -85,6 +85,17 @@ public class TestUtils {
         return event;
     }
 
+    public static CloudEvent sampleEventWithOptionalAttributesAndBinaryData() {
+        MutableCloudEvent event = (MutableCloudEvent) sampleEventWithRequiredAttributes();
+        event
+                .setTime("2020-07-13T09:15:12Z")
+                .setDataContentType("application/octet-stream")
+                .setDataUnsafe(TestUtils.sampleBinaryData())
+                .setDataSchema("http://json-schema.org/draft-07/schema#")
+                .setSubject("SampleSubject");
+        return event;
+    }
+
     public static CloudEvent sampleEventWithOptionalAndExtendedAttributes() {
         MutableCloudEvent event = (MutableCloudEvent) sampleEventWithOptionalAttributes();
         event

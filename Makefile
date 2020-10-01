@@ -1,5 +1,7 @@
 .PHONY: build benchmark clean release test doc
 
+AVRO_TOOLS_PATH ?= ./avro-tools-1.10.0.jar
+
 build:
 	./gradlew build
 
@@ -17,3 +19,6 @@ test:
 
 doc:
 	./gradlew javadoc
+
+generate:
+	java -jar $(AVRO_TOOLS_PATH) compile schema ./etc/cloudevents_spec.avsc ./src/main/java

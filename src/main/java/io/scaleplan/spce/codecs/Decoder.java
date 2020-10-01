@@ -24,5 +24,5 @@ public interface Decoder {
 
     @NotNull List<CloudEvent> decodeBatch(@NotNull byte[] data);
 
-    @NotNull DecodeIterator arrayDecoder(@NotNull byte[] data);
+    @NotNull DecodeIterator batchDecoder(@NotNull byte[] data);
 }

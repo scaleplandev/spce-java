@@ -49,7 +49,7 @@ public class Json {
     }
 
     public static @NotNull DecodeIterator batchDecoder(@NotNull byte[] data) {
-        return DecoderHolder.instance.arrayDecoder(data);
+        return DecoderHolder.instance.batchDecoder(data);
     }
 
     private static class DecoderHolder {

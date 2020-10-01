@@ -75,7 +75,7 @@ public class JsonDecoder implements Decoder {
     }
 
     @Override
-    public @NotNull DecodeIterator arrayDecoder(@NotNull byte[] data) {
+    public @NotNull DecodeIterator batchDecoder(@NotNull byte[] data) {
         return arrayDecoder(data, true);
     }
 
@@ -240,7 +240,6 @@ public class JsonDecoder implements Decoder {
             case CloudEvent.ATTRIBUTE_ID:
                 event.setId(fieldValue);
                 break;
-            // TODO: check URI-ref
             case CloudEvent.ATTRIBUTE_SOURCE:
                 event.setSource(fieldValue);
                 break;
@@ -248,7 +247,6 @@ public class JsonDecoder implements Decoder {
                 event.setType(fieldValue);
                 break;
             // Optional attributes
-            // TODO: check timestamp
             case CloudEvent.ATTRIBUTE_TIME:
                 event.setTime(fieldValue);
                 break;
@@ -264,7 +262,6 @@ public class JsonDecoder implements Decoder {
             case CloudEvent.ATTRIBUTE_DATA_CONTENT_TYPE:
                 event.setDataContentType(fieldValue);
                 break;
-            // TODO: check URI-ref
             case CloudEvent.ATTRIBUTE_DATA_SCHEMA:
                 event.setDataSchema(fieldValue);
                 break;

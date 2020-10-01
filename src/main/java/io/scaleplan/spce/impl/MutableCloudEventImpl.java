@@ -28,7 +28,7 @@ import java.util.*;
 /**
  * The implementation of {@link MutableCloudEvent}
  */
-public class MutableCloudEventImpl implements MutableCloudEvent {
+public final class MutableCloudEventImpl implements MutableCloudEvent {
     private final Map<String, Object> attributes;
     private byte[] data = null;
     private boolean _hasBinaryData;
@@ -341,6 +341,20 @@ public class MutableCloudEventImpl implements MutableCloudEvent {
 
     @Override
     public String toString() {
-        return String.format("MutableCloudEventImpl: attrs: %s", attributes);
+        return String.format("MutableCloudEventImpl: attrs: %s", attributes, "" + data);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.attributes, this.data);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof CloudEvent)) return false;
+        CloudEvent other = (CloudEvent) obj;
+        return this.attributes.equals(other.getAttributes()) &&
+                Arrays.equals(this.data, (other.getData()));
     }
 }
