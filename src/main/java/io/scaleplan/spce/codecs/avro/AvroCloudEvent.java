@@ -19,8 +19,7 @@ public class AvroCloudEvent extends org.apache.avro.specific.SpecificRecordBase 
   public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"AvroCloudEvent\",\"namespace\":\"io.scaleplan.spce.codecs.avro\",\"doc\":\"Avro Event Format for CloudEvents\",\"fields\":[{\"name\":\"specversion\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"type\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"source\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"id\",\"type\":{\"type\":\"string\",\"avro.java.string\":\"String\"}},{\"name\":\"subject\",\"type\":[{\"type\":\"string\",\"avro.java.string\":\"String\"},\"null\"]},{\"name\":\"time\",\"type\":[{\"type\":\"string\",\"avro.java.string\":\"String\"},\"null\"]},{\"name\":\"datacontenttype\",\"type\":[{\"type\":\"string\",\"avro.java.string\":\"String\"},\"null\"]},{\"name\":\"dataschema\",\"type\":[{\"type\":\"string\",\"avro.java.string\":\"String\"},\"null\"]},{\"name\":\"data\",\"type\":[\"bytes\",{\"type\":\"string\",\"avro.java.string\":\"String\"},\"null\"]},{\"name\":\"attribute\",\"type\":{\"type\":\"map\",\"values\":[\"boolean\",\"int\",{\"type\":\"string\",\"avro.java.string\":\"String\"}],\"avro.java.string\":\"String\"}}],\"version\":\"0.1\"}");
 
   public static org.apache.avro.Schema getClassSchema() {
-    return SCHEMA$;
-  }
+    return SCHEMA$; }
 
   private static SpecificData MODEL$ = new SpecificData();
 
@@ -198,7 +197,6 @@ public class AvroCloudEvent extends org.apache.avro.specific.SpecificRecordBase 
 
   /**
    * Gets the value of the 'specversion' field.
-   *
    * @return The value of the 'specversion' field.
    */
   public java.lang.String getSpecversion() {
@@ -208,7 +206,6 @@ public class AvroCloudEvent extends org.apache.avro.specific.SpecificRecordBase 
 
   /**
    * Sets the value of the 'specversion' field.
-   *
    * @param value the value to set.
    */
   public void setSpecversion(java.lang.String value) {
@@ -217,7 +214,6 @@ public class AvroCloudEvent extends org.apache.avro.specific.SpecificRecordBase 
 
   /**
    * Gets the value of the 'type' field.
-   *
    * @return The value of the 'type' field.
    */
   public java.lang.String getType() {
@@ -227,7 +223,6 @@ public class AvroCloudEvent extends org.apache.avro.specific.SpecificRecordBase 
 
   /**
    * Sets the value of the 'type' field.
-   *
    * @param value the value to set.
    */
   public void setType(java.lang.String value) {
@@ -279,7 +274,6 @@ public class AvroCloudEvent extends org.apache.avro.specific.SpecificRecordBase 
 
   /**
    * Sets the value of the 'subject' field.
-   *
    * @param value the value to set.
    */
   public void setSubject(java.lang.String value) {
@@ -314,7 +308,6 @@ public class AvroCloudEvent extends org.apache.avro.specific.SpecificRecordBase 
 
   /**
    * Sets the value of the 'datacontenttype' field.
-   *
    * @param value the value to set.
    */
   public void setDatacontenttype(java.lang.String value) {
@@ -357,6 +350,7 @@ public class AvroCloudEvent extends org.apache.avro.specific.SpecificRecordBase 
 
   /**
    * Gets the value of the 'attribute' field.
+   *
    * @return The value of the 'attribute' field.
    */
   public java.util.Map<java.lang.String, java.lang.Object> getAttribute() {
@@ -366,7 +360,6 @@ public class AvroCloudEvent extends org.apache.avro.specific.SpecificRecordBase 
 
   /**
    * Sets the value of the 'attribute' field.
-   *
    * @param value the value to set.
    */
   public void setAttribute(java.util.Map<java.lang.String,java.lang.Object> value) {
@@ -423,7 +416,7 @@ public class AvroCloudEvent extends org.apache.avro.specific.SpecificRecordBase 
     private java.lang.String datacontenttype;
     private java.lang.String dataschema;
     private java.lang.Object data;
-    private java.util.Map<java.lang.String, java.lang.Object> attribute;
+    private java.util.Map<java.lang.String,java.lang.Object> attribute;
 
     /** Creates a new Builder */
     private Builder() {
@@ -528,8 +521,8 @@ public class AvroCloudEvent extends org.apache.avro.specific.SpecificRecordBase 
 
     /**
      * Gets the value of the 'specversion' field.
-     * @return The value.
-     */
+      * @return The value.
+      */
     public java.lang.String getSpecversion() {
       return specversion;
     }
@@ -537,10 +530,9 @@ public class AvroCloudEvent extends org.apache.avro.specific.SpecificRecordBase 
 
     /**
      * Sets the value of the 'specversion' field.
-     *
      * @param value The value of 'specversion'.
-     * @return This builder.
-     */
+      * @return This builder.
+      */
     public io.scaleplan.spce.codecs.avro.AvroCloudEvent.Builder setSpecversion(java.lang.String value) {
       validate(fields()[0], value);
       this.specversion = value;
@@ -550,8 +542,8 @@ public class AvroCloudEvent extends org.apache.avro.specific.SpecificRecordBase 
 
     /**
      * Checks whether the 'specversion' field has been set.
-      * @return True if the 'specversion' field has been set, false otherwise.
-     */
+     * @return True if the 'specversion' field has been set, false otherwise.
+      */
     public boolean hasSpecversion() {
       return fieldSetFlags()[0];
     }
@@ -569,8 +561,8 @@ public class AvroCloudEvent extends org.apache.avro.specific.SpecificRecordBase 
 
     /**
      * Gets the value of the 'type' field.
-     * @return The value.
-     */
+      * @return The value.
+      */
     public java.lang.String getType() {
       return type;
     }
@@ -578,10 +570,9 @@ public class AvroCloudEvent extends org.apache.avro.specific.SpecificRecordBase 
 
     /**
      * Sets the value of the 'type' field.
-     *
      * @param value The value of 'type'.
-     * @return This builder.
-     */
+      * @return This builder.
+      */
     public io.scaleplan.spce.codecs.avro.AvroCloudEvent.Builder setType(java.lang.String value) {
       validate(fields()[1], value);
       this.type = value;
@@ -590,9 +581,9 @@ public class AvroCloudEvent extends org.apache.avro.specific.SpecificRecordBase 
     }
 
     /**
-      * Checks whether the 'type' field has been set.
+     * Checks whether the 'type' field has been set.
      * @return True if the 'type' field has been set, false otherwise.
-     */
+      */
     public boolean hasType() {
       return fieldSetFlags()[1];
     }
@@ -601,7 +592,7 @@ public class AvroCloudEvent extends org.apache.avro.specific.SpecificRecordBase 
     /**
       * Clears the value of the 'type' field.
       * @return This builder.
-     */
+      */
     public io.scaleplan.spce.codecs.avro.AvroCloudEvent.Builder clearType() {
       type = null;
       fieldSetFlags()[1] = false;
@@ -610,9 +601,8 @@ public class AvroCloudEvent extends org.apache.avro.specific.SpecificRecordBase 
 
     /**
      * Gets the value of the 'source' field.
-     *
-     * @return The value.
-     */
+      * @return The value.
+      */
     public java.lang.String getSource() {
       return source;
     }
@@ -620,10 +610,9 @@ public class AvroCloudEvent extends org.apache.avro.specific.SpecificRecordBase 
 
     /**
      * Sets the value of the 'source' field.
-     *
      * @param value The value of 'source'.
-     * @return This builder.
-     */
+      * @return This builder.
+      */
     public io.scaleplan.spce.codecs.avro.AvroCloudEvent.Builder setSource(java.lang.String value) {
       validate(fields()[2], value);
       this.source = value;
@@ -641,9 +630,9 @@ public class AvroCloudEvent extends org.apache.avro.specific.SpecificRecordBase 
 
 
     /**
-      * Clears the value of the 'source' field.
-     * @return This builder.
-     */
+     * Clears the value of the 'source' field.
+      * @return This builder.
+      */
     public io.scaleplan.spce.codecs.avro.AvroCloudEvent.Builder clearSource() {
       source = null;
       fieldSetFlags()[2] = false;
@@ -652,9 +641,8 @@ public class AvroCloudEvent extends org.apache.avro.specific.SpecificRecordBase 
 
     /**
      * Gets the value of the 'id' field.
-     *
-     * @return The value.
-     */
+      * @return The value.
+      */
     public java.lang.String getId() {
       return id;
     }
@@ -662,10 +650,9 @@ public class AvroCloudEvent extends org.apache.avro.specific.SpecificRecordBase 
 
     /**
      * Sets the value of the 'id' field.
-     *
      * @param value The value of 'id'.
-     * @return This builder.
-     */
+      * @return This builder.
+      */
     public io.scaleplan.spce.codecs.avro.AvroCloudEvent.Builder setId(java.lang.String value) {
       validate(fields()[3], value);
       this.id = value;
@@ -675,7 +662,7 @@ public class AvroCloudEvent extends org.apache.avro.specific.SpecificRecordBase 
 
     /**
      * Checks whether the 'id' field has been set.
-      * @return True if the 'id' field has been set, false otherwise.
+     * @return True if the 'id' field has been set, false otherwise.
       */
     public boolean hasId() {
       return fieldSetFlags()[3];
@@ -684,9 +671,8 @@ public class AvroCloudEvent extends org.apache.avro.specific.SpecificRecordBase 
 
     /**
      * Clears the value of the 'id' field.
-     *
-     * @return This builder.
-     */
+      * @return This builder.
+      */
     public io.scaleplan.spce.codecs.avro.AvroCloudEvent.Builder clearId() {
       id = null;
       fieldSetFlags()[3] = false;
@@ -695,9 +681,8 @@ public class AvroCloudEvent extends org.apache.avro.specific.SpecificRecordBase 
 
     /**
      * Gets the value of the 'subject' field.
-     *
-     * @return The value.
-     */
+      * @return The value.
+      */
     public java.lang.String getSubject() {
       return subject;
     }
@@ -706,8 +691,8 @@ public class AvroCloudEvent extends org.apache.avro.specific.SpecificRecordBase 
     /**
      * Sets the value of the 'subject' field.
      * @param value The value of 'subject'.
-     * @return This builder.
-     */
+      * @return This builder.
+      */
     public io.scaleplan.spce.codecs.avro.AvroCloudEvent.Builder setSubject(java.lang.String value) {
       validate(fields()[4], value);
       this.subject = value;
@@ -717,7 +702,7 @@ public class AvroCloudEvent extends org.apache.avro.specific.SpecificRecordBase 
 
     /**
      * Checks whether the 'subject' field has been set.
-      * @return True if the 'subject' field has been set, false otherwise.
+     * @return True if the 'subject' field has been set, false otherwise.
       */
     public boolean hasSubject() {
       return fieldSetFlags()[4];
@@ -726,9 +711,8 @@ public class AvroCloudEvent extends org.apache.avro.specific.SpecificRecordBase 
 
     /**
      * Clears the value of the 'subject' field.
-     *
-     * @return This builder.
-     */
+      * @return This builder.
+      */
     public io.scaleplan.spce.codecs.avro.AvroCloudEvent.Builder clearSubject() {
       subject = null;
       fieldSetFlags()[4] = false;
@@ -737,9 +721,8 @@ public class AvroCloudEvent extends org.apache.avro.specific.SpecificRecordBase 
 
     /**
      * Gets the value of the 'time' field.
-     *
-     * @return The value.
-     */
+      * @return The value.
+      */
     public java.lang.String getTime() {
       return time;
     }
@@ -748,8 +731,8 @@ public class AvroCloudEvent extends org.apache.avro.specific.SpecificRecordBase 
     /**
      * Sets the value of the 'time' field.
      * @param value The value of 'time'.
-     * @return This builder.
-     */
+      * @return This builder.
+      */
     public io.scaleplan.spce.codecs.avro.AvroCloudEvent.Builder setTime(java.lang.String value) {
       validate(fields()[5], value);
       this.time = value;
@@ -760,7 +743,7 @@ public class AvroCloudEvent extends org.apache.avro.specific.SpecificRecordBase 
     /**
       * Checks whether the 'time' field has been set.
       * @return True if the 'time' field has been set, false otherwise.
-     */
+      */
     public boolean hasTime() {
       return fieldSetFlags()[5];
     }
@@ -768,9 +751,8 @@ public class AvroCloudEvent extends org.apache.avro.specific.SpecificRecordBase 
 
     /**
      * Clears the value of the 'time' field.
-     *
-     * @return This builder.
-     */
+      * @return This builder.
+      */
     public io.scaleplan.spce.codecs.avro.AvroCloudEvent.Builder clearTime() {
       time = null;
       fieldSetFlags()[5] = false;
@@ -779,9 +761,8 @@ public class AvroCloudEvent extends org.apache.avro.specific.SpecificRecordBase 
 
     /**
      * Gets the value of the 'datacontenttype' field.
-     *
-     * @return The value.
-     */
+      * @return The value.
+      */
     public java.lang.String getDatacontenttype() {
       return datacontenttype;
     }
@@ -790,8 +771,8 @@ public class AvroCloudEvent extends org.apache.avro.specific.SpecificRecordBase 
     /**
      * Sets the value of the 'datacontenttype' field.
      * @param value The value of 'datacontenttype'.
-     * @return This builder.
-     */
+      * @return This builder.
+      */
     public io.scaleplan.spce.codecs.avro.AvroCloudEvent.Builder setDatacontenttype(java.lang.String value) {
       validate(fields()[6], value);
       this.datacontenttype = value;
@@ -802,7 +783,7 @@ public class AvroCloudEvent extends org.apache.avro.specific.SpecificRecordBase 
     /**
       * Checks whether the 'datacontenttype' field has been set.
       * @return True if the 'datacontenttype' field has been set, false otherwise.
-     */
+      */
     public boolean hasDatacontenttype() {
       return fieldSetFlags()[6];
     }
@@ -810,8 +791,8 @@ public class AvroCloudEvent extends org.apache.avro.specific.SpecificRecordBase 
 
     /**
      * Clears the value of the 'datacontenttype' field.
-     * @return This builder.
-     */
+      * @return This builder.
+      */
     public io.scaleplan.spce.codecs.avro.AvroCloudEvent.Builder clearDatacontenttype() {
       datacontenttype = null;
       fieldSetFlags()[6] = false;
@@ -820,9 +801,8 @@ public class AvroCloudEvent extends org.apache.avro.specific.SpecificRecordBase 
 
     /**
      * Gets the value of the 'dataschema' field.
-     *
-     * @return The value.
-     */
+      * @return The value.
+      */
     public java.lang.String getDataschema() {
       return dataschema;
     }
@@ -831,7 +811,7 @@ public class AvroCloudEvent extends org.apache.avro.specific.SpecificRecordBase 
     /**
      * Sets the value of the 'dataschema' field.
      * @param value The value of 'dataschema'.
-     * @return This builder.
+      * @return This builder.
       */
     public io.scaleplan.spce.codecs.avro.AvroCloudEvent.Builder setDataschema(java.lang.String value) {
       validate(fields()[7], value);
@@ -843,16 +823,16 @@ public class AvroCloudEvent extends org.apache.avro.specific.SpecificRecordBase 
     /**
       * Checks whether the 'dataschema' field has been set.
       * @return True if the 'dataschema' field has been set, false otherwise.
-     */
+      */
     public boolean hasDataschema() {
       return fieldSetFlags()[7];
     }
 
 
     /**
-      * Clears the value of the 'dataschema' field.
-     * @return This builder.
-     */
+     * Clears the value of the 'dataschema' field.
+      * @return This builder.
+      */
     public io.scaleplan.spce.codecs.avro.AvroCloudEvent.Builder clearDataschema() {
       dataschema = null;
       fieldSetFlags()[7] = false;
@@ -871,7 +851,7 @@ public class AvroCloudEvent extends org.apache.avro.specific.SpecificRecordBase 
     /**
      * Sets the value of the 'data' field.
      * @param value The value of 'data'.
-     * @return This builder.
+      * @return This builder.
       */
     public io.scaleplan.spce.codecs.avro.AvroCloudEvent.Builder setData(java.lang.Object value) {
       validate(fields()[8], value);
@@ -883,7 +863,7 @@ public class AvroCloudEvent extends org.apache.avro.specific.SpecificRecordBase 
     /**
       * Checks whether the 'data' field has been set.
       * @return True if the 'data' field has been set, false otherwise.
-     */
+      */
     public boolean hasData() {
       return fieldSetFlags()[8];
     }
@@ -891,8 +871,8 @@ public class AvroCloudEvent extends org.apache.avro.specific.SpecificRecordBase 
 
     /**
      * Clears the value of the 'data' field.
-     * @return This builder.
-     */
+      * @return This builder.
+      */
     public io.scaleplan.spce.codecs.avro.AvroCloudEvent.Builder clearData() {
       data = null;
       fieldSetFlags()[8] = false;
@@ -911,6 +891,7 @@ public class AvroCloudEvent extends org.apache.avro.specific.SpecificRecordBase 
 
     /**
      * Sets the value of the 'attribute' field.
+     *
      * @param value The value of 'attribute'.
      * @return This builder.
      */
@@ -924,7 +905,7 @@ public class AvroCloudEvent extends org.apache.avro.specific.SpecificRecordBase 
     /**
       * Checks whether the 'attribute' field has been set.
       * @return True if the 'attribute' field has been set, false otherwise.
-      */
+     */
     public boolean hasAttribute() {
       return fieldSetFlags()[9];
     }
@@ -932,9 +913,8 @@ public class AvroCloudEvent extends org.apache.avro.specific.SpecificRecordBase 
 
     /**
      * Clears the value of the 'attribute' field.
-     *
-     * @return This builder.
-     */
+      * @return This builder.
+      */
     public io.scaleplan.spce.codecs.avro.AvroCloudEvent.Builder clearAttribute() {
       attribute = null;
       fieldSetFlags()[9] = false;
@@ -955,7 +935,7 @@ public class AvroCloudEvent extends org.apache.avro.specific.SpecificRecordBase 
         record.datacontenttype = fieldSetFlags()[6] ? this.datacontenttype : (java.lang.String) defaultValue(fields()[6]);
         record.dataschema = fieldSetFlags()[7] ? this.dataschema : (java.lang.String) defaultValue(fields()[7]);
         record.data = fieldSetFlags()[8] ? this.data : defaultValue(fields()[8]);
-        record.attribute = fieldSetFlags()[9] ? this.attribute : (java.util.Map<java.lang.String, java.lang.Object>) defaultValue(fields()[9]);
+        record.attribute = fieldSetFlags()[9] ? this.attribute : (java.util.Map<java.lang.String,java.lang.Object>) defaultValue(fields()[9]);
         return record;
       } catch (org.apache.avro.AvroMissingFieldException e) {
         throw e;
@@ -977,9 +957,10 @@ public class AvroCloudEvent extends org.apache.avro.specific.SpecificRecordBase 
 
   @SuppressWarnings("unchecked")
   private static final org.apache.avro.io.DatumReader<AvroCloudEvent>
-    READER$ = (org.apache.avro.io.DatumReader<AvroCloudEvent>)MODEL$.createDatumReader(SCHEMA$);
+          READER$ = (org.apache.avro.io.DatumReader<AvroCloudEvent>) MODEL$.createDatumReader(SCHEMA$);
 
-  @Override public void readExternal(java.io.ObjectInput in)
+  @Override
+  public void readExternal(java.io.ObjectInput in)
     throws java.io.IOException {
     READER$.read(this, SpecificData.getDecoder(in));
   }

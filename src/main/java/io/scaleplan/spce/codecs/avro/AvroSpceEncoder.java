@@ -31,6 +31,16 @@ public class AvroSpceEncoder implements Encoder {
 
     @Override
     public @NotNull byte[] encode(@NotNull CloudEvent event) {
+        try (ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
+            encode(event, bos);
+            return bos.toByteArray();
+        } catch (IOException e) {
+            throw new EncodeException("Error while retrieving Avro byte array", e);
+        }
+    }
+
+    @Override
+    public void encode(@NotNull CloudEvent event, @NotNull OutputStream outputStream) {
         AvroCloudEvent avroCe = new AvroCloudEvent();
         avroCe.setSpecversion(event.getSpecVersion());
         avroCe.setType(event.getType());
@@ -66,31 +76,30 @@ public class AvroSpceEncoder implements Encoder {
             }
         }
         avroCe.setAttribute(avroAttrs);
-
-        try (ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
-            // TODO: reuse
-            BinaryEncoder encoder = EncoderFactory.get().binaryEncoder(bos, null);
+        // TODO: reuse
+        BinaryEncoder encoder = EncoderFactory.get().binaryEncoder(outputStream, null);
+        try {
             datumWriter.write(avroCe, encoder);
-            encoder.flush();
-            return bos.toByteArray();
+            encoder.flush(); // XXX:
         } catch (IOException e) {
-            throw new EncodeException("Error while retrieving Avro byte array", e);
+            throw new EncodeException("Error while writing Avro encoded event", e);
         }
-
-    }
-
-    @Override
-    public void encode(@NotNull CloudEvent event, @NotNull OutputStream outputStream) {
-        throw new EncodeException("Not implemented yet.");
     }
 
     @Override
     public @NotNull byte[] encode(@NotNull Collection<CloudEvent> events) {
-        throw new EncodeException("CloudEvents Avro spec does not specify batch events.");
+        try (ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
+            encode(events, bos);
+            return bos.toByteArray();
+        } catch (IOException e) {
+            throw new EncodeException("Error while retrieving Avro byte array", e);
+        }
     }
 
     @Override
     public void encode(@NotNull Collection<CloudEvent> events, @NotNull OutputStream outputStream) {
-        throw new EncodeException("CloudEvents Avro spec does not specify batch events.");
+        for (CloudEvent event : events) {
+            encode(event, outputStream);
+        }
     }
 }
