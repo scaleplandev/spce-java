@@ -1,4 +1,4 @@
-package io.scaleplan.spce.codecs.impl;
+package io.scaleplan.spce.codecs.avro;
 
 import io.scaleplan.spce.CloudEvent;
 import io.scaleplan.spce.codecs.DecodeException;
@@ -17,6 +17,8 @@ import java.util.List;
 import java.util.Map;
 
 public class AvroDecoder implements Decoder {
+    private final io.cloudevents.CloudEvent reusedCloudEvent = new io.cloudevents.CloudEvent();
+
     private static final DatumReader<io.cloudevents.CloudEvent> datumReader =
             new SpecificDatumReader<>(io.cloudevents.CloudEvent.class);
 
@@ -30,9 +32,25 @@ public class AvroDecoder implements Decoder {
 
     @Override
     public @NotNull CloudEvent decode(@NotNull byte[] data) {
+        return decode(data, null);
+    }
+
+    /**
+     * Decodes with reuse
+     * <p>
+     * Warning: Not thread-safe.
+     *
+     * @param data
+     * @return
+     */
+    public @NotNull CloudEvent decodeFast(@NotNull byte[] data) {
+        return decode(data, reusedCloudEvent);
+    }
+
+    private @NotNull CloudEvent decode(@NotNull byte[] data, io.cloudevents.CloudEvent reuse) {
         try {
             BinaryDecoder binaryDecoder = DecoderFactory.get().binaryDecoder(data, null);
-            io.cloudevents.CloudEvent avroCe = datumReader.read(null, binaryDecoder);
+            io.cloudevents.CloudEvent avroCe = datumReader.read(reuse, binaryDecoder);
             CloudEvent.Builder builder = CloudEvent.builder();
             Object avroData = avroCe.getData();
             if (avroData != null) {
@@ -47,39 +65,39 @@ public class AvroDecoder implements Decoder {
             Map<CharSequence, Object> avroAttrs = avroCe.getAttribute();
             if (avroAttrs != null) {
                 for (Map.Entry<CharSequence, Object> kv : avroAttrs.entrySet()) {
-                    String fieldName = kv.getKey().toString();
-                    Object fieldValue = kv.getValue();
-                    switch (kv.getKey().toString()) {
+                    String attrName = kv.getKey().toString();
+                    Object attrValue = kv.getValue();
+                    switch (attrName) {
                         case CloudEvent.ATTRIBUTE_SPEC_VERSION:
-                            builder.setSpecVersion(((Utf8) fieldValue).toString());
+                            builder.setSpecVersion(((Utf8) attrValue).toString());
                             break;
                         case CloudEvent.ATTRIBUTE_ID:
-                            builder.setId(((Utf8) fieldValue).toString());
+                            builder.setId(((Utf8) attrValue).toString());
                             break;
                         case CloudEvent.ATTRIBUTE_SOURCE:
-                            builder.setSource(((Utf8) fieldValue).toString());
+                            builder.setSource(((Utf8) attrValue).toString());
                             break;
                         case CloudEvent.ATTRIBUTE_TYPE:
-                            builder.setType(((Utf8) fieldValue).toString());
+                            builder.setType(((Utf8) attrValue).toString());
                             break;
                         // Optional attributes
                         case CloudEvent.ATTRIBUTE_TIME:
-                            builder.setTime(((Utf8) fieldValue).toString());
+                            builder.setTime(((Utf8) attrValue).toString());
                             break;
                         case CloudEvent.ATTRIBUTE_SUBJECT:
-                            builder.setSubject(((Utf8) fieldValue).toString());
+                            builder.setSubject(((Utf8) attrValue).toString());
                             break;
                         case CloudEvent.ATTRIBUTE_DATA_CONTENT_TYPE:
-                            builder.setDataContentType(((Utf8) fieldValue).toString());
+                            builder.setDataContentType(((Utf8) attrValue).toString());
                             break;
                         case CloudEvent.ATTRIBUTE_DATA_SCHEMA:
-                            builder.setDataSchema(((Utf8) fieldValue).toString());
+                            builder.setDataSchema(((Utf8) attrValue).toString());
                             break;
                         default:
-                            if (fieldValue instanceof Utf8) {
-                                builder.put(fieldName, ((Utf8) fieldValue).toString());
+                            if (attrValue instanceof Utf8) {
+                                builder.put(attrName, ((Utf8) attrValue).toString());
                             } else {
-                                builder.put(fieldName, fieldValue);
+                                builder.put(attrName, attrValue);
                             }
                     }
                 }

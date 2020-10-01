@@ -1,8 +1,8 @@
 package io.scaleplan.spce.codecs;
 
 import io.scaleplan.spce.CloudEvent;
-import io.scaleplan.spce.codecs.impl.AvroDecoder;
-import io.scaleplan.spce.codecs.impl.AvroEncoder;
+import io.scaleplan.spce.codecs.avro.AvroDecoder;
+import io.scaleplan.spce.codecs.avro.AvroEncoder;
 import org.jetbrains.annotations.NotNull;
 
 public class Avro {

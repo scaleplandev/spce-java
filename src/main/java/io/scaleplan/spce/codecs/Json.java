@@ -15,8 +15,8 @@
 package io.scaleplan.spce.codecs;
 
 import io.scaleplan.spce.CloudEvent;
-import io.scaleplan.spce.codecs.impl.JsonDecoder;
-import io.scaleplan.spce.codecs.impl.JsonEncoder;
+import io.scaleplan.spce.codecs.json.JsonDecoder;
+import io.scaleplan.spce.codecs.json.JsonEncoder;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.OutputStream;

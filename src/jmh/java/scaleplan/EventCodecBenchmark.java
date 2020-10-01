@@ -3,6 +3,7 @@ package scaleplan;
 import io.scaleplan.spce.CloudEvent;
 import io.scaleplan.spce.MutableCloudEvent;
 import io.scaleplan.spce.codecs.Avro;
+import io.scaleplan.spce.codecs.AvroSpce;
 import io.scaleplan.spce.codecs.Json;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.infra.Blackhole;
@@ -19,6 +20,9 @@ public class EventCodecBenchmark {
     private static final byte[] encodedAvro = Avro.encode(Json.decode(encodedJson));
     private static final CloudEvent sampleEvent = sampleEventWithOptionalAttributes();
     private static final byte[] bundleText = sampleEventBundle10();
+    //    private static final AvroDecoder avroDecoder = AvroDecoder.create();
+    private static final byte[] encodedAvroSpce = AvroSpce.encode(Json.decode(encodedJson));
+
 
     @Benchmark
     public void benchmarkDecodeJsonEvent(Blackhole blackhole) {
@@ -36,6 +40,18 @@ public class EventCodecBenchmark {
     }
 
     @Benchmark
+    public void benchmarkDecodeAvroEventAlt(Blackhole blackhole) {
+        blackhole.consume(AvroSpce.decode(encodedAvroSpce));
+    }
+
+    /*
+    @Benchmark
+    public void benchmarkDecodeAvroEventFast(Blackhole blackhole) {
+        blackhole.consume(avroDecoder.decodeFast(encodedAvro));
+    }
+     */
+
+    @Benchmark
     public void benchmarkEncodeJsonEvent(Blackhole blackhole) {
         blackhole.consume(Json.encode(sampleEvent));
     }
@@ -43,6 +59,11 @@ public class EventCodecBenchmark {
     @Benchmark
     public void benchmarkEncodeAvroEvent(Blackhole blackhole) {
         blackhole.consume(Avro.encode(sampleEvent));
+    }
+
+    @Benchmark
+    public void benchmarkEncodeAvroEventAlt(Blackhole blackhole) {
+        blackhole.consume(AvroSpce.encode(sampleEvent));
     }
 
     private static byte[] sampleEventText() {

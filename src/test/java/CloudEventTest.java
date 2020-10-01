@@ -14,6 +14,7 @@
 
 import io.scaleplan.spce.CloudEvent;
 import io.scaleplan.spce.MutableCloudEvent;
+import io.scaleplan.spce.ValidationException;
 import io.scaleplan.spce.impl.MutableCloudEventImpl;
 import org.junit.jupiter.api.Test;
 
@@ -115,6 +116,12 @@ public class CloudEventTest {
         assertEquals("MyEvent", event.getType());
         assertThrows(IllegalArgumentException.class,
                 () -> event.remove("type"));
+    }
+
+    @Test
+    public void testInvalidTimeThrows() {
+        CloudEvent.Builder builder = CloudEvent.builder();
+        assertThrows(ValidationException.class, () -> builder.setTime("invalid"));
     }
 
 }

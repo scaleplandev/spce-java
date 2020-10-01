@@ -1,4 +1,4 @@
-package io.scaleplan.spce.codecs.impl;
+package io.scaleplan.spce.codecs.avro;
 
 import io.scaleplan.spce.CloudEvent;
 import io.scaleplan.spce.codecs.EncodeException;
@@ -53,10 +53,6 @@ public class AvroEncoder implements Encoder {
             datumWriter.write(avroCe, encoder);
             encoder.flush();
             return bos.toByteArray();
-//        }
-//
-//        try {
-//            return avroCe.toByteBuffer().array();
         } catch (IOException e) {
             throw new EncodeException("Error while retrieving Avro byte array", e);
         }
