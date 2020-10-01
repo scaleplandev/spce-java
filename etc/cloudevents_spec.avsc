@@ -1,5 +1,5 @@
 {
-  "namespace":"io.cloudevents",
+  "namespace":"io.cloudevents.avro",
   "type":"record",
   "name":"CloudEvent",
   "version":"1.0",

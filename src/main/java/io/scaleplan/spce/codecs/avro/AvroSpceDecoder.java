@@ -10,7 +10,6 @@ import org.apache.avro.io.BinaryDecoder;
 import org.apache.avro.io.DatumReader;
 import org.apache.avro.io.DecoderFactory;
 import org.apache.avro.specific.SpecificDatumReader;
-import org.apache.avro.util.Utf8;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -36,28 +35,23 @@ public class AvroSpceDecoder implements Decoder {
         try {
             AvroCloudEvent avroCe = datumReader.read(null, binaryDecoder);
             MutableCloudEvent event = MutableCloudEventImpl.create()
-                    .setSpecVersion(avroCe.getSpecversion().toString())
-                    .setType(avroCe.getType().toString())
-                    .setSource(avroCe.getSource().toString())
-                    .setId(avroCe.getId().toString());
-            if (avroCe.getSubject() != null) event.setSubject(avroCe.getSubject().toString());
-            if (avroCe.getTime() != null) event.setTime(avroCe.getTime().toString());
-            if (avroCe.getDataschema() != null) event.setDataSchema(avroCe.getDataschema().toString());
-            if (avroCe.getDatacontenttype() != null) event.setDataContentType(avroCe.getDatacontenttype().toString());
+                    .setSpecVersion(avroCe.getSpecversion())
+                    .setType(avroCe.getType())
+                    .setSource(avroCe.getSource())
+                    .setId(avroCe.getId());
+            if (avroCe.getSubject() != null) event.setSubject(avroCe.getSubject());
+            if (avroCe.getTime() != null) event.setTime(avroCe.getTime());
+            if (avroCe.getDataschema() != null) event.setDataSchema(avroCe.getDataschema());
+            if (avroCe.getDatacontenttype() != null) event.setDataContentType(avroCe.getDatacontenttype());
 
             Object data = avroCe.getData();
             if (data != null) {
-                if (data instanceof Utf8) event.setData(((Utf8) data).toString());
+                if (data instanceof String) event.setData((String) data);
                 else event.setData(((ByteBuffer) data).array());
             }
 
-            for (Map.Entry<CharSequence, Object> kv : avroCe.getAttribute().entrySet()) {
-                Object value = kv.getValue();
-                if (value instanceof Utf8) {
-                    event.put(kv.getKey().toString(), value.toString());
-                } else {
-                    event.put(kv.getKey().toString(), value);
-                }
+            for (Map.Entry<String, Object> kv : avroCe.getAttribute().entrySet()) {
+                event.put(kv.getKey(), kv.getValue());
             }
 
             return event;

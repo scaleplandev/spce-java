@@ -19,8 +19,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class AvroEncoder implements Encoder {
-    private final static DatumWriter<io.cloudevents.CloudEvent> datumWriter =
-            new SpecificDatumWriter<>(io.cloudevents.CloudEvent.class);
+    private final static DatumWriter<io.cloudevents.avro.CloudEvent> datumWriter =
+            new SpecificDatumWriter<>(io.cloudevents.avro.CloudEvent.class);
 
     public static AvroEncoder create() {
         return new AvroEncoder();
@@ -31,7 +31,7 @@ public class AvroEncoder implements Encoder {
 
     @Override
     public @NotNull byte[] encode(@NotNull CloudEvent event) {
-        io.cloudevents.CloudEvent avroCe = new io.cloudevents.CloudEvent();
+        io.cloudevents.avro.CloudEvent avroCe = new io.cloudevents.avro.CloudEvent();
         Map<String, Object> attrs = event.getAttributes();
         Map<CharSequence, Object> avroAttrs = new HashMap<>(attrs.size());
         for (Map.Entry<String, Object> kv : attrs.entrySet()) {

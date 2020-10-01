@@ -7,7 +7,6 @@ import org.apache.avro.io.BinaryEncoder;
 import org.apache.avro.io.DatumWriter;
 import org.apache.avro.io.EncoderFactory;
 import org.apache.avro.specific.SpecificDatumWriter;
-import org.apache.avro.util.Utf8;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.ByteArrayOutputStream;
@@ -45,11 +44,11 @@ public class AvroSpceEncoder implements Encoder {
         byte[] data = event.getData();
         if (data != null) {
             if (event.hasBinaryData()) avroCe.setData(ByteBuffer.wrap(data));
-            else avroCe.setData(new Utf8(data));
+            else avroCe.setData(new String(data));
         }
 
         Map<String, Object> attrs = event.getAttributes();
-        Map<CharSequence, Object> avroAttrs = new HashMap<>(attrs.size());
+        Map<String, Object> avroAttrs = new HashMap<>(attrs.size());
         for (Map.Entry<String, Object> kv : attrs.entrySet()) {
             switch (kv.getKey()) {
                 case CloudEvent.ATTRIBUTE_SPEC_VERSION:
