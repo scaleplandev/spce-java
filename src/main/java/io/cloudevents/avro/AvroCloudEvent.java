@@ -10,11 +10,13 @@ import org.apache.avro.message.BinaryMessageEncoder;
 import org.apache.avro.message.SchemaStore;
 import org.apache.avro.specific.SpecificData;
 
-/** Avro Event Format for CloudEvents */
+/**
+ * Avro Event Format for CloudEvents
+ */
 @org.apache.avro.specific.AvroGenerated
-public class CloudEvent extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
-  private static final long serialVersionUID = 8166172227823375803L;
-  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"CloudEvent\",\"namespace\":\"io.cloudevents\",\"doc\":\"Avro Event Format for CloudEvents\",\"fields\":[{\"name\":\"attribute\",\"type\":{\"type\":\"map\",\"values\":[\"null\",\"boolean\",\"int\",\"string\",\"bytes\"]}},{\"name\":\"data\",\"type\":[\"bytes\",\"null\",\"boolean\",{\"type\":\"map\",\"values\":[\"null\",\"boolean\",{\"type\":\"record\",\"name\":\"CloudEventData\",\"doc\":\"Representation of a JSON Value\",\"fields\":[{\"name\":\"value\",\"type\":{\"type\":\"map\",\"values\":[\"null\",\"boolean\",{\"type\":\"map\",\"values\":\"CloudEventData\"},{\"type\":\"array\",\"items\":\"CloudEventData\"},\"double\",\"string\"]}}]},\"double\",\"string\"]},{\"type\":\"array\",\"items\":\"CloudEventData\"},\"double\",\"string\"]}],\"version\":\"1.0\"}");
+public class AvroCloudEvent extends org.apache.avro.specific.SpecificRecordBase implements org.apache.avro.specific.SpecificRecord {
+  private static final long serialVersionUID = -3668382770350508862L;
+  public static final org.apache.avro.Schema SCHEMA$ = new org.apache.avro.Schema.Parser().parse("{\"type\":\"record\",\"name\":\"AvroCloudEvent\",\"namespace\":\"io.cloudevents.avro\",\"doc\":\"Avro Event Format for CloudEvents\",\"fields\":[{\"name\":\"attribute\",\"type\":{\"type\":\"map\",\"values\":[\"null\",\"boolean\",\"int\",\"string\",\"bytes\"]}},{\"name\":\"data\",\"type\":[\"bytes\",\"null\",\"boolean\",{\"type\":\"map\",\"values\":[\"null\",\"boolean\",{\"type\":\"record\",\"name\":\"CloudEventData\",\"doc\":\"Representation of a JSON Value\",\"fields\":[{\"name\":\"value\",\"type\":{\"type\":\"map\",\"values\":[\"null\",\"boolean\",{\"type\":\"map\",\"values\":\"CloudEventData\"},{\"type\":\"array\",\"items\":\"CloudEventData\"},\"double\",\"string\"]}}]},\"double\",\"string\"]},{\"type\":\"array\",\"items\":\"CloudEventData\"},\"double\",\"string\"]}],\"version\":\"1.0\"}");
 
   public static org.apache.avro.Schema getClassSchema() {
     return SCHEMA$;
@@ -22,17 +24,17 @@ public class CloudEvent extends org.apache.avro.specific.SpecificRecordBase impl
 
   private static SpecificData MODEL$ = new SpecificData();
 
-  private static final BinaryMessageEncoder<CloudEvent> ENCODER =
-          new BinaryMessageEncoder<CloudEvent>(MODEL$, SCHEMA$);
+  private static final BinaryMessageEncoder<AvroCloudEvent> ENCODER =
+          new BinaryMessageEncoder<AvroCloudEvent>(MODEL$, SCHEMA$);
 
-  private static final BinaryMessageDecoder<CloudEvent> DECODER =
-          new BinaryMessageDecoder<CloudEvent>(MODEL$, SCHEMA$);
+  private static final BinaryMessageDecoder<AvroCloudEvent> DECODER =
+          new BinaryMessageDecoder<AvroCloudEvent>(MODEL$, SCHEMA$);
 
   /**
    * Return the BinaryMessageEncoder instance used by this class.
    * @return the message encoder used by this class
    */
-  public static BinaryMessageEncoder<CloudEvent> getEncoder() {
+  public static BinaryMessageEncoder<AvroCloudEvent> getEncoder() {
     return ENCODER;
   }
 
@@ -40,21 +42,22 @@ public class CloudEvent extends org.apache.avro.specific.SpecificRecordBase impl
    * Return the BinaryMessageDecoder instance used by this class.
    * @return the message decoder used by this class
    */
-  public static BinaryMessageDecoder<CloudEvent> getDecoder() {
+  public static BinaryMessageDecoder<AvroCloudEvent> getDecoder() {
     return DECODER;
   }
 
   /**
    * Create a new BinaryMessageDecoder instance for this class that uses the specified {@link SchemaStore}.
+   *
    * @param resolver a {@link SchemaStore} used to find schemas by fingerprint
    * @return a BinaryMessageDecoder instance for this class backed by the given SchemaStore
    */
-  public static BinaryMessageDecoder<CloudEvent> createDecoder(SchemaStore resolver) {
-    return new BinaryMessageDecoder<CloudEvent>(MODEL$, SCHEMA$, resolver);
+  public static BinaryMessageDecoder<AvroCloudEvent> createDecoder(SchemaStore resolver) {
+    return new BinaryMessageDecoder<AvroCloudEvent>(MODEL$, SCHEMA$, resolver);
   }
 
   /**
-   * Serializes this CloudEvent to a ByteBuffer.
+   * Serializes this AvroCloudEvent to a ByteBuffer.
    * @return a buffer holding the serialized data for this instance
    * @throws java.io.IOException if this instance could not be serialized
    */
@@ -63,13 +66,13 @@ public class CloudEvent extends org.apache.avro.specific.SpecificRecordBase impl
   }
 
   /**
-   * Deserializes a CloudEvent from a ByteBuffer.
+   * Deserializes a AvroCloudEvent from a ByteBuffer.
    *
    * @param b a byte buffer holding serialized data for an instance of this class
-   * @return a CloudEvent instance decoded from the given buffer
+   * @return a AvroCloudEvent instance decoded from the given buffer
    * @throws java.io.IOException if the given bytes could not be deserialized into an instance of this class
    */
-  public static CloudEvent fromByteBuffer(
+  public static AvroCloudEvent fromByteBuffer(
           java.nio.ByteBuffer b) throws java.io.IOException {
     return DECODER.decode(b);
   }
@@ -82,7 +85,7 @@ public class CloudEvent extends org.apache.avro.specific.SpecificRecordBase impl
    * to their default values from the schema.  If that is desired then
    * one should use <code>newBuilder()</code>.
    */
-  public CloudEvent() {
+  public AvroCloudEvent() {
   }
 
   /**
@@ -91,7 +94,7 @@ public class CloudEvent extends org.apache.avro.specific.SpecificRecordBase impl
    * @param attribute The new value for attribute
    * @param data      The new value for data
    */
-  public CloudEvent(java.util.Map<java.lang.CharSequence, java.lang.Object> attribute, java.lang.Object data) {
+  public AvroCloudEvent(java.util.Map<java.lang.CharSequence, java.lang.Object> attribute, java.lang.Object data) {
     this.attribute = attribute;
     this.data = data;
   }
@@ -136,14 +139,13 @@ public class CloudEvent extends org.apache.avro.specific.SpecificRecordBase impl
    *
    * @return The value of the 'attribute' field.
    */
-  public java.util.Map<java.lang.CharSequence, java.lang.Object> getAttribute() {
+  public java.util.Map<java.lang.CharSequence,java.lang.Object> getAttribute() {
     return attribute;
   }
 
 
   /**
    * Sets the value of the 'attribute' field.
-   *
    * @param value the value to set.
    */
   public void setAttribute(java.util.Map<java.lang.CharSequence,java.lang.Object> value) {
@@ -168,48 +170,48 @@ public class CloudEvent extends org.apache.avro.specific.SpecificRecordBase impl
   }
 
   /**
-   * Creates a new CloudEvent RecordBuilder.
+   * Creates a new AvroCloudEvent RecordBuilder.
    *
-   * @return A new CloudEvent RecordBuilder
+   * @return A new AvroCloudEvent RecordBuilder
    */
-  public static CloudEvent.Builder newBuilder() {
-    return new CloudEvent.Builder();
+  public static io.cloudevents.avro.AvroCloudEvent.Builder newBuilder() {
+    return new io.cloudevents.avro.AvroCloudEvent.Builder();
   }
 
   /**
-   * Creates a new CloudEvent RecordBuilder by copying an existing Builder.
+   * Creates a new AvroCloudEvent RecordBuilder by copying an existing Builder.
    *
    * @param other The existing builder to copy.
-   * @return A new CloudEvent RecordBuilder
+   * @return A new AvroCloudEvent RecordBuilder
    */
-  public static CloudEvent.Builder newBuilder(CloudEvent.Builder other) {
+  public static io.cloudevents.avro.AvroCloudEvent.Builder newBuilder(io.cloudevents.avro.AvroCloudEvent.Builder other) {
     if (other == null) {
-      return new CloudEvent.Builder();
+      return new io.cloudevents.avro.AvroCloudEvent.Builder();
     } else {
-      return new CloudEvent.Builder(other);
+      return new io.cloudevents.avro.AvroCloudEvent.Builder(other);
     }
   }
 
   /**
-   * Creates a new CloudEvent RecordBuilder by copying an existing CloudEvent instance.
+   * Creates a new AvroCloudEvent RecordBuilder by copying an existing AvroCloudEvent instance.
    *
    * @param other The existing instance to copy.
-   * @return A new CloudEvent RecordBuilder
+   * @return A new AvroCloudEvent RecordBuilder
    */
-  public static CloudEvent.Builder newBuilder(CloudEvent other) {
+  public static io.cloudevents.avro.AvroCloudEvent.Builder newBuilder(io.cloudevents.avro.AvroCloudEvent other) {
     if (other == null) {
-      return new CloudEvent.Builder();
+      return new io.cloudevents.avro.AvroCloudEvent.Builder();
     } else {
-      return new CloudEvent.Builder(other);
+      return new io.cloudevents.avro.AvroCloudEvent.Builder(other);
     }
   }
 
   /**
-   * RecordBuilder for CloudEvent instances.
+   * RecordBuilder for AvroCloudEvent instances.
    */
   @org.apache.avro.specific.AvroGenerated
-  public static class Builder extends org.apache.avro.specific.SpecificRecordBuilderBase<CloudEvent>
-          implements org.apache.avro.data.RecordBuilder<CloudEvent> {
+  public static class Builder extends org.apache.avro.specific.SpecificRecordBuilderBase<AvroCloudEvent>
+          implements org.apache.avro.data.RecordBuilder<AvroCloudEvent> {
 
     private java.util.Map<java.lang.CharSequence, java.lang.Object> attribute;
     private java.lang.Object data;
@@ -223,7 +225,7 @@ public class CloudEvent extends org.apache.avro.specific.SpecificRecordBase impl
      * Creates a Builder by copying an existing Builder.
      * @param other The existing Builder to copy.
      */
-    private Builder(CloudEvent.Builder other) {
+    private Builder(io.cloudevents.avro.AvroCloudEvent.Builder other) {
       super(other);
       if (isValidValue(fields()[0], other.attribute)) {
         this.attribute = data().deepCopy(fields()[0].schema(), other.attribute);
@@ -236,11 +238,11 @@ public class CloudEvent extends org.apache.avro.specific.SpecificRecordBase impl
     }
 
     /**
-     * Creates a Builder by copying an existing CloudEvent instance
+     * Creates a Builder by copying an existing AvroCloudEvent instance
      *
      * @param other The existing instance to copy.
      */
-    private Builder(CloudEvent other) {
+    private Builder(io.cloudevents.avro.AvroCloudEvent other) {
       super(SCHEMA$);
       if (isValidValue(fields()[0], other.attribute)) {
         this.attribute = data().deepCopy(fields()[0].schema(), other.attribute);
@@ -267,7 +269,7 @@ public class CloudEvent extends org.apache.avro.specific.SpecificRecordBase impl
      * @param value The value of 'attribute'.
      * @return This builder.
      */
-    public CloudEvent.Builder setAttribute(java.util.Map<java.lang.CharSequence, java.lang.Object> value) {
+    public io.cloudevents.avro.AvroCloudEvent.Builder setAttribute(java.util.Map<java.lang.CharSequence, java.lang.Object> value) {
       validate(fields()[0], value);
       this.attribute = value;
       fieldSetFlags()[0] = true;
@@ -287,7 +289,7 @@ public class CloudEvent extends org.apache.avro.specific.SpecificRecordBase impl
      * Clears the value of the 'attribute' field.
      * @return This builder.
      */
-    public CloudEvent.Builder clearAttribute() {
+    public io.cloudevents.avro.AvroCloudEvent.Builder clearAttribute() {
       attribute = null;
       fieldSetFlags()[0] = false;
       return this;
@@ -309,7 +311,7 @@ public class CloudEvent extends org.apache.avro.specific.SpecificRecordBase impl
      * @param value The value of 'data'.
      * @return This builder.
      */
-    public CloudEvent.Builder setData(java.lang.Object value) {
+    public io.cloudevents.avro.AvroCloudEvent.Builder setData(java.lang.Object value) {
       validate(fields()[1], value);
       this.data = value;
       fieldSetFlags()[1] = true;
@@ -326,10 +328,10 @@ public class CloudEvent extends org.apache.avro.specific.SpecificRecordBase impl
 
 
     /**
-      * Clears the value of the 'data' field.
-      * @return This builder.
-      */
-    public CloudEvent.Builder clearData() {
+     * Clears the value of the 'data' field.
+     * @return This builder.
+     */
+    public io.cloudevents.avro.AvroCloudEvent.Builder clearData() {
       data = null;
       fieldSetFlags()[1] = false;
       return this;
@@ -337,10 +339,10 @@ public class CloudEvent extends org.apache.avro.specific.SpecificRecordBase impl
 
     @Override
     @SuppressWarnings("unchecked")
-    public CloudEvent build() {
+    public AvroCloudEvent build() {
       try {
-        CloudEvent record = new CloudEvent();
-        record.attribute = fieldSetFlags()[0] ? this.attribute : (java.util.Map<java.lang.CharSequence,java.lang.Object>) defaultValue(fields()[0]);
+        AvroCloudEvent record = new AvroCloudEvent();
+        record.attribute = fieldSetFlags()[0] ? this.attribute : (java.util.Map<java.lang.CharSequence, java.lang.Object>) defaultValue(fields()[0]);
         record.data = fieldSetFlags()[1] ? this.data : defaultValue(fields()[1]);
         return record;
       } catch (org.apache.avro.AvroMissingFieldException e) {
@@ -352,8 +354,8 @@ public class CloudEvent extends org.apache.avro.specific.SpecificRecordBase impl
   }
 
   @SuppressWarnings("unchecked")
-  private static final org.apache.avro.io.DatumWriter<CloudEvent>
-          WRITER$ = (org.apache.avro.io.DatumWriter<CloudEvent>) MODEL$.createDatumWriter(SCHEMA$);
+  private static final org.apache.avro.io.DatumWriter<AvroCloudEvent>
+          WRITER$ = (org.apache.avro.io.DatumWriter<AvroCloudEvent>) MODEL$.createDatumWriter(SCHEMA$);
 
   @Override
   public void writeExternal(java.io.ObjectOutput out)
@@ -362,8 +364,8 @@ public class CloudEvent extends org.apache.avro.specific.SpecificRecordBase impl
   }
 
   @SuppressWarnings("unchecked")
-  private static final org.apache.avro.io.DatumReader<CloudEvent>
-          READER$ = (org.apache.avro.io.DatumReader<CloudEvent>)MODEL$.createDatumReader(SCHEMA$);
+  private static final org.apache.avro.io.DatumReader<AvroCloudEvent>
+          READER$ = (org.apache.avro.io.DatumReader<AvroCloudEvent>)MODEL$.createDatumReader(SCHEMA$);
 
   @Override public void readExternal(java.io.ObjectInput in)
     throws java.io.IOException {

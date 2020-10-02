@@ -14,6 +14,7 @@
 
 package io.scaleplan.spce.codecs.avro;
 
+import io.cloudevents.avro.AvroCloudEvent;
 import io.scaleplan.spce.CloudEvent;
 import io.scaleplan.spce.codecs.EncodeException;
 import io.scaleplan.spce.codecs.Encoder;
@@ -33,8 +34,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class AvroEncoder implements Encoder {
-    private final static DatumWriter<io.cloudevents.avro.CloudEvent> datumWriter =
-            new SpecificDatumWriter<>(io.cloudevents.avro.CloudEvent.class);
+    private final static DatumWriter<AvroCloudEvent> datumWriter =
+            new SpecificDatumWriter<>(AvroCloudEvent.class);
 
     public static AvroEncoder create() {
         return new AvroEncoder();
@@ -45,7 +46,7 @@ public class AvroEncoder implements Encoder {
 
     @Override
     public @NotNull byte[] encode(@NotNull CloudEvent event) {
-        io.cloudevents.avro.CloudEvent avroCe = new io.cloudevents.avro.CloudEvent();
+        AvroCloudEvent avroCe = new AvroCloudEvent();
         Map<String, Object> attrs = event.getAttributes();
         Map<CharSequence, Object> avroAttrs = new HashMap<>(attrs.size());
         for (Map.Entry<String, Object> kv : attrs.entrySet()) {

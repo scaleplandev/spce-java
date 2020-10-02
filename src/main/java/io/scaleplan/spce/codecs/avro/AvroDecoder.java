@@ -14,6 +14,7 @@
 
 package io.scaleplan.spce.codecs.avro;
 
+import io.cloudevents.avro.AvroCloudEvent;
 import io.scaleplan.spce.CloudEvent;
 import io.scaleplan.spce.codecs.DecodeException;
 import io.scaleplan.spce.codecs.DecodeIterator;
@@ -31,10 +32,8 @@ import java.util.List;
 import java.util.Map;
 
 public class AvroDecoder implements Decoder {
-    private final io.cloudevents.avro.CloudEvent reusedCloudEvent = new io.cloudevents.avro.CloudEvent();
-
-    private static final DatumReader<io.cloudevents.avro.CloudEvent> datumReader =
-            new SpecificDatumReader<>(io.cloudevents.avro.CloudEvent.class);
+    private static final DatumReader<AvroCloudEvent> datumReader =
+            new SpecificDatumReader<>(AvroCloudEvent.class);
 
     public static AvroDecoder create() {
         return new AvroDecoder();
@@ -49,10 +48,10 @@ public class AvroDecoder implements Decoder {
         return decode(data, null);
     }
 
-    private @NotNull CloudEvent decode(@NotNull byte[] data, io.cloudevents.avro.CloudEvent reuse) {
+    private @NotNull CloudEvent decode(@NotNull byte[] data, AvroCloudEvent reuse) {
         try {
             BinaryDecoder binaryDecoder = DecoderFactory.get().binaryDecoder(data, null);
-            io.cloudevents.avro.CloudEvent avroCe = datumReader.read(reuse, binaryDecoder);
+            AvroCloudEvent avroCe = datumReader.read(reuse, binaryDecoder);
             CloudEvent.Builder builder = CloudEvent.builder();
             Object avroData = avroCe.getData();
             if (avroData != null) {
