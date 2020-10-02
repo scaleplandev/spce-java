@@ -22,13 +22,4 @@ public class AvroCodecBenchmark {
     public void encodeEvent(Blackhole blackhole) {
         blackhole.consume(Avro.encode(Common.sampleEvent));
     }
-
-        /*
-    @Benchmark
-    public void benchmarkDecodeAvroEventFast(Blackhole blackhole) {
-        blackhole.consume(avroDecoder.decodeFast(encodedAvro));
-    }
-    */
-
-
 }

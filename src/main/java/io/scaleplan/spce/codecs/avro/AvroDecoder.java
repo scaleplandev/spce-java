@@ -49,18 +49,6 @@ public class AvroDecoder implements Decoder {
         return decode(data, null);
     }
 
-    /**
-     * Decodes with reuse
-     * <p>
-     * Warning: Not thread-safe.
-     *
-     * @param data
-     * @return
-     */
-    public @NotNull CloudEvent decodeFast(@NotNull byte[] data) {
-        return decode(data, reusedCloudEvent);
-    }
-
     private @NotNull CloudEvent decode(@NotNull byte[] data, io.cloudevents.avro.CloudEvent reuse) {
         try {
             BinaryDecoder binaryDecoder = DecoderFactory.get().binaryDecoder(data, null);
