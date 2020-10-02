@@ -2,11 +2,13 @@
 
 AVRO_TOOLS_PATH ?= ./avro-tools-1.10.0.jar
 
+BENCHMARKS ?=
+
 build:
 	./gradlew build
 
 benchmark:
-	./gradlew --no-daemon jmh
+	./gradlew --no-daemon jmh -Pinclude=$(BENCHMARKS)
 
 clean:
 	./gradlew clean

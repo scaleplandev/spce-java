@@ -18,7 +18,10 @@ ext {
 group 'io.scaleplan'
 version '0.3.1'
 
-sourceCompatibility = 1.8
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
 
 repositories {
     mavenCentral()
@@ -52,6 +55,12 @@ jmh {
     duplicateClassesStrategy = 'warn'
     jmhVersion = '1.22'
 //    profilers = ['perf']
+
+    // BROKEN
+    // def includeBenchmarks = project.properties.get('include', '').split(',')
+    def includeBenchmarks = [ ]
+    include = includeBenchmarks
+
 }
 
 javadoc {

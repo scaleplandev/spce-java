@@ -18,7 +18,6 @@ import io.scaleplan.spce.MutableCloudEvent;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
@@ -26,10 +25,22 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class TestUtils {
+public class Common {
+    static String sampleStringData = "{\"user_id\": \"bc1459c5-378d-4835-b4b6-a2c7d9ca75e3\", \"spo2\": 96, \"event\": \"OximiterMeasured\"}";
+    static byte[] sampleBinaryData = new byte[]{1, 2, 3, 4}; // TODO: replace with sampleStringData.getBytes()
+
+
+    public final static CloudEvent eventWithNoData = sampleEventWithRequiredAttributes();
+    public final static CloudEvent eventWithStringData = Common.sampleEventWithOptionalAttributes();
+    public final static CloudEvent eventWithBinaryData = Common.sampleEventWithOptionalAttributesAndBinaryData();
+
+    public final static List<CloudEvent> eventBatchSize0 = Collections.emptyList();
+    public final static List<CloudEvent> eventBatchSize1 = Collections.singletonList(eventWithStringData);
+    public final static List<CloudEvent> eventBatchSize2 = Arrays.asList(eventWithStringData, eventWithBinaryData);
+
     static byte[] loadFromResource(String name) {
         try {
-            URL fileUrl = Objects.requireNonNull(TestUtils.class.getClassLoader().getResource(name));
+            URL fileUrl = Objects.requireNonNull(Common.class.getClassLoader().getResource(name));
             return Files.readAllBytes(Paths.get(fileUrl.toURI()));
         } catch (IOException | URISyntaxException e) {
             throw new RuntimeException(e);
@@ -57,15 +68,6 @@ public class TestUtils {
         }
     }
 
-    public static byte[] sampleData() {
-        String text = "{\"user_id\": \"bc1459c5-378d-4835-b4b6-a2c7d9ca75e3\", \"spo2\": 96, \"event\": \"OximiterMeasured\"}";
-        return text.getBytes(StandardCharsets.UTF_8);
-    }
-
-    public static byte[] sampleBinaryData() {
-        return new byte[]{1, 2, 3, 4};
-    }
-
     public static CloudEvent sampleEventWithRequiredAttributes() {
         return CloudEvent.builder()
                 .setType("OximeterMeasured")
@@ -79,7 +81,7 @@ public class TestUtils {
         event
                 .setTime("2020-07-13T09:15:12Z")
                 .setDataContentType("application/json")
-                .setDataUnsafe(TestUtils.sampleData())
+                .setData(sampleStringData)
                 .setDataSchema("http://json-schema.org/draft-07/schema#")
                 .setSubject("SampleSubject");
         return event;
@@ -90,7 +92,7 @@ public class TestUtils {
         event
                 .setTime("2020-07-13T09:15:12Z")
                 .setDataContentType("application/octet-stream")
-                .setDataUnsafe(TestUtils.sampleBinaryData())
+                .setData(sampleBinaryData)
                 .setDataSchema("http://json-schema.org/draft-07/schema#")
                 .setSubject("SampleSubject");
         return event;
@@ -115,4 +117,11 @@ public class TestUtils {
         return arr;
     }
 
+    public static List<Byte> byteArrayToList(final byte[] arr) {
+        List<Byte> result = new ArrayList<>(arr.length);
+        for (byte b : arr) {
+            result.add(b);
+        }
+        return result;
+    }
 }

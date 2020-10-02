@@ -29,10 +29,10 @@ import static org.junit.jupiter.api.Assertions.*;
 public class JsonCodecTest {
     @Test
     public void testJsonDecodeWithStringData() {
-        byte[] text = TestUtils.loadFromResource("fixtures/sample_event_extended.json");
+        byte[] text = Common.loadFromResource("fixtures/sample_event_extended.json");
         CloudEvent event = Json.decode(text);
-        TestUtils.checkEvent(event,
-                TestUtils.sampleData(),
+        Common.checkEvent(event,
+                Common.sampleStringData.getBytes(),
                 "id", "1",
                 "specversion", "1.0",
                 "source", "/oid/A129F28C#",
@@ -49,10 +49,10 @@ public class JsonCodecTest {
 
     @Test
     public void testJsonDecodeWithBinaryData() {
-        byte[] text = TestUtils.loadFromResource("fixtures/sample_event_extended_binary_data.json");
+        byte[] text = Common.loadFromResource("fixtures/sample_event_extended_binary_data.json");
         CloudEvent event = Json.decode(text);
-        TestUtils.checkEvent(event,
-                TestUtils.sampleBinaryData(),
+        Common.checkEvent(event,
+                Common.sampleBinaryData,
                 "id", "1",
                 "specversion", "1.0",
                 "source", "/oid/A129F28C#",
@@ -68,16 +68,16 @@ public class JsonCodecTest {
 
     @Test
     public void testJsonEncode() {
-        CloudEvent event = TestUtils.sampleEventWithOptionalAndExtendedAttributes();
+        CloudEvent event = Common.sampleEventWithOptionalAndExtendedAttributes();
         byte[] encodedEvent = Json.encode(event);
         String encodedString = new String(encodedEvent);
-        String targetString = "{\"specversion\":\"1.0\",\"type\":\"OximeterMeasured\",\"source\":\"/user/123#\",\"id\":\"567\",\"time\":\"2020-07-13T09:15:12Z\",\"subject\":\"SampleSubject\",\"datacontenttype\":\"application/json\",\"dataschema\":\"http://json-schema.org/draft-07/schema#\",\"data_base64\":\"eyJ1c2VyX2lkIjogImJjMTQ1OWM1LTM3OGQtNDgzNS1iNGI2LWEyYzdkOWNhNzVlMyIsICJzcG8yIjogOTYsICJldmVudCI6ICJPeGltaXRlck1lYXN1cmVkIn0=\",\"compmstring\":\"string-value\",\"compmint\":42,\"compmbool\":true}";
-        assertArrayEquals(TestUtils.stringToSortedChars(targetString), TestUtils.stringToSortedChars(encodedString));
+        String targetString = "{\"datacontenttype\":\"application/json\",\"compmstring\":\"string-value\",\"compmint\":42,\"compmbool\":true,\"subject\":\"SampleSubject\",\"specversion\":\"1.0\",\"source\":\"/user/123#\",\"id\":\"567\",\"time\":\"2020-07-13T09:15:12Z\",\"type\":\"OximeterMeasured\",\"dataschema\":\"http://json-schema.org/draft-07/schema#\",\"data\":\"{\\\"user_id\\\": \\\"bc1459c5-378d-4835-b4b6-a2c7d9ca75e3\\\", \\\"spo2\\\": 96, \\\"event\\\": \\\"OximiterMeasured\\\"}\"}";
+        assertArrayEquals(Common.stringToSortedChars(targetString), Common.stringToSortedChars(encodedString));
     }
 
     @Test
     public void testJsonArrayDecode() {
-        byte[] text = TestUtils.loadFromResource("fixtures/sample_event_array.json");
+        byte[] text = Common.loadFromResource("fixtures/sample_event_array.json");
         List<CloudEvent> events = Json.decodeBatch(text);
 
         assertEquals(2, events.size());
@@ -111,14 +111,14 @@ public class JsonCodecTest {
 
     @Test
     public void testJsonArrayEncode() {
-        MutableCloudEvent event1 = (MutableCloudEvent) TestUtils.sampleEventWithOptionalAttributes();
+        MutableCloudEvent event1 = (MutableCloudEvent) Common.sampleEventWithOptionalAttributes();
         event1.setId("10");
-        MutableCloudEvent event2 = (MutableCloudEvent) TestUtils.sampleEventWithOptionalAttributes();
+        MutableCloudEvent event2 = (MutableCloudEvent) Common.sampleEventWithOptionalAttributes();
         event2.setId("20");
 
         byte[] encodedEvents = Json.encode(Arrays.asList(event1, event2));
-        String target = "[{\"datacontenttype\":\"application/json\",\"data_base64\":\"eyJ1c2VyX2lkIjogImJjMTQ1OWM1LTM3OGQtNDgzNS1iNGI2LWEyYzdkOWNhNzVlMyIsICJzcG8yIjogOTYsICJldmVudCI6ICJPeGltaXRlck1lYXN1cmVkIn0=\",\"subject\":\"SampleSubject\",\"specversion\":\"1.0\",\"source\":\"/user/123#\",\"id\":\"10\",\"time\":\"2020-07-13T09:15:12Z\",\"type\":\"OximeterMeasured\",\"dataschema\":\"http://json-schema.org/draft-07/schema#\"},{\"datacontenttype\":\"application/json\",\"data_base64\":\"eyJ1c2VyX2lkIjogImJjMTQ1OWM1LTM3OGQtNDgzNS1iNGI2LWEyYzdkOWNhNzVlMyIsICJzcG8yIjogOTYsICJldmVudCI6ICJPeGltaXRlck1lYXN1cmVkIn0=\",\"subject\":\"SampleSubject\",\"specversion\":\"1.0\",\"source\":\"/user/123#\",\"id\":\"20\",\"time\":\"2020-07-13T09:15:12Z\",\"type\":\"OximeterMeasured\",\"dataschema\":\"http://json-schema.org/draft-07/schema#\"}]";
-        assertArrayEquals(TestUtils.stringToSortedChars(target), TestUtils.stringToSortedChars(new String(encodedEvents)));
+        String target = "[{\"datacontenttype\":\"application/json\",\"subject\":\"SampleSubject\",\"specversion\":\"1.0\",\"source\":\"/user/123#\",\"id\":\"10\",\"time\":\"2020-07-13T09:15:12Z\",\"type\":\"OximeterMeasured\",\"dataschema\":\"http://json-schema.org/draft-07/schema#\",\"data\":\"{\\\"user_id\\\": \\\"bc1459c5-378d-4835-b4b6-a2c7d9ca75e3\\\", \\\"spo2\\\": 96, \\\"event\\\": \\\"OximiterMeasured\\\"}\"},{\"datacontenttype\":\"application/json\",\"subject\":\"SampleSubject\",\"specversion\":\"1.0\",\"source\":\"/user/123#\",\"id\":\"20\",\"time\":\"2020-07-13T09:15:12Z\",\"type\":\"OximeterMeasured\",\"dataschema\":\"http://json-schema.org/draft-07/schema#\",\"data\":\"{\\\"user_id\\\": \\\"bc1459c5-378d-4835-b4b6-a2c7d9ca75e3\\\", \\\"spo2\\\": 96, \\\"event\\\": \\\"OximiterMeasured\\\"}\"}]";
+        assertArrayEquals(Common.stringToSortedChars(target), Common.stringToSortedChars(new String(encodedEvents)));
     }
 
     @Test
@@ -129,7 +129,7 @@ public class JsonCodecTest {
 
     @Test
     public void testEncodeInvalidType() {
-        MutableCloudEvent event = ((MutableCloudEvent) TestUtils.sampleEventWithOptionalAttributes())
+        MutableCloudEvent event = ((MutableCloudEvent) Common.sampleEventWithOptionalAttributes())
                 .put("invalidattr", 5.2);
         assertThrows(EncodeException.class, () -> Json.encode(event));
 

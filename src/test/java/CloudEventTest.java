@@ -23,8 +23,8 @@ import static org.junit.jupiter.api.Assertions.*;
 public class CloudEventTest {
     @Test
     public void testRequiredAttributes() {
-        CloudEvent event = TestUtils.sampleEventWithRequiredAttributes();
-        TestUtils.checkEvent(event,
+        CloudEvent event = Common.sampleEventWithRequiredAttributes();
+        Common.checkEvent(event,
                 null,
                 "id", "567",
                 "specversion", "1.0",
@@ -39,16 +39,16 @@ public class CloudEventTest {
 
     @Test
     public void testOptionalAttributes() {
-        CloudEvent baseEvent = TestUtils.sampleEventWithRequiredAttributes();
+        CloudEvent baseEvent = Common.sampleEventWithRequiredAttributes();
         // MutableEventImpl do
         CloudEvent event = ((MutableCloudEvent) baseEvent)
                 .setTime("2020-07-13T09:15:12Z")
                 .setDataContentType("application/json")
-                .setData(TestUtils.sampleData())
+                .setData(Common.sampleStringData)
                 .setDataSchema("https://particlemetrics.com/oximeter-schema#")
                 .setSubject("SampleSubject");
-        TestUtils.checkEvent(event,
-                TestUtils.sampleData(),
+        Common.checkEvent(event,
+                Common.sampleStringData.getBytes(),
                 "id", "567",
                 "specversion", "1.0",
                 "source", "/user/123#",
@@ -64,14 +64,14 @@ public class CloudEventTest {
         assertEquals("567", event.getId());
         assertEquals("2020-07-13T09:15:12Z", event.getTime());
         assertEquals("application/json", event.getDataContentType());
-        assertArrayEquals(TestUtils.sampleData(), event.getData());
+        assertArrayEquals(Common.sampleStringData.getBytes(), event.getData());
         assertEquals("https://particlemetrics.com/oximeter-schema#", event.getDataSchema());
         assertEquals("SampleSubject", event.getSubject());
     }
 
     @Test
     public void testExtendedAttributes() {
-        CloudEvent baseEvent = TestUtils.sampleEventWithRequiredAttributes();
+        CloudEvent baseEvent = Common.sampleEventWithRequiredAttributes();
         // MutableEventImpl do
         CloudEvent event = ((MutableCloudEvent) baseEvent)
                 .put("compmstring", "string-value")
@@ -122,6 +122,22 @@ public class CloudEventTest {
     public void testInvalidTimeThrows() {
         CloudEvent.Builder builder = CloudEvent.builder();
         assertThrows(ValidationException.class, () -> builder.setTime("invalid"));
+    }
+
+    @Test
+    public void testUnsafeAndSafe() {
+        CloudEvent event = CloudEvent.builder()
+                .setType("OximeterMeasured")
+                .setSource("/user/123#")
+                .setId("567")
+                .setTime("2020-07-13T09:15:12Z")
+                .setDataContentType("application/json")
+                .setData(Common.sampleStringData)
+                .setDataSchema("http://json-schema.org/draft-07/schema#")
+                .setSubject("SampleSubject")
+                .put("compmstring", "string-value")
+                .build();
+
     }
 
 }
