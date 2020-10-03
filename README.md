@@ -14,9 +14,68 @@ Check out the [CloudEvents spec](https://github.com/cloudevents/spec/blob/v1.0/s
 
 ## Install
 
+`spce` is published on Bintray.
+
 ### Maven
 
+Update your `~/.m2/settings.xml` with ScalePlan's Bintray repo: 
+
+```xml
+    <!-- ... -->
+    <profiles>
+        <profile>
+            <repositories>
+                <repository>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                    <id>bintray-scaleplan-maven</id>
+                    <name>bintray</name>
+                    <url>https://dl.bintray.com/scaleplan/maven</url>
+                </repository>
+            </repositories>
+            <pluginRepositories>
+                <pluginRepository>
+                    <snapshots>
+                        <enabled>false</enabled>
+                    </snapshots>
+                    <id>bintray-scaleplan-maven</id>
+                    <name>bintray-plugins</name>
+                    <url>https://dl.bintray.com/scaleplan/maven</url>
+                </pluginRepository>
+            </pluginRepositories>
+            <id>bintray</id>
+        </profile>
+    </profiles>
+    <!-- ... -->
+```
+
+Then, add the dependency to your `pom.xml`:
+```xml
+<dependency>
+  <groupId>io.scaleplan</groupId>
+  <artifactId>spce</artifactId>
+  <version>0.3.3</version>
+  <type>pom</type>
+</dependency>
+```
+
 ### Gradle
+
+Update your `build.gradle` with ScalePlan's Bintray repo:
+
+```groovy
+repositories {
+    maven {
+        url  "https://dl.bintray.com/scaleplan/maven" 
+    }
+}
+```
+
+Then add the dependency in `build.gradle`:
+```groovy
+implementation 'io.scaleplan:spce:0.3.3'
+```
 
 ## Usage
 

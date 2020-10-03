@@ -6,6 +6,7 @@ plugins {
     id 'jacoco'
     id 'maven-publish'
     id 'me.champeau.gradle.jmh' version '0.5.0'
+    id "com.jfrog.bintray" version '1.8.5'
 }
 
 ext {
@@ -17,6 +18,9 @@ ext {
 
 group 'io.scaleplan'
 version '0.3.3'
+
+def title = "ScalePlan CloudEvents for Java"
+def homeUrl = "https://github.com/scaleplandev/spce-java"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
@@ -64,24 +68,66 @@ jmh {
 }
 
 javadoc {
-    title = "ScalePlan CloudEvents for Java v$version"
+    title = "$title v$version"
     source = sourceSets.main.allJava
     options.overview = "etc/javadoc/overview.html"
+}
+
+bintray {
+    user = "$scaleplan_bintray_user"
+    key = "$scaleplan_bintray_key"
+    publications = ['gpr']
+    pkg {
+        repo = 'maven'
+        name = "${rootProject.name}"
+        userOrg = 'scaleplan'
+        licenses = ['Apache-2.0']
+        vcsUrl = 'https://github.com/scaleplandev/spce-java.git'
+        version {
+            name = "$project.version"
+            desc = "$title"
+            released  = new Date()
+            vcsTag = "$project.version"
+        }
+    }
+}
+
+def pomConfig = {
+    licenses {
+        license {
+            name "The Apache Software License, Version 2.0"
+            url "http://www.apache.org/licenses/LICENSE-2.0.txt"
+            distribution "repo"
+        }
+    }
+    developers {
+        developer {
+            id "yuce-scaleplan"
+            name "Yüce Tekol"
+            email "yuce@scaleplan.io"
+        }
+    }
+
+    scm {
+        url "$homeUrl"
+    }
 }
 
 publishing {
     publications {
         gpr(MavenPublication) {
             from(components.java)
-        }
-    }
-    repositories {
-        maven {
-            name = "GitHubPackages"
-            url = 'https://maven.pkg.github.com/scaleplandev/maven'
-            credentials {
-                username "$scaleplan_user"
-                password "$scaleplan_pass"
+            groupId "$project.group"
+            artifactId "${rootProject.name}"
+            version "$project.version"
+//            artifact sourcesJar
+//            artifact javadocJar
+            pom.withXml {
+                def root = asNode()
+                root.appendNode('description', "$title")
+                root.appendNode('name', "scpe")
+                root.appendNode('url', "$homeUrl")
+                root.children().last() + pomConfig
             }
         }
     }
