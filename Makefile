@@ -25,5 +25,5 @@ doc:
 generate:
 	java -jar $(AVRO_TOOLS_PATH) compile schema ./etc/cloudevents_spec.avsc ./src/main/java
 
-generate-alt:
-	java -jar $(AVRO_TOOLS_PATH) compile schema -string ./etc/cloudevents_spec_alt.avsc ./src/main/java
+generate-spce:
+	java -jar $(AVRO_TOOLS_PATH) compile schema -string ./etc/cloudevents_spce_spec.avsc ./src/main/java

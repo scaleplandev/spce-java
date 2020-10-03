@@ -1,9 +1,9 @@
 {
   "namespace": "io.scaleplan.spce.codecs.avro",
-  "type": "record",
   "name": "AvroCloudEvent",
-  "version": "0.1",
-  "doc": "Avro Event Format for CloudEvents",
+  "version": "0.1.0",
+  "doc": "Experimental Avro event format for CloudEvents",
+  "type": "record",
   "fields": [
     {
       "name": "specversion",

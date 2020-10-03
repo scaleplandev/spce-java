@@ -126,18 +126,41 @@ public class CloudEventTest {
 
     @Test
     public void testUnsafeAndSafe() {
-        CloudEvent event = CloudEvent.builder()
+        CloudEvent event1 = CloudEvent.builder()
                 .setType("OximeterMeasured")
                 .setSource("/user/123#")
                 .setId("567")
                 .setTime("2020-07-13T09:15:12Z")
                 .setDataContentType("application/json")
-                .setData(Common.sampleStringData)
+                .setData(Common.sampleStringData.getBytes())
                 .setDataSchema("http://json-schema.org/draft-07/schema#")
                 .setSubject("SampleSubject")
                 .put("compmstring", "string-value")
                 .build();
 
+        CloudEvent event2 = CloudEvent.builder()
+                .setType("OximeterMeasured")
+                .setSource("/user/123#")
+                .setId("567")
+                .setTime("2020-07-13T09:15:12Z")
+                .setDataContentType("application/json")
+                .setDataUnsafe(Common.sampleStringData.getBytes())
+                .setDataSchema("http://json-schema.org/draft-07/schema#")
+                .setSubject("SampleSubject")
+                .put("compmstring", "string-value")
+                .build();
+        assertEquals(event1, event2);
+    }
+
+    @Test
+    public void testToString() {
+        CloudEvent eventWithoutData = Common.sampleEventWithRequiredAttributes();
+        String target = "<MutableCloudEventImpl: attrs: {specversion=1.0, source=/user/123#, id=567, type=OximeterMeasured}; data size: -1>";
+        assertEquals(target, eventWithoutData.toString());
+
+        CloudEvent eventWithData = Common.sampleEventWithOptionalAttributesAndBinaryData();
+        target = "<MutableCloudEventImpl: attrs: {specversion=1.0, source=/user/123#, id=567, type=OximeterMeasured}; data size: -1>";
+        assertEquals(target, eventWithoutData.toString());
     }
 
 }

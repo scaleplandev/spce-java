@@ -31,7 +31,7 @@ public class Common {
 
 
     public final static CloudEvent eventWithNoData = sampleEventWithRequiredAttributes();
-    public final static CloudEvent eventWithStringData = Common.sampleEventWithOptionalAttributes();
+    public final static CloudEvent eventWithStringData = Common.sampleEventWithOptionalAttributesAndStringData();
     public final static CloudEvent eventWithBinaryData = Common.sampleEventWithOptionalAttributesAndBinaryData();
 
     public final static List<CloudEvent> eventBatchSize0 = Collections.emptyList();
@@ -76,7 +76,7 @@ public class Common {
                 .build();
     }
 
-    public static CloudEvent sampleEventWithOptionalAttributes() {
+    public static CloudEvent sampleEventWithOptionalAttributesAndStringData() {
         MutableCloudEvent event = (MutableCloudEvent) sampleEventWithRequiredAttributes();
         event
                 .setTime("2020-07-13T09:15:12Z")
@@ -99,7 +99,7 @@ public class Common {
     }
 
     public static CloudEvent sampleEventWithOptionalAndExtendedAttributes() {
-        MutableCloudEvent event = (MutableCloudEvent) sampleEventWithOptionalAttributes();
+        MutableCloudEvent event = (MutableCloudEvent) sampleEventWithOptionalAttributesAndStringData();
         event
                 .put("compmstring", "string-value")
                 .put("compmint", 42)

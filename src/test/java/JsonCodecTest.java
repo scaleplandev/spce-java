@@ -111,9 +111,9 @@ public class JsonCodecTest {
 
     @Test
     public void testJsonArrayEncode() {
-        MutableCloudEvent event1 = (MutableCloudEvent) Common.sampleEventWithOptionalAttributes();
+        MutableCloudEvent event1 = (MutableCloudEvent) Common.sampleEventWithOptionalAttributesAndStringData();
         event1.setId("10");
-        MutableCloudEvent event2 = (MutableCloudEvent) Common.sampleEventWithOptionalAttributes();
+        MutableCloudEvent event2 = (MutableCloudEvent) Common.sampleEventWithOptionalAttributesAndStringData();
         event2.setId("20");
 
         byte[] encodedEvents = Json.encode(Arrays.asList(event1, event2));
@@ -129,7 +129,7 @@ public class JsonCodecTest {
 
     @Test
     public void testEncodeInvalidType() {
-        MutableCloudEvent event = ((MutableCloudEvent) Common.sampleEventWithOptionalAttributes())
+        MutableCloudEvent event = ((MutableCloudEvent) Common.sampleEventWithOptionalAttributesAndStringData())
                 .put("invalidattr", 5.2);
         assertThrows(EncodeException.class, () -> Json.encode(event));
 

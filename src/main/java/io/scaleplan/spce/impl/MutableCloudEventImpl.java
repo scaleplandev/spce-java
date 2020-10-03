@@ -341,7 +341,8 @@ public final class MutableCloudEventImpl implements MutableCloudEvent {
 
     @Override
     public String toString() {
-        return String.format("MutableCloudEventImpl: attrs: %s", attributes, "" + data);
+        return String.format("<MutableCloudEventImpl: attrs: %s; data size: %d>",
+                attributes, (data != null) ? data.length : -1);
     }
 
     @Override
