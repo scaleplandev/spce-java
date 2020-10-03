@@ -117,9 +117,9 @@ publishing {
     publications {
         gpr(MavenPublication) {
             from(components.java)
-            groupId 'org.jfrog.gradle.sample'
-            artifactId 'gradle-project'
-            version '1.1'
+            groupId "$project.group"
+            artifactId "${rootProject.name}"
+            version "$project.version"
 //            artifact sourcesJar
 //            artifact javadocJar
             pom.withXml {
