@@ -14,7 +14,7 @@ clean:
 	./gradlew clean
 
 release: clean build
-	./gradlew publish
+	./gradlew bintrayUpload
 
 test:
 	./gradlew check

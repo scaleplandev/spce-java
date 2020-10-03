@@ -4,8 +4,9 @@
 plugins {
     id 'java'
     id 'jacoco'
+    id 'maven-publish'
     id 'me.champeau.gradle.jmh' version '0.5.0'
-    id "com.jfrog.bintray" version "1.+"
+    id "com.jfrog.bintray" version '1.8.5'
 }
 
 ext {
@@ -78,16 +79,16 @@ bintray {
     publications = ['gpr']
     pkg {
         repo = 'maven'
-        name = 'spce'
+        name = "${rootProject.name}"
         userOrg = 'scaleplan'
         licenses = ['Apache-2.0']
         vcsUrl = 'https://github.com/scaleplandev/spce-java.git'
-    }
-    version {
-        name = "$project.version"
-        desc = "$title"
-        released  = new Date()
-        vcsTag = "$project.version"
+        version {
+            name = "$project.version"
+            desc = "$title"
+            released  = new Date()
+            vcsTag = "$project.version"
+        }
     }
 }
 
@@ -116,8 +117,11 @@ publishing {
     publications {
         gpr(MavenPublication) {
             from(components.java)
-            artifact sourcesJar
-            artifact javadocJar
+            groupId 'org.jfrog.gradle.sample'
+            artifactId 'gradle-project'
+            version '1.1'
+//            artifact sourcesJar
+//            artifact javadocJar
             pom.withXml {
                 def root = asNode()
                 root.appendNode('description', "$title")
