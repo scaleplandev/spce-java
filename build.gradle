@@ -5,6 +5,7 @@ plugins {
     id 'java'
     id 'jacoco'
     id 'maven-publish'
+    id 'signing'
     id 'me.champeau.gradle.jmh' version '0.5.0'
     id "com.jfrog.bintray" version '1.8.5'
 }
@@ -17,7 +18,7 @@ ext {
 }
 
 group 'io.scaleplan'
-version '0.3.3'
+version '0.3.4'
 
 def title = "ScalePlan CloudEvents for Java"
 def homeUrl = "https://github.com/scaleplandev/spce-java"
@@ -68,67 +69,72 @@ jmh {
 }
 
 javadoc {
-    title = "$title v$version"
+    title = "$title $version"
     source = sourceSets.main.allJava
     options.overview = "etc/javadoc/overview.html"
 }
 
-bintray {
-    user = "$scaleplan_bintray_user"
-    key = "$scaleplan_bintray_key"
-    publications = ['gpr']
-    pkg {
-        repo = 'maven'
-        name = "${rootProject.name}"
-        userOrg = 'scaleplan'
-        licenses = ['Apache-2.0']
-        vcsUrl = 'https://github.com/scaleplandev/spce-java.git'
-        version {
-            name = "$project.version"
-            desc = "$title"
-            released  = new Date()
-            vcsTag = "$project.version"
-        }
-    }
+task sourcesJar(type: Jar, dependsOn: classes) {
+    setArchiveClassifier('sources')
+    from sourceSets.main.allSource
 }
 
-def pomConfig = {
-    licenses {
-        license {
-            name "The Apache Software License, Version 2.0"
-            url "http://www.apache.org/licenses/LICENSE-2.0.txt"
-            distribution "repo"
-        }
-    }
-    developers {
-        developer {
-            id "yuce-scaleplan"
-            name "Yüce Tekol"
-            email "yuce@scaleplan.io"
-        }
-    }
-
-    scm {
-        url "$homeUrl"
-    }
+javadoc.failOnError = false
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    setArchiveClassifier('javadoc')
+    from javadoc.destinationDir
 }
 
 publishing {
     publications {
-        gpr(MavenPublication) {
+        mavenJava(MavenPublication) {
+            groupId = "$group"
+            artifactId = "${rootProject.name}"
+            version = "$version"
             from(components.java)
-            groupId "$project.group"
-            artifactId "${rootProject.name}"
-            version "$project.version"
-//            artifact sourcesJar
-//            artifact javadocJar
-            pom.withXml {
-                def root = asNode()
-                root.appendNode('description', "$title")
-                root.appendNode('name', "scpe")
-                root.appendNode('url', "$homeUrl")
-                root.children().last() + pomConfig
+            artifact sourcesJar
+            artifact javadocJar
+
+            pom {
+                description = "$title"
+                name = "${rootProject.name}"
+                version = "$version"
+                url = "$homeUrl"
+
+                licenses {
+                    license {
+                        name = "The Apache Software License, Version 2.0"
+                        url = "http://www.apache.org/licenses/LICENSE-2.0.txt"
+                        distribution = "repo"
+                    }
+                }
+                developers {
+                    developer {
+                        id = "yuce-scaleplan"
+                        name = "Yüce Tekol"
+                        email = "yuce@scaleplan.io"
+                    }
+                }
+
+                scm {
+                    url = "https://github.com/scaleplandev/spce-java.git"
+                }
+
             }
         }
     }
+    repositories {
+        maven {
+            name = "Sonatype"
+            url = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+            credentials {
+                username "$ossrhUsername"
+                password "$ossrhPassword"
+            }
+        }
+    }
+}
+
+signing {
+    sign publishing.publications.mavenJava
 }
