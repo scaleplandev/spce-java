@@ -57,6 +57,7 @@ public interface MutableCloudEvent extends CloudEvent {
      *
      * @param name  Extended attribute name
      * @param value Extended attribute value
+     * @param <T>   type for attribute value
      * @return a MutableEvent
      * @throws IllegalArgumentException if name is a required or optional attribute.
      * @throws NullPointerException     if either name or value is null.
@@ -69,6 +70,7 @@ public interface MutableCloudEvent extends CloudEvent {
      *
      * @param name  Extended attribute name
      * @param value Extended attribute value
+     * @param <T> type for attribute value
      * @return a MutableEvent
      * @throws NullPointerException if either name or value is null.
      */
