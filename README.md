@@ -81,7 +81,7 @@ implementation 'io.scaleplan:spce:0.3.3'
 
 ### Creating Events
 
-All CloudEvent required attributes are really required, no defaults/auto-generation.
+All CloudEvent required attributes except `specversion` are really required, no defaults/auto-generation.
 
 All attributes are validated against the CloudEvents 1.0 spec. 
 
